@@ -1,0 +1,79 @@
+version: "3"
+
+tasks:
+  # -------------------------------------------------
+  # ----------------- GENERAL TASKS -----------------
+  # -------------------------------------------------
+
+  install:
+    deps:
+      - install_client
+      - install_functions
+
+  deploy:
+    deps:
+      - deploy_functions
+      - deploy_client
+
+  # ------------------------------------------------
+  # ----------------- CLIENT TASKS -----------------
+  # ------------------------------------------------
+
+  install_client:
+    cmds:
+      - cd client && npm install
+
+  emulate_client:
+    cmds:
+      - npm run start --prefix client
+
+  build_client:
+    cmds:
+      - npm run build --prefix client
+    sources:
+      - client/src/**/*
+    generates:
+      - client/build/**/*
+    method: timestamp
+
+  deploy_client:
+    deps:
+      - build_client
+    cmds:
+      - firebase deploy --only hosting
+
+  # --------------------------------------------------
+  # ----------------- FIREBASE TASKS -----------------
+  # --------------------------------------------------
+
+  emulate_firebase:
+    # deps: [build_functions]
+    cmds:
+      - firebase emulators:start
+
+  # ---------------------------------------------------
+  # ----------------- FUNCTIONS TASKS -----------------
+  # ---------------------------------------------------
+
+  install_functions:
+    cmds:
+      - cd functions && npm install
+
+  build_functions_watch:
+    cmds:
+      - npm run build:watch --prefix functions
+
+  build_functions:
+    cmds:
+      - npm run build --prefix functions
+    sources:
+      - functions/src/**/*
+    generates:
+      - functions/lib/**/*
+    method: timestamp
+
+  deploy_functions:
+    deps:
+      - build_functions
+    cmds:
+      - firebase deploy --only functions
