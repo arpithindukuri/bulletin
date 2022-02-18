@@ -32,7 +32,7 @@ Go to https://taskfile.dev/#/installation
 
 1. Download the task_windows_amd64.zip binary from https://github.com/go-task/task/releases.
 2. Extracted the main `task_windows_amd64` folder to somewhere it'll be safe. I used `C:\`.
-3. Add the path `C:\task_windows_amd64` to
+3. Add the path `C:\task_windows_amd64` to your system variables. See instructions on how to modify the path system varible at https://www.java.com/en/download/help/path.html.
 
 ### MacOS:
 
