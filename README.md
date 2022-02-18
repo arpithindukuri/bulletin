@@ -100,6 +100,8 @@ Now you have 3 terminals side by side.
 
 <img src="docs/assets/split-terminal-3.png">
 
+Ensure all of them are in the root project directory, `/bulletin`.
+
 ## 2. Run Taskfile Commands
 
 1. In the first terminal, we will run the TypeScript compiler in watch mode.
