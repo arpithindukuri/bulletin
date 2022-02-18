@@ -167,7 +167,7 @@ Now you have 3 terminals side by side.
 
 You should now have 3 processes running in your terminals.
 
-<img src="docs/assets/split-terminals-running.png" width="700">
+<img src="docs/assets/split-terminals-running.png">
 
 You can view the React app at http://localhost:3000/.
 
