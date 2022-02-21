@@ -4,6 +4,9 @@ React App: https://bulletin-be82d.web.app/
 
 # TODO:
 
+- [ ] Design the app
+  - [ ] Work on functionality
+  - [ ] Figma draft
 - [ ] More boilerplate for devs
   - [ ] Connect functions to firestore
   - [ ] Provide CRUD examples of functions
