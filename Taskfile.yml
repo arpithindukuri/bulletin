@@ -5,6 +5,23 @@ tasks:
   # ----------------- GENERAL TASKS -----------------
   # -------------------------------------------------
 
+  dev:
+    cmds:
+      - defer: npx kill-port 8080
+      - |
+        concurrently \
+        -n "functions, firebase,   client" \
+        "task build_functions_watch" \
+        "task emulate_firebase" \
+        "task emulate_client" \
+        --kill-others-on-fail \
+        --prefix-length 9 \
+        --max-processes 3 \
+        --success first \
+        --prefix-colors red.bold,yellow.bold,blue.bold \
+        --prefix "[{time} - {name}]" \
+        --timestamp-format HH:mm:ss
+
   install:
     deps:
       - install_client

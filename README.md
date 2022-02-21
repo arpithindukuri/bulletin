@@ -55,17 +55,23 @@ Idk lol google it I guess.
 
 This should be as simple as downloading and running the appropriate installer from https://nodejs.org/en/download/.
 
-## 3. Install firebase-tools
+## 3. Install concurrently
 
-Go to https://firebase.google.com/docs/cli
+Use this command from https://github.com/open-cli-tools/concurrently#install to install the module globally.
 
-Use the npm method to install it.
+```
+npm install -g concurrently
+```
+
+## 4. Install firebase-tools
+
+Use the npm method from https://firebase.google.com/docs/cli to install it.
 
 ```
 npm install -g firebase-tools
 ```
 
-## 4. Login Into Firebase
+## 5. Login Into Firebase
 
 Use the following command in the root project directory.
 
@@ -73,7 +79,7 @@ Use the following command in the root project directory.
 firebase login
 ```
 
-## 5. Install All Required Node Modules
+## 6. Install All Required Node Modules
 
 Use the following command in the root project directory.
 
@@ -82,6 +88,57 @@ task install
 ```
 
 # How to Develop
+
+Open your terminal in the root project directory, and simply enter the following command:
+
+```
+task dev
+```
+
+That is all.
+
+The following is just an explanation of what you're seeing.
+
+`task dev` starts multiple processes concurrently, in the same terminal, so logs from all processes will be printed sequentially in the same terminal.
+
+You can see that logs are colored by source, and include a timestamp.
+
+```
+[14:57:25 - functions] ...
+[14:57:25 -  firebase] ...
+[14:57:25 -    client] ...
+```
+
+`[... - functions]` is the typescript compiler for our Firebase Functions (terminal 1 in LEGACY). To check if it is working, look for the following output:
+
+```
+[14:57:35 - functions] 2:57:35 p.m. - Found 0 errors. Watching for file changes.
+```
+
+`[... - firebase]` is the Firebase emulator (terminal 2 in LEGACY). To check if it is working, look for the following output:
+
+```
+[14:57:32 -  firebase] ┌─────────────────────────────────────────────────────────────┐
+[14:57:32 -  firebase] │ ✔  All emulators ready! It is now safe to connect your app. │
+[14:57:32 -  firebase] │ i  View Emulator UI at http://localhost:4000                │
+[14:57:32 -  firebase] └─────────────────────────────────────────────────────────────┘
+```
+
+`[... - client]` is the React app (terminal 3 in LEGACY). To check if it is working, look for the following output:
+
+```
+[14:57:39 -    client] No issues found.
+```
+
+> NOTE: This method is so much easier, and it works fine thus far. BUT it is kinda experimental, so please reach out if you have problems!
+
+# How to Develop (LEGACY)
+
+When to use this method:
+
+- You are unable to read the output from `task dev`
+- You think `task dev` is causing problems with development, and want to rule it out
+- You want to look like a baller at Starbucks with 3 terminals open.
 
 ## 1. Open 3 Terminals
 
