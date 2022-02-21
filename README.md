@@ -103,32 +103,19 @@ The following is just an explanation of what you're seeing.
 
 You can see that logs are colored by source, and include a timestamp.
 
-```
-[14:57:25 - functions] ...
-[14:57:25 -  firebase] ...
-[14:57:25 -    client] ...
-```
+<img src="docs/assets/dev-terminal-processes.png">
 
 `[... - functions]` is the typescript compiler for our Firebase Functions (terminal 1 in LEGACY). To check if it is working, look for the following output:
 
-```
-[14:57:35 - functions] 2:57:35 p.m. - Found 0 errors. Watching for file changes.
-```
+<img src="docs/assets/dev-terminal-1.png">
 
 `[... - firebase]` is the Firebase emulator (terminal 2 in LEGACY). To check if it is working, look for the following output:
 
-```
-[14:57:32 -  firebase] ┌─────────────────────────────────────────────────────────────┐
-[14:57:32 -  firebase] │ ✔  All emulators ready! It is now safe to connect your app. │
-[14:57:32 -  firebase] │ i  View Emulator UI at http://localhost:4000                │
-[14:57:32 -  firebase] └─────────────────────────────────────────────────────────────┘
-```
+<img src="docs/assets/dev-terminal-2.png">
 
 `[... - client]` is the React app (terminal 3 in LEGACY). To check if it is working, look for the following output:
 
-```
-[14:57:39 -    client] No issues found.
-```
+<img src="docs/assets/dev-terminal-3.png">
 
 > NOTE: This method is so much easier, and it works fine thus far. BUT it is kinda experimental, so please reach out if you have problems!
 
