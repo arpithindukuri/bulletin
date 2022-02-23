@@ -2,7 +2,10 @@ import { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-const url = "https://us-central1-bulletin-be82d.cloudfunctions.net/helloWorld";
+const url =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5001/bulletin-be82d/us-central1/helloWorld"
+    : "https://us-central1-bulletin-be82d.cloudfunctions.net/helloWorld";
 
 function App() {
   const [serverResponse, setServerResponse] = useState("no server response");
