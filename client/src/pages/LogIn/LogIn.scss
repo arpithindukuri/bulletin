@@ -1,0 +1,66 @@
+@import "../../styles/colors";
+
+.login-container {
+  min-height: 100vh;
+  height: 100vh;
+  .login {
+    height: 100%;
+    width: 100%;
+
+    &-app-description {
+      color: $color-white;
+      text-align: center;
+      margin-top: -3px;
+    }
+
+    &-left-container {
+      background-color: $color-geyser;
+      height: 100%;
+      padding: 50px 0px;
+    }
+
+    &-app-name {
+      color: $color-lynch;
+      margin-top: -5px;
+    }
+
+    &-signup-redirect-text {
+      color: $color-lynch;
+    }
+
+    &-signup-redirect-button {
+      background-color: $color-pink;
+      color: $color-white;
+      margin-top: -10px;
+      width: 40%;
+      min-width: 150px;
+    }
+
+    &-text-field {
+      margin-top: -10px;
+      width: 100%;
+      min-width: 200px;
+    }
+
+    &-title {
+      color: $color-brown;
+    }
+
+    &-button {
+      background-color: $color-pink;
+      color: $color-brown;
+      width: 40%;
+      min-width: 150px;
+      margin-top: 50px;
+    }
+
+    &-inner-grid {
+        width: 100%;
+    }
+
+    &-inner-grid-item {
+        width: 60%;
+        min-width: 200px;
+    }
+  }
+}
