@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Header  from "./components/Header";
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -18,9 +19,19 @@ function App() {
         console.log(JSON.stringify(data));
       });
   };
+  const navigation = {
+    brand: { name: 'BULLETIN', to: '/homepage' },
+    links: [
+      { name: 'Home', to: '/homepage' },
+      { name: 'Log In', to: '/login' },
+      { name: 'Sign Up', to: '/signup' }
+    ]
+  };
 
+  const { brand, links } = navigation;
   return (
-    <div className="App">
+    <div className="App">    
+      <Header brand={brand} links={links} />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>click button to connect to functions:</p>
