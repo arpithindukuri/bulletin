@@ -1,3 +1,7 @@
 .task/
 
 *.log
+
+*/package-lock.json
+
+*/.env

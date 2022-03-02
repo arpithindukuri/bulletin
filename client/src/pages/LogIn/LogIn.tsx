@@ -1,7 +1,8 @@
+import axios from "axios";
 import React, { useState } from "react";
-import Logo from "../../assets/logo.svg";
 import { Grid, Button, TextField } from "@material-ui/core";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import Logo from "../../assets/logo.svg";
+import { signInEndPoint } from "../../authEndPoints";
 import "./LogIn.scss";
 
 interface LogInErrors {
@@ -10,7 +11,6 @@ interface LogInErrors {
 }
 
 const LogIn: React.FC = () => {
-//   const auth = getAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errors, setErrors] = useState<LogInErrors>({
@@ -59,14 +59,22 @@ const LogIn: React.FC = () => {
     if (!validateData()) {
       return;
     }
-    // signInWithEmailAndPassword(auth, email, password)
-    //   .then(() => {
-    //     console.log("user authorized!");
-    //     //redirect to main page
-    //   })
-    //   .catch((error) => {
-    //     console.log("error is: ", error);
-    //   });
+    axios
+      .post(
+        signInEndPoint,
+        { email: email, password: password, returnSecureToken: true },
+        {
+          headers: {
+            "content-type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log("Sign In response is: ", res);
+      })
+      .catch((err) => {
+        console.log("Failed to sign user in: ", err);
+      });
   };
 
   return (
@@ -173,7 +181,11 @@ const LogIn: React.FC = () => {
             />
           </Grid>
           <Grid item>
-            <Button onClick={handleLogIn} className="login-button" variant="contained">
+            <Button
+              onClick={handleLogIn}
+              className="login-button"
+              variant="contained"
+            >
               Log In
             </Button>
           </Grid>

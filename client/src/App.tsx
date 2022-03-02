@@ -3,6 +3,8 @@ import { ThemeProvider } from "@material-ui/core";
 import { theme } from "./theme/theme";
 import "./index.css";
 import LogIn from "./pages/LogIn/LogIn";
+import Header  from "./components/Header";
+import logo from "./logo.svg";
 
 const url =
   process.env.NODE_ENV === "development"
@@ -20,13 +22,21 @@ function App() {
         console.log(JSON.stringify(data));
       });
   };
+  const navigation = {
+    brand: { name: 'BULLETIN', to: '/homepage' },
+    links: [
+      { name: 'Home', to: '/homepage' },
+      { name: 'Log In', to: '/login' },
+      { name: 'Sign Up', to: '/signup' }
+    ]
+  };
 
+  const { brand, links } = navigation;
   return (
-    // <ThemeProvider theme={theme}>
-      <div className="App">
-        <LogIn />
-      </div>
-    // </ThemeProvider>
+    <div className="App">    
+      {/* <Header brand={brand} links={links} /> */}
+      <LogIn />
+    </div>
   );
 }
 

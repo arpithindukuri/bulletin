@@ -19,7 +19,7 @@ export interface List {
 
 export interface ListItem {
   name: string;
-  isDone: string;
+  isDone: boolean;
 }
 
 export interface Expense {

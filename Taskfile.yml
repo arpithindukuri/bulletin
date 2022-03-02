@@ -64,7 +64,7 @@ tasks:
   # --------------------------------------------------
 
   emulate_firebase:
-    # deps: [build_functions]
+    deps: [build_functions]
     cmds:
       - firebase emulators:start
 
