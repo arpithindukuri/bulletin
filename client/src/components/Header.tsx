@@ -1,71 +1,138 @@
-import React from 'react';
-import styled from 'styled-components';
-const Header = (props: {
-  brand: { name: string; to: string },
-  links: Array<{ name: string, to: string }>
-}) => {
-  const { brand, links } = props;
-  const NavLinks: any = () => links.map((link: { name: string, to: string }) => <Li key={link.name}><a href={link.to}>{link.name}</a></Li>);
+// IMPORTING APIS
+import React from "react";
+import { AppBar, Toolbar, IconButton, useMediaQuery, Button, Menu, MenuItem, ListItemIcon} from "@material-ui/core";
+import Typography from '@mui/material/Typography';
+import MenuIcon from '@mui/icons-material/Menu';
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+// REACT APP IMPORTS
+import LogIn from "../pages/Login";
+import SignIn from "../pages/Signin";
+//The local styling used here 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1
+  },
+  menuButton: {
+    marginRight: theme.spacing(2)
+  },
+  title: {
+    flexGrow: 1
+  },
+  tabs: {
+    width: '100%'
+  }
+}));
+
+const Header = () => {
+  const classes = useStyles();
+  const [anchor, setAnchor] = React.useState(null);
+  const open = Boolean(anchor);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
   return (
-    <Navbar>
-      <Brand href={brand.to}>{brand.name}</Brand>
-      <Li>
-        <NavLinks />
-      </Li>
-    </Navbar >
+    <div className={classes.root}>
+      <BrowserRouter>
+          <AppBar position="static"  style={{ background: '#F0E6DB' }}>
+            <Toolbar>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                className={classes.title}
+                sx={{ mr: 2, color: '#534029', display: { xs: 'none', md: 'flex' } }}
+              >
+                BULLETIN
+              </Typography>
+              {isMobile ? (
+                <>
+                  <IconButton
+                    color="inherit"
+                    className={classes.menuButton}
+                    edge="start"
+                    aria-label="menu"
+                    onClick={handleMenu}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchor}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right"
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right"
+                    }}
+                    open={open}
+                  >
+                    <MenuItem
+                      onClick={() => setAnchor(null)}
+                      component={Link}
+                      to="/login"
+                    >
+                      <Typography variant="h6">Main</Typography>
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => setAnchor(null)}
+                      component={Link}
+                      to="/login"
+                    >
+                      <Typography variant="h6">Log In</Typography>
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => setAnchor(null)}
+                      component={Link}
+                      to="/login"
+                    >
+                      <Typography variant="h6">Sign Up</Typography>
+                    </MenuItem>
+                  </Menu>
+                </>
+              ) : (
+                <div style={{ marginRight: "2rem" }}>
+                  <Button
+                    variant="text"
+                    color="default"
+                    component={Link}
+                    to="/login"
+                  >
+                    Main
+                  </Button>
+                  <Button
+                    variant="text"
+                    color="default"
+                    component={Link}
+                    to="/login"
+                  >
+                    Log In
+                  </Button>
+                  <Button
+                    variant="text"
+                    color="default"
+                    component={Link}
+                    to="/login"
+                  >
+                   Sign Up
+                  </Button>
+                </div>
+              )}
+            </Toolbar>
+          </AppBar>
+          <Routes>
+            <Route path="/login" element={LogIn} />
+            <Route path="/signin" element={SignIn} />
+          </Routes>
+          </BrowserRouter>
+    </div>
   );
 };
-
-const Theme = {
-  colors: {
-    bg: `#534029`,
-    light: `#F0E6DB`,
-  },
-  fonts: {
-    body: `Roboto`,
-    heading: `Roboto`,
-  }
-}
-
-const Navbar = styled.h1`
-  background: ${Theme.colors.light};
-  font-family: ${Theme.fonts.heading};
-  text-color: #534029;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  a { color: white; text-decoration: none; }`;
-
-const Brand = styled.a`
-  font-weight: bold;
-  color: ${Theme.colors.light};
-  margin-left: 1rem;
-  padding-right: 1rem;`;
-
-const Li = styled.li`
-  class: current;
-  flex: 0 0 auto;
-  -webkit-box-align: center;
-  -webkit-box-pack: center;
-  -webkit-tap-highlight-color: transparent;
-  align-items: center;
-  background-color: ${Theme.colors.bg};
-  color: ${Theme.colors.bg};
-  height: 100%;
-  justify-content: center;
-  text-decoration: none;
-  -webkit-box-align: center;
-  -webkit-box-pack: center;
-  -webkit-tap-highlight-color: transparent;
-  align-items: center;
-  display: flex;
-  font-size: 14px;
-  height: 50px;
-  justify-content: center;
-  line-height: 16px;
-  margin: 0 10px ;
-  text-decoration: none;
-  white-space: nowrap;`;
-
 
 export default Header;
