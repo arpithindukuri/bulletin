@@ -1,13 +1,23 @@
 import { useState } from "react";
-import Header  from "./components/Header";
-import Footer from "./components/Footer";
-import logo from "./logo.svg";
+import { theme } from "./theme/theme";
+import {ThemeProvider} from "@mui/material/styles";
 import "./App.css";
+import MockHeader from "./components/MockHeader";
+import BoardsView from "./pages/BoardsView";
+import ManageBoard from "./pages/ManageBoard";
+import MockFooter from "./components/MockFooter";
 
 const url =
   process.env.NODE_ENV === "development"
     ? "http://localhost:5001/bulletin-be82d/us-central1/helloWorld"
     : "https://us-central1-bulletin-be82d.cloudfunctions.net/helloWorld";
+
+
+// Mock Data
+    const mockBoardData = [{name: 'Doe Family'}]
+    const mockUserData = [{id: 1, name: 'Liane Doe', email: 'liane.doe@gmail.com' , role: 'Admin'},
+    {id: 2, name: 'Dad Doe', email: 'dad.doe@gmail.com', role: 'Admin'}, {id: 3, name: 'Logan Doe', email: 'logan.doe@gmail.com',
+     role: 'Member'} , {id: 4, name: 'Aly Doe', email: 'aly.doe@gmail.com', role: 'Member'}];
 
 function App() {
   const [serverResponse, setServerResponse] = useState("no server response");
@@ -31,8 +41,20 @@ function App() {
 
   const { brand, links } = navigation;
   return (
+    <ThemeProvider theme={theme}>
+
     <div className="App">    
-      <Header brand={brand} links={links} />
+
+    <MockHeader/>
+
+    {/* <BoardsView/> */}
+
+    <ManageBoard name={mockBoardData[0].name}/>
+
+    <MockFooter/>
+
+
+      {/* <Header brand={brand} links={links} />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>click button to connect to functions:</p>
@@ -47,8 +69,9 @@ function App() {
           {serverResponse}
         </a>
       </header>
-      <Footer/>
+      <Footer/> */}
     </div>
+    </ThemeProvider>
   );
 }
 
