@@ -9,6 +9,8 @@ interface Props {
 }
 
 export default function ManageBoard({ name }: Props) {
+
+  //Mock Info passed into Member Status
   const mockMemberInfo = [
     { id: 1, name: "Liane Doe", email: "liane.doe@gmail.com", role: "Admin" },
     { id: 2, name: "Dad Doe", email: "dad.doe@gmail.com", role: "Admin" },
@@ -16,6 +18,7 @@ export default function ManageBoard({ name }: Props) {
     { id: 4, name: "Aly Doe", email: "aly.doe@gmail.com", role: "Member" },
   ];
 
+  //Headers passed into Member Permissions
   const permissionHeaders = [
     { id: 1, name: "Notes", viewOn: true, editOn: false },
     { id: 2, name: "Lists", viewOn: true, editOn: true },
@@ -26,7 +29,6 @@ export default function ManageBoard({ name }: Props) {
 
   return (
     <Container maxWidth={false} sx={{}}>
-      {/* Change to type */}
       <a href="/" style={{ textDecorationColor: "rgba(104, 57, 13, 0.54)" }}>
         <Typography
           variant="subtitle1"
@@ -38,6 +40,7 @@ export default function ManageBoard({ name }: Props) {
         </Typography>
       </a>
 
+    {/* General Board Info: Profile Picture, Name, Duplicate Board */}
       <Box sx={{ pt: "5vh" }}>
         <Box
           sx={{ maxHeight: "8%" }}
@@ -124,8 +127,12 @@ export default function ManageBoard({ name }: Props) {
           </Box>
         </Box>
       </Box>
+
+
       <hr style={{ color: "rgb(104, 57, 13, 0.2)", borderWidth: "0.5px" }}></hr>
 
+
+      {/* New Member Invitation */}
       <Box
         display={"flex"}
         flexDirection={"row"}
@@ -163,6 +170,7 @@ export default function ManageBoard({ name }: Props) {
 
       <hr style={{ color: "rgb(104, 57, 13, 0.2)", borderWidth: "0.5px" }}></hr>
 
+      {/* Member Information */}
       <Box paddingLeft={"10%"} paddingRight={"10%"} paddingBottom="20px">
         <Typography color="primary" variant="h6" textAlign={"left"}>
           Members
@@ -224,6 +232,7 @@ export default function ManageBoard({ name }: Props) {
 
       <hr style={{ color: "rgb(104, 57, 13, 0.2)", borderWidth: "0.5px" }}></hr>
 
+      {/* Member Permissions */}
       <Box paddingLeft={"10%"} paddingRight={"10%"} paddingBottom="20px">
         <Typography color="primary" variant="h6" textAlign={"left"}>
           Member Permissions

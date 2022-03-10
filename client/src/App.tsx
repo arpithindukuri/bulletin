@@ -19,6 +19,7 @@ const url =
     {id: 2, name: 'Dad Doe', email: 'dad.doe@gmail.com', role: 'Admin'}, {id: 3, name: 'Logan Doe', email: 'logan.doe@gmail.com',
      role: 'Member'} , {id: 4, name: 'Aly Doe', email: 'aly.doe@gmail.com', role: 'Member'}];
 
+
 function App() {
   const [serverResponse, setServerResponse] = useState("no server response");
 
@@ -40,11 +41,16 @@ function App() {
   };
 
   const { brand, links } = navigation;
+
+  
   return (
     <ThemeProvider theme={theme}>
 
     <div className="App">    
 
+
+
+{/* My Pages */}
     <MockHeader/>
 
     {/* <BoardsView/> */}
@@ -52,6 +58,11 @@ function App() {
     <ManageBoard name={mockBoardData[0].name}/>
 
     <MockFooter/>
+
+{/* End of Pages */}
+
+
+
 
 
       {/* <Header brand={brand} links={links} />

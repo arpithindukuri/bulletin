@@ -14,6 +14,7 @@ interface Props {
   role: string;
 }
 
+//Member status display on manage board - name, email, role and remove
 export default function MemberStatus({ name, email, role }: Props) {
   const [newRole, setNewRole] = React.useState("");
 

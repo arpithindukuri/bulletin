@@ -9,7 +9,10 @@ interface Props {
   id: number;
 }
 
+// Board Images + Names (maximum of 8??)
 export default function BoardIcons({ name, id }: Props) {
+
+  //Create New Board
   if (id === 0) {
     return (
       <>
@@ -34,6 +37,7 @@ export default function BoardIcons({ name, id }: Props) {
     );
   }
 
+  //Empty Board Slots
   if (id !== 0 && name === "") {
     return (
       <>
@@ -47,6 +51,7 @@ export default function BoardIcons({ name, id }: Props) {
     );
   }
 
+  //Created Board + Name
   return (
     <>
       <Button size="small" sx={{ maxWidth: "10vw" }}>

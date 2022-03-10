@@ -6,9 +6,11 @@ interface Props {
   editOn: boolean;
 }
 
+//Member Permissions Checkboxes on Manage Board - Title + View + Edit
 export default function MemberPermissions({ name, viewOn, editOn }: Props) {
   return (
     <>
+
       <Box height={"60px"} textAlign="center">
         <Typography color={"primary"} variant="subtitle1" fontWeight={"bold"}>
           {name}

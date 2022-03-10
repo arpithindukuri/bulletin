@@ -4,6 +4,8 @@ import { Button } from "@mui/material";
 import BoardIcons from "../components/BoardIcons";
 
 export default function BoardsView() {
+
+  //mock board names
   const mockBoards = [
     { id: 0, name: "" },
     { id: 1, name: "Doe Family" },
@@ -17,6 +19,8 @@ export default function BoardsView() {
 
   return (
     <Container sx={{ width: "90vw" }} maxWidth={false}>
+
+      {/* Header to filer and sort through existing boards */}
       <Box
         sx={{
           pt: "5vh",
@@ -42,6 +46,7 @@ export default function BoardsView() {
         </div>
       </Box>
 
+        {/* Box Displaying the first 4 boards (including new board) */}
       <Box
         display={"flex"}
         flexDirection={"row"}
@@ -57,6 +62,7 @@ export default function BoardsView() {
         })}
       </Box>
 
+        {/* Box displaying the last 4 boards */}
       <Box
         display={"flex"}
         flexDirection={"row"}
