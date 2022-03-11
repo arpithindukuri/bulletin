@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { ThemeProvider } from "@material-ui/core";
-import { theme } from "./theme/theme";
+// import { ThemeProvider } from "@material-ui/core";
+// import { theme } from "./theme/theme";
 import "./index.css";
-import LogIn from "./pages/LogIn/LogIn";
-import Header  from "./components/Header";
-import logo from "./logo.svg";
+// import LogIn from "./pages/LogIn/LogIn";
+// import Header  from "./components/Header";
+// import logo mfrom "./logo.svg";
+import CreateNewBoard from "./pages/CreateNewBoard/CreateNewBoard";
 
 const url =
   process.env.NODE_ENV === "development"
@@ -35,7 +36,8 @@ function App() {
   return (
     <div className="App">    
       {/* <Header brand={brand} links={links} /> */}
-      <LogIn />
+      {/*<LogIn />*/}
+      <CreateNewBoard />
     </div>
   );
 }

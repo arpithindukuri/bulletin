@@ -1,0 +1,273 @@
+.NewBoard {
+  text-align: left;
+}
+
+.Background {
+  background-color: white;
+  min-height: 150vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.BackToBoardsLink {
+  /* Back to Boards */
+  position: absolute;
+  width: 242px;
+  height: 19px;
+  left: 20px;
+  top: 93px;
+
+  cursor: pointer;
+  background-color: white;
+  width: 15%;
+  border: opx;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  text-decoration-line: underline;
+
+  color: #978575;
+}
+
+.CreateNewBoardHeader {
+  /* "Create a new board"*/
+  position: absolute;
+  width: 347px;
+  height: 37px;
+  left: 39px;
+  top: 131px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 30px;
+  line-height: 35px;
+  text-decoration-line: underline;
+
+  color: #68390d;
+}
+
+.boardNameText {
+  /*Text above textbox*/
+  position: absolute;
+  width: 242px;
+  height: 19px;
+  left: 39px;
+  top: 184px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #978575;
+}
+
+.descriptionText {
+  /*Text above textbox*/
+  position: absolute;
+  width: 234px;
+  height: 21px;
+  left: 39px;
+  top: 264px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: rgba(62, 30, 0, 0.54);
+}
+
+.memberText {
+  /*Text above textbox*/
+  position: absolute;
+  width: 234px;
+  height: 29px;
+  left: 39px;
+  top: 441px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: rgba(62, 30, 0, 0.54);
+}
+
+.InputName[type="text"] {
+  /* Board Name */
+  position: absolute;
+  width: 511px;
+  height: 42px;
+  left: 39px;
+  top: 203px;
+
+  background: rgba(196, 196, 196, 0.07);
+  border: 1px solid rgba(0, 0, 0, 0.56);
+  box-sizing: border-box;
+
+  /* text portion */
+  position: absolute;
+  width: 129px;
+  height: 20px;
+  left: 47px;
+  top: 215px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 17px;
+  line-height: 20px;
+  color: #68390d;
+
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+}
+
+.InputName[type="text"]:focus {
+  border: 2px solid #ecd1c2;
+}
+
+.InputDescription[type="text"] {
+  /* Description */
+  position: absolute;
+  width: 512px;
+  height: 137px;
+  left: 39px;
+  top: 285px;
+
+  background: rgba(196, 196, 196, 0.07);
+  border: 1px solid rgba(0, 0, 0, 0.56);
+  box-sizing: border-box;
+
+  /* text portion */
+  position: absolute;
+  width: 234px;
+  height: 29px;
+  left: 47px;
+  top: 296px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  color: rgba(104, 57, 13, 0.54);
+
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+}
+
+.InputDescription[type="text"]:focus {
+  border: 2px solid #ecd1c2;
+}
+
+.InputMember[type="text"] {
+  /* Invite members */
+  position: absolute;
+  width: 512px;
+  height: 137px;
+  left: 39px;
+  top: 462px;
+
+  background: rgba(196, 196, 196, 0.07);
+  border: 1px solid rgba(0, 0, 0, 0.56);
+  box-sizing: border-box;
+
+  /* text portion */
+  position: absolute;
+  width: 234px;
+  height: 29px;
+  left: 47px;
+  top: 473px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: rgba(57, 36, 17, 0.54);
+
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+}
+
+.InputMember[type="text"]:focus {
+  border: 2px solid #ecd1c2;
+}
+
+.DiscardButton {
+  position: absolute;
+  width: 245px;
+  height: 49px;
+  left: 39px;
+  top: 618px;
+
+  background: #ecd1c5;
+  border: 1px solid #534029;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+
+  opacity: 0.8;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+/* .button:hover {
+  opacity: 1;
+}
+
+.button:active {
+  background-color: #ecd1c2;
+  box-shadow: 0 1px #666;
+  transform: translateY(3px);
+} */
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
