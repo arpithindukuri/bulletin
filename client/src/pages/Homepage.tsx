@@ -1,6 +1,4 @@
 import { useState } from "react";
-import Header  from "../components/Header";
-import Footer from "../components/Footer";
 import logo from "../logo.svg";
 import "../App.css";
 
@@ -23,7 +21,6 @@ function Homepage() {
 
   return (
     <div className="App">    
-      {/* <Header/> */}
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>click button to connect to functions:</p>
@@ -38,7 +35,6 @@ function Homepage() {
           {serverResponse}
         </a>
       </header>
-      {/* <Footer/> */}
     </div>
   );
 }

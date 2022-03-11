@@ -1,6 +1,6 @@
 import React from 'react';
 const Login = () => (
-    <div className="footer">
+    <div>
       <p>You will login in here</p>
     </div>
   );

@@ -6,8 +6,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 // REACT APP IMPORTS
-import LogIn from "../pages/Login";
-import SignUp from "../pages/Signup";
+import Homepage from "../pages/Homepage";
+import Login from "../pages/Login";
+import Signup from "../pages/Signup";
 //The local styling used here 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -126,6 +127,11 @@ const Header = () => {
               )}
             </Toolbar>
           </AppBar>
+          <Routes>
+            <Route path='/home' element={<Homepage/>}></Route>
+            <Route path='/login' element={<Login/>}></Route>
+            <Route path='/signup' element={<Signup/>}></Route>
+          </Routes>
           </BrowserRouter>
     </div>
   );

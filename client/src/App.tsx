@@ -26,11 +26,18 @@ function App() {
   };
 
   return (
+    <>
+    <Header/>
    <BrowserRouter>
    <Routes>
      <Route path='/' element={<Homepage/>}></Route>
+     <Route path='/home' element={<Homepage/>}></Route>
+     <Route path='/login' element={<Login/>}></Route>
+     <Route path='/signup' element={<Signup/>}></Route>
    </Routes>
    </BrowserRouter>
+   <Footer/>
+   </>
   );
 }
 
