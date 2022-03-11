@@ -1,5 +1,7 @@
 import { useState } from "react";
-import Header  from "./components/Header";
+import CreateNewBoard from "./CreateNewBoard/CreateNewBoard";
+import Homepage from "./Homepage/Homepage";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
 import logo from "./logo.svg";
 import "./App.css";
@@ -31,23 +33,13 @@ function App() {
 
   const { brand, links } = navigation;
   return (
-    <div className="App">    
-      <Header brand={brand} links={links} />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>click button to connect to functions:</p>
-        <button onClick={handleClick}>connect to functions</button>
-        <p>response from functions:</p>
-        <a
-          className="App-link"
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {serverResponse}
-        </a>
-      </header>
-      <Footer/>
+    <div className="App">
+      {/* <Header brand={brand} links={links} /> */}
+      <div>
+        <Homepage />
+        {/* <CreateNewBoard /> */}
+      </div>
+      {/* {<Footer />} */}
     </div>
   );
 }
