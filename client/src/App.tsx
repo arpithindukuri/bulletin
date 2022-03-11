@@ -5,6 +5,8 @@ import logo from "./logo.svg";
 import "./App.css";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Homepage from './pages/Homepage';
 
 const url =
   process.env.NODE_ENV === "development"
@@ -24,26 +26,11 @@ function App() {
   };
 
   return (
-    <div className="App">    
-      <Header/>
-      <Login/>
-      <Signup/>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>click button to connect to functions:</p>
-        <button onClick={handleClick}>connect to functions</button>
-        <p>response from functions:</p>
-        <a
-          className="App-link"
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {serverResponse}
-        </a>
-      </header>
-      <Footer/>
-    </div>
+   <BrowserRouter>
+   <Routes>
+     <Route path='/' element={<Homepage/>}></Route>
+   </Routes>
+   </BrowserRouter>
   );
 }
 

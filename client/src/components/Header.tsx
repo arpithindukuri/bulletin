@@ -83,7 +83,7 @@ const Header = () => {
                     <MenuItem
                       onClick={() => setAnchor(null)}
                       component={Link}
-                      to="/login"
+                      to="/home"
                     >
                       <Typography variant="h6">Log In</Typography>
                     </MenuItem>
@@ -102,7 +102,7 @@ const Header = () => {
                     variant="text"
                     color="default"
                     component={Link}
-                    to="/login"
+                    to="/home"
                   >
                     Main
                   </Button>
@@ -126,10 +126,6 @@ const Header = () => {
               )}
             </Toolbar>
           </AppBar>
-          <Routes>
-            <Route path="/login" element={LogIn} />
-            <Route path="/signup" element={SignUp} />
-          </Routes>
           </BrowserRouter>
     </div>
   );
