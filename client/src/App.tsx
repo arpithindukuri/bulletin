@@ -3,6 +3,7 @@ import { ThemeProvider } from "@material-ui/core";
 import { theme } from "./theme/theme";
 import "./index.css";
 import LogIn from "./pages/LogIn/LogIn";
+import SignUp from "./pages/SignUp/SignUp";
 import Header  from "./components/Header";
 import logo from "./logo.svg";
 
@@ -33,9 +34,9 @@ function App() {
 
   const { brand, links } = navigation;
   return (
-    <div className="App">    
+    <div className="App">   
       {/* <Header brand={brand} links={links} /> */}
-      <LogIn />
+      <SignUp />
     </div>
   );
 }
