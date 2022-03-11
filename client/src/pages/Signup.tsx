@@ -1,8 +1,8 @@
 import React from 'react';
-const Signin = () => (
+const Signup = () => (
     <div className="footer">
       <p>You will login in here</p>
     </div>
   );
   
-  export default Signin;
+  export default Signup;

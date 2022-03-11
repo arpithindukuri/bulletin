@@ -7,7 +7,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 // REACT APP IMPORTS
 import LogIn from "../pages/Login";
-import SignIn from "../pages/Signin";
+import SignUp from "../pages/Signup";
 //The local styling used here 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,7 +90,7 @@ const Header = () => {
                     <MenuItem
                       onClick={() => setAnchor(null)}
                       component={Link}
-                      to="/login"
+                      to="/signup"
                     >
                       <Typography variant="h6">Sign Up</Typography>
                     </MenuItem>
@@ -118,7 +118,7 @@ const Header = () => {
                     variant="text"
                     color="default"
                     component={Link}
-                    to="/login"
+                    to="/signup"
                   >
                    Sign Up
                   </Button>
@@ -128,7 +128,7 @@ const Header = () => {
           </AppBar>
           <Routes>
             <Route path="/login" element={LogIn} />
-            <Route path="/signin" element={SignIn} />
+            <Route path="/signup" element={SignUp} />
           </Routes>
           </BrowserRouter>
     </div>

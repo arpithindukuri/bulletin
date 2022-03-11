@@ -4,7 +4,7 @@ import Footer from "./components/Footer";
 import logo from "./logo.svg";
 import "./App.css";
 import Login from "./pages/Login";
-import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
 
 const url =
   process.env.NODE_ENV === "development"
@@ -27,7 +27,7 @@ function App() {
     <div className="App">    
       <Header/>
       <Login/>
-      <Signin/>
+      <Signup/>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>click button to connect to functions:</p>
