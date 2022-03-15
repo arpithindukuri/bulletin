@@ -1,0 +1,219 @@
+.AccountInfo {
+  text-align: center;
+}
+
+.Account-background {
+  background-color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+}
+
+.account {
+  position: absolute;
+  width: 154px;
+  height: 36px;
+  left: 527px;
+  left: calc(100vw / 2);
+  top: 130px;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 35px;
+
+  color: #68390d;
+}
+
+.password {
+  position: absolute;
+  width: 170px;
+  height: 21px;
+  left: calc((100vw / 2));
+  top: 230px;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #68390d;
+}
+
+.new-password {
+  position: absolute;
+  width: 170px;
+  height: 21px;
+  left: calc(100vw / 2);
+  top: 330px;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #68390d;
+}
+
+.phone {
+  position: absolute;
+  width: 170px;
+  height: 18px;
+  left: calc((100vw / 2));
+  top: 430px;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #68390d;
+}
+
+.email {
+  position: absolute;
+  width: 170px;
+  height: 15px;
+  left: calc((100vw / 2));
+  top: 530px;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #68390d;
+}
+
+.alt-email {
+  position: absolute;
+  width: 170px;
+  height: 15px;
+  left: calc((100vw / 2));
+  top: 630px;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #68390d;
+}
+
+.side-panel {
+  position: absolute;
+  text-align: center;
+  height: 100vh;
+  width: 20vw;
+  background: #cbdae1;
+}
+
+.logo {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  top: 130px;
+}
+
+.nav {
+  position: relative;
+  top: 160px;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #68390d;
+}
+
+ul {
+  margin: 1;
+  padding: 0;
+}
+
+li a {
+  display: block;
+  color: #68390d;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+li a.active {
+  background-color: #ecd1c2;
+  color: #68390d;
+}
+
+li a:hover {
+  background-color: #ecd1c2;
+  color: #68390d;
+}
+
+.profile-pic {
+  position: relative;
+  width: 135px;
+  height: 135px;
+  top: 133px;
+  left: calc(20vw / 2);
+  border-radius: 75px;
+}
+
+.account-panel {
+  position: absolute;
+  text-align: center;
+  /* justify-content: center;
+  align-items: center; */
+  height: 100vh;
+  width: 45vw;
+  background: #62808e;
+}
+
+.name {
+  position: absolute;
+  width: 121px;
+  height: 18px;
+  top: 275px;
+  left: calc((20vw / 2) + 130px);
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+
+  color: #e3d4c6;
+}
+
+.last-password {
+  position: absolute;
+  width: 230px;
+  height: 21px;
+  top: 325px;
+  left: calc((40vw / 2) + 80px);
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #e3d4c6;
+}
