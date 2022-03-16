@@ -11,10 +11,10 @@ const Dashboard = () => {
                     <img src={logo} className="logo"></img>
                     <ul className="nav">
                         <li><a className="active" href="#">My Profile</a></li>
-                        <li><a href="">Account Information</a></li>
-                        <li><a href="">Personalization</a></li>
-                        <li><a href="">Groups</a></li>
-                        <li><a href="">Support Us</a></li>
+                        <li><a href="#">Account Information</a></li>
+                        <li><a href="#">Personalization</a></li>
+                        <li><a href="#">Groups</a></li>
+                        <li><a href="#">Support Us</a></li>
                     </ul>
                 </div>
 

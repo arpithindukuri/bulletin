@@ -16,8 +16,8 @@
   width: 154px;
   height: 36px;
   left: 527px;
-  left: calc(100vw / 2);
-  top: 130px;
+  left: calc((100vw / 1.5) - 10px);
+  top: 100px;
 
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -33,8 +33,8 @@
   position: absolute;
   width: 170px;
   height: 21px;
-  left: calc((100vw / 2));
-  top: 230px;
+  left: calc((100vw / 1.5) - 70px);
+  top: 200px;
 
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -50,8 +50,8 @@
   position: absolute;
   width: 170px;
   height: 21px;
-  left: calc(100vw / 2);
-  top: 330px;
+  left: calc((100vw / 1.5) - 70px);
+  top: 300px;
 
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -67,8 +67,8 @@
   position: absolute;
   width: 170px;
   height: 18px;
-  left: calc((100vw / 2));
-  top: 430px;
+  left: calc((100vw / 1.5) - 77px);
+  top: 400px;
 
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -84,8 +84,8 @@
   position: absolute;
   width: 170px;
   height: 15px;
-  left: calc((100vw / 2));
-  top: 530px;
+  left: calc((100vw / 1.5) - 71px);
+  top: 500px;
 
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -101,8 +101,8 @@
   position: absolute;
   width: 170px;
   height: 15px;
-  left: calc((100vw / 2));
-  top: 630px;
+  left: calc((100vw / 1.5) - 60px);
+  top: 600px;
 
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -112,6 +112,165 @@
   line-height: 16px;
 
   color: #68390d;
+}
+
+.input[type="text"] {
+  position: absolute;
+  width: 245px;
+  height: 51px;
+  left: calc((100vw / 1.5) - 55px);
+  top: 235px;
+
+  box-sizing: border-box;
+  border: 0px;
+  background: #cbdae1;
+  outline: none;
+
+  color: black;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.input[type="text"]:focus {
+  border: 2px solid #ecd1c2;
+}
+
+.input1[type="text"] {
+  position: absolute;
+  width: 245px;
+  height: 51px;
+  left: calc((100vw / 1.5) - 55px);
+  top: 335px;
+
+  box-sizing: border-box;
+  border: 0px;
+  background: #cbdae1;
+  outline: none;
+
+  color: black;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.input1[type="text"]:focus {
+  border: 2px solid #ecd1c2;
+}
+
+.input-phone[type="text"] {
+  position: absolute;
+  width: 245px;
+  height: 51px;
+  left: calc((100vw / 1.5) - 55px);
+  top: 435px;
+
+  box-sizing: border-box;
+  border: 0px;
+  background: #cbdae1;
+  outline: none;
+
+  color: black;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.input-phone[type="text"]:focus {
+  border: 2px solid #ecd1c2;
+}
+
+.input-email[type="email"] {
+  position: absolute;
+  width: 245px;
+  height: 51px;
+  left: calc((100vw / 1.5) - 55px);
+  top: 535px;
+
+  box-sizing: border-box;
+  border: 0px;
+  background: #cbdae1;
+  outline: none;
+
+  color: black;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.input-email[type="email"]:focus {
+  border: 2px solid #ecd1c2;
+}
+
+.input-email1[type="email"] {
+  position: absolute;
+  width: 245px;
+  height: 51px;
+  left: calc((100vw / 1.5) - 55px);
+  top: 635px;
+
+  box-sizing: border-box;
+  border: 0px;
+  background: #cbdae1;
+  outline: none;
+
+  color: black;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.input-email1[type="email"]:focus {
+  border: 2px solid #ecd1c2;
+}
+
+.button {
+  position: absolute;
+  width: 130px;
+  height: 38px;
+  left: calc(100vw / 1.5);
+  top: 730px;
+
+  border: 1px solid #f0e6db;
+  background-color: #ecd1c5;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  color: #68390d;
+  text-align: center;
+  font-size: 15px;
+  font-weight: normal;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
+  opacity: 0.9;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.button:hover {
+  opacity: 1;
+}
+
+.button:active {
+  background-color: #ecd1c2;
+  box-shadow: 0 1px #666;
+  transform: translateY(3px);
 }
 
 .side-panel {
@@ -169,7 +328,7 @@ li a:hover {
   position: relative;
   width: 135px;
   height: 135px;
-  top: 133px;
+  top: 270px;
   left: calc(20vw / 2);
   border-radius: 75px;
 }
@@ -177,10 +336,10 @@ li a:hover {
 .account-panel {
   position: absolute;
   text-align: center;
-  /* justify-content: center;
-  align-items: center; */
+  justify-content: center;
+  align-items: center;
   height: 100vh;
-  width: 45vw;
+  width: 47vw;
   background: #62808e;
 }
 
@@ -188,8 +347,8 @@ li a:hover {
   position: absolute;
   width: 121px;
   height: 18px;
-  top: 275px;
-  left: calc((20vw / 2) + 130px);
+  top: 400px;
+  left: calc((100vw / 3) - 55px);
 
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -205,8 +364,8 @@ li a:hover {
   position: absolute;
   width: 230px;
   height: 21px;
-  top: 325px;
-  left: calc((40vw / 2) + 80px);
+  top: 450px;
+  left: calc((100vw / 3) - 110px);
 
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;

@@ -17,29 +17,29 @@ const AccountInfo = () => {
                     <img src={logo} className="logo"></img>
                     <ul className="nav">
                         <li><a href="#">My Profile</a></li>
-                        <li><a className="active" href="">Account Information</a></li>
-                        <li><a href="">Personalization</a></li>
-                        <li><a href="">Groups</a></li>
-                        <li><a href="">Support Us</a></li>
+                        <li><a className="active" href="#">Account Information</a></li>
+                        <li><a href="#">Personalization</a></li>
+                        <li><a href="#">Groups</a></li>
+                        <li><a href="#">Support Us</a></li>
                     </ul>
                 </div>
-
-
-                {/* <img src={profile} className="Profile-pic"></img>
-                <h1 className="primary">John Doe</h1>
-                <h1 className="primary1">Calgary, Alberta</h1>
-                <h1 className="primary2">Last Login: 20/02/2022</h1>
-                <h1 className="primary3">Brief Overview</h1>
-                <h1 className="primary4">Name</h1>
-                <h1 className="primary5">Birthday</h1>
-                <h1 className="primary6">Email</h1>
+                
+                <h1 className="account">Account</h1>
+                <h1 className="password">Change Your Password</h1>
+                <h1 className="new-password">Confirm New Password</h1>
+                <h1 className="phone">Add Phone Number</h1>
+                <h1 className="email">Primary Email Address</h1>
+                <h1 className="alt-email">Alternative Email Address</h1>
 
                 <form>
-                    <input type="text" id="overview" placeholder="Tell everyone about yourself (max 150 characters)" className="input"></input>
-                    <input type="text" id="name" placeholder="John Doe" className="input1"></input>
-                    <input type="date" id="birthday" max="2012-12-31" className="input-date"></input>
+                    <input type="text" id="password" placeholder="Enter your new password" className="input"></input>
+                    <input type="text" id="confirm-password" placeholder="Confirm your new password" className="input1"></input>
+                    <input type="text" id="phone" placeholder="Provide your phone number" className="input-phone"></input>
                     <input type="email" id="email" placeholder="johndoe@gmail.com" className="input-email"></input>
-                </form> */}
+                    <input type="email" id="alt-email" placeholder="johndoe1@gmail.com" className="input-email1"></input>
+                </form>
+
+                <button className="button">Save</button>
             </header>
         </div>
     );

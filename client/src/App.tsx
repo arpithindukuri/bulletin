@@ -38,8 +38,8 @@ function App() {
       {/* <Header brand={brand} links={links} /> */}
       <div>
         {/* <Homepage /> */}
-        <Dashboard />
-        {/* <AccountInfo /> */}
+        {/* <Dashboard /> */}
+        <AccountInfo />
       </div>
       {/* {<Footer />} */}
     </div>
