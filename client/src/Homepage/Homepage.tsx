@@ -1,7 +1,6 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./Homepage.css";
-// import { Grid, createTheme } from '@material-ui/core';
 
 const Homepage = () => {
 

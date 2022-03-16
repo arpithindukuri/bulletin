@@ -1,6 +1,7 @@
 import { useState } from "react";
-import CreateNewBoard from "./CreateNewBoard/CreateNewBoard";
 import Homepage from "./Homepage/Homepage";
+import Dashboard from "./Dashboard/Dashboard";
+import AccountInfo from "./AccountInfo/AccountInfo";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import logo from "./logo.svg";
@@ -36,8 +37,9 @@ function App() {
     <div className="App">
       {/* <Header brand={brand} links={links} /> */}
       <div>
-        <Homepage />
-        {/* <CreateNewBoard /> */}
+        {/* <Homepage /> */}
+        <Dashboard />
+        {/* <AccountInfo /> */}
       </div>
       {/* {<Footer />} */}
     </div>
