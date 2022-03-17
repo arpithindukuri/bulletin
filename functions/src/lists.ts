@@ -14,9 +14,14 @@ export const getLists = functions.https.onRequest(async (request, response) => {
       response.status(400).send("Bad method. Use GET");
 
     // TODO: Check auth
-
+    var board_id = request.query.board_id
+    if(!board_id){
+      response.status(400).send("Specify a board id");
+    }
+    // TODO: Check auth
+ 
     // Push the new message into Firestore using the Firebase Admin SDK.
-    const snapshot = await admin.firestore().collection("lists").get();
+    const snapshot = await admin.firestore().collection('boards').doc(String(board_id)).collection('lists').get();
 
     // Send back a message that we've successfully written the message
     if (snapshot)
@@ -36,8 +41,11 @@ export const addList = functions.https.onRequest(async (request, response) => {
     if (request.method !== "POST")
       response.status(400).send("Bad method. Use POST");
 
-    // TODO: Check auth
-
+      var board_id = request.query.id
+      if(!board_id){
+        response.status(400).send("Specify an id");
+      }
+      // TODO: Check auth
     // Read the body from the request.
     const body = request.body;
 
@@ -45,17 +53,13 @@ export const addList = functions.https.onRequest(async (request, response) => {
     // In this case, we check if the body is of type
     if (!isList(body)) {
       response.status(400).send("Bad body in request.");
-      // Technically, the above ".send()" function terminates this functions.
-      // The following "return;" statement is simply so intellisense knows that body is of type List.
       return;
     }
-
-    // Push the new message into Firestore using the Firebase Admin SDK.
-    const writeResult = await admin.firestore().collection("lists").add(body);
-
+    //add note at board with board_id
+    const snapshot = await admin.firestore().collection('boards').doc(String(board_id)).collection('lists').add(body);
+    
     // Send back a message that we've successfully written the message
-    if (writeResult)
-      response.send(`Messageasdfg with ID: ${writeResult.id} added.`);
-    // response.json({ result: `Message ${newList} added.` });
+    if (snapshot)
+      response.send(`Messageasdfg with ID: ${snapshot.id} added.`);
   });
 });

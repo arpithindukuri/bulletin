@@ -14,7 +14,7 @@ export function isExpense(arg: any): arg is Expense {
     
     // Check each item has the correct type
     typeof obj.name === "string" &&
-    typeof obj.deadline === "number" &&
+    typeof obj.deadline === "string" &&
     typeof obj.amount === "number"
   );
 }

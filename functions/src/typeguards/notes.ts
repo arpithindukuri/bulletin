@@ -12,7 +12,7 @@ export function isNote(arg: any): arg is Note {
     obj.author !== undefined &&
     obj.attachmentURLs !== undefined &&
     // Check each note has the correct type
-    typeof obj.text === "boolean" &&
+    typeof obj.text === "string" &&
     typeof obj.author === "string" &&
     obj.attachmentURLs.every((url) => typeof url === "string")
   );
