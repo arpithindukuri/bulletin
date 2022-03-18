@@ -65,7 +65,7 @@ export default function MemberStatus({ name, email, role }: Props) {
           <MenuItem color="primary" value={"Admin"}>
             Admin
           </MenuItem>
-          <MenuItem value={"Member"}>Member</MenuItem>
+          <MenuItem color='primary' value={"Member"}>Member</MenuItem>
         </Select>
         {/* {role} */}
         {/* </Typography> */}

@@ -1,7 +1,8 @@
 import { Container, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { Button } from "@mui/material";
-import BoardIcons from "../components/BoardIcons";
+import BoardIcons from "./BoardIcons";
+import "./BoardViews.css"
 
 export default function BoardsView() {
 
@@ -21,18 +22,7 @@ export default function BoardsView() {
     <Container sx={{ width: "90vw" }} maxWidth={false}>
 
       {/* Header to filer and sort through existing boards */}
-      <Box
-        sx={{
-          pt: "5vh",
-          pr: "2vw",
-          pl: "2vw",
-          borderBottom: 1,
-          borderColor: "primary.main",
-        }}
-        justifyContent="space-between"
-        display="flex"
-        flexDirection="row"
-      >
+      <Box className='boardHeaderBox'>
         <Typography variant="subtitle1" color="primary">
           Your Boards
         </Typography>
@@ -47,12 +37,7 @@ export default function BoardsView() {
       </Box>
 
         {/* Box Displaying the first 4 boards (including new board) */}
-      <Box
-        display={"flex"}
-        flexDirection={"row"}
-        justifyContent={"space-evenly"}
-        paddingTop="5%"
-      >
+      <Box className='boardViewsBox'>
         {mockBoards.slice(0, 4).map((mockBoard) => {
           return (
             <Box sx={{ width: "50%" }}>
@@ -64,10 +49,7 @@ export default function BoardsView() {
 
         {/* Box displaying the last 4 boards */}
       <Box
-        display={"flex"}
-        flexDirection={"row"}
-        justifyContent={"space-evenly"}
-        paddingTop={"5%"}
+        className='boardViewsBox'
       >
         {mockBoards.slice(4, 8).map((mockBoard) => {
           return (

@@ -3,9 +3,10 @@ import { theme } from "./theme/theme";
 import {ThemeProvider} from "@mui/material/styles";
 import "./App.css";
 import MockHeader from "./components/MockHeader";
-import BoardsView from "./pages/BoardsView";
-import ManageBoard from "./pages/ManageBoard";
+import BoardsView from "./pages/BoardViews/BoardsView";
+import ManageBoard from "./pages/ManageBoard/ManageBoard";
 import MockFooter from "./components/MockFooter";
+import Expenses from "./pages/Expenses/Expenses";
 
 const url =
   process.env.NODE_ENV === "development"
@@ -55,9 +56,11 @@ function App() {
 
     {/* <BoardsView/> */}
 
-    <ManageBoard name={mockBoardData[0].name}/>
+    {/* <ManageBoard name={mockBoardData[0].name}/> */}
 
-    <MockFooter/>
+    <Expenses name={mockBoardData[0].name}/>
+
+    {/* <MockFooter/> */}
 
 {/* End of Pages */}
 

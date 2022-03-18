@@ -1,0 +1,54 @@
+a {
+    text-decoration-color:  rgba(104, 57, 13, 0.54);
+}
+
+.expensesTitle {
+    text-align: left;
+    color:#68390D;
+    padding-top: 10px;
+
+}
+
+.expensesSubtitles {
+    text-align: left;
+    color:#68390D;
+    padding-top: 20px;
+}
+
+.expensesTable {
+    display: flex;
+    flex-direction: column;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 20px;
+}
+
+.expensesTableRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 10px;
+    align-items: center;
+    height: 35px;    
+    color: #68390D;
+}
+
+.tableCellsFormatting{
+    color: #68390D;
+    background-color: #F6F0E9;
+    border-right: 1px solid rgba(104, 57, 13, 0.24);
+    border-left: 1px solid rgba(104, 57, 13, 0.24);
+    box-shadow: 2px 4px rgb(196, 192, 192, 0.5);
+}
+
+.addNewBox {
+    text-align: left;
+    width: 90%;
+}
+
+.calculateTotal {
+    width: 90%;
+    justify-content: right;
+    padding-right: 20px;
+}
+

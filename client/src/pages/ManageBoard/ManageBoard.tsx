@@ -1,15 +1,15 @@
 import { Typography, Container, Box, Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import MemberPermissions from "../components/MemberPermissions";
-import MemberStatus from "../components/MemberStatus";
-import avatar from "../imgs/avatar.jpg";
+import MemberPermissions from "./MemberPermissions";
+import MemberStatus from "./MemberStatus";
+import avatar from "../../imgs/avatar.jpg";
+import "./ManageBoard.css";
 
 interface Props {
   name: string;
 }
 
 export default function ManageBoard({ name }: Props) {
-
   //Mock Info passed into Member Status
   const mockMemberInfo = [
     { id: 1, name: "Liane Doe", email: "liane.doe@gmail.com", role: "Admin" },
@@ -24,12 +24,12 @@ export default function ManageBoard({ name }: Props) {
     { id: 2, name: "Lists", viewOn: true, editOn: true },
     { id: 3, name: "Expenses", viewOn: false, editOn: false },
     { id: 4, name: "Calendar", viewOn: true, editOn: false },
-    { id: 5, name: "Personal Reminders", viewOn: true, editOn: true },
+    { id: 5, name: "Personal Notes", viewOn: true, editOn: true },
   ];
 
   return (
     <Container maxWidth={false} sx={{}}>
-      <a href="/" style={{ textDecorationColor: "rgba(104, 57, 13, 0.54)" }}>
+      <a href="/">
         <Typography
           variant="subtitle1"
           color="primary.light"
@@ -40,47 +40,29 @@ export default function ManageBoard({ name }: Props) {
         </Typography>
       </a>
 
-    {/* General Board Info: Profile Picture, Name, Duplicate Board */}
+      {/* General Board Info: Profile Picture, Name, Duplicate Board */}
       <Box sx={{ pt: "5vh" }}>
-        <Box
-          sx={{ maxHeight: "8%" }}
-          justifyItems="left"
-          textAlign="left"
-          display="flex"
-          justifyContent="start"
-        >
-          <Box
-            width={"25%"}
-            justifyContent="center"
-            textAlign="center"
-            alignItems="center"
-            sx={{ pr: "10%" }}
-          >
+        <Box className="manageHeaderBox">
+          <Box className="managePhotoBox">
             {/* For the board image */}
-            <img
-              src={avatar}
-              style={{ borderRadius: "100%", minWidth: "100px" }}
-              width="25%"
-            ></img>
+            <img className="profilePicture" src={avatar}></img>
             <Button
-              sx={{ display: "block", alignItems: "center", margin: "auto" }}
+              sx={{ display: "block", margin: "auto" }}
+              disableElevation={true}
+              disableFocusRipple={true}
+              disableRipple={true}
+              disableTouchRipple={true}
             >
               <Typography
+                className="underlineButton"
                 variant="subtitle1"
                 color="primary.light"
-                sx={{ pt: "1vh", textDecoration: "underline" }}
               >
                 Change Board Picture
               </Typography>
             </Button>
           </Box>
-          <Box
-            display="flex"
-            flexDirection="column"
-            width="45%"
-            justifyContent={"center"}
-            paddingTop="2%"
-          >
+          <Box className="boardNameBox">
             {/* For the Board name */}
             <Typography variant="h5" color="primary" fontWeight="bold">
               {name}
@@ -92,29 +74,19 @@ export default function ManageBoard({ name }: Props) {
               disableTouchRipple={true}
               sx={{
                 display: "block",
-                margin: "auto",
-                justifyContent: "left",
-                marginLeft: "0",
-                marginTop: "0",
               }}
             >
               <Typography
+                className="underlineButton"
                 variant="subtitle1"
                 color="primary.light"
-                align="left"
-                sx={{ pt: "1vh", textDecoration: "underline" }}
+                textAlign={"left"}
               >
                 Rename Board
               </Typography>
             </Button>
           </Box>
-          <Box
-            width={"20%"}
-            display="flex"
-            flexDirection={"column"}
-            justifyContent="center"
-            marginRight={"10%"}
-          >
+          <Box className="duplicateBoardBox">
             <Button
               variant="contained"
               color="secondary"
@@ -128,26 +100,18 @@ export default function ManageBoard({ name }: Props) {
         </Box>
       </Box>
 
-
       <hr style={{ color: "rgb(104, 57, 13, 0.2)", borderWidth: "0.5px" }}></hr>
 
-
       {/* New Member Invitation */}
-      <Box
-        display={"flex"}
-        flexDirection={"row"}
-        justifyContent="center"
-        alignItems={"center"}
-        paddingTop="5px"
-        paddingBottom={"5px"}
-      >
+      <Box className="newMemberInvitationBox">
         <Box width={"20%"}>
           <Typography color="primary" variant="h6">
-            Invite New Member{" "}
+            Invite New Member
           </Typography>
         </Box>
         <Box width={"30%"}>
           <TextField
+            className="testText"
             variant="outlined"
             color="primary"
             label="Email Address"
@@ -162,7 +126,7 @@ export default function ManageBoard({ name }: Props) {
             sx={{ borderRadius: "50px", border: "1px solid #68390D" }}
           >
             <Typography color="primary" variant="h6">
-              Send Invite{" "}
+              Send Invite
             </Typography>
           </Button>
         </Box>
@@ -171,7 +135,7 @@ export default function ManageBoard({ name }: Props) {
       <hr style={{ color: "rgb(104, 57, 13, 0.2)", borderWidth: "0.5px" }}></hr>
 
       {/* Member Information */}
-      <Box paddingLeft={"10%"} paddingRight={"10%"} paddingBottom="20px">
+      <Box className="memberInfoBox">
         <Typography color="primary" variant="h6" textAlign={"left"}>
           Members
         </Typography>
@@ -184,10 +148,9 @@ export default function ManageBoard({ name }: Props) {
           >
             <Box textAlign={"left"} paddingLeft="20px" width="30%">
               <Typography
+                className="memberInfoHeaderBox"
                 color="primary"
                 variant="subtitle2"
-                textAlign={"left"}
-                display="inline"
               >
                 Name
               </Typography>
@@ -195,10 +158,9 @@ export default function ManageBoard({ name }: Props) {
 
             <Box textAlign={"left"} paddingLeft="20px" width="40%">
               <Typography
+                className="memberInfoHeaderBox"
                 color="primary"
                 variant="subtitle2"
-                textAlign={"left"}
-                display="inline"
               >
                 Email
               </Typography>
@@ -206,10 +168,9 @@ export default function ManageBoard({ name }: Props) {
 
             <Box textAlign={"left"} paddingLeft="20px" width="25%">
               <Typography
+                className="memberInfoHeaderBox"
                 color="primary"
                 variant="subtitle2"
-                textAlign={"left"}
-                display="inline"
               >
                 Role
               </Typography>
@@ -233,7 +194,7 @@ export default function ManageBoard({ name }: Props) {
       <hr style={{ color: "rgb(104, 57, 13, 0.2)", borderWidth: "0.5px" }}></hr>
 
       {/* Member Permissions */}
-      <Box paddingLeft={"10%"} paddingRight={"10%"} paddingBottom="20px">
+      <Box className="memberInfoBox">
         <Typography color="primary" variant="h6" textAlign={"left"}>
           Member Permissions
         </Typography>
@@ -245,19 +206,12 @@ export default function ManageBoard({ name }: Props) {
           paddingTop={"20px"}
         >
           <Box>
-            <Box
-              display="flex"
-              flexDirection={"row"}
-              alignItems="center"
-              height="60px"
-            ></Box>
+            <Box className="permissionsGrid" height="60px"></Box>
 
             <Box
+              className="permissionsGrid"
               height="50px"
               justifyContent={"center"}
-              display="flex"
-              flexDirection={"row"}
-              alignItems="center"
             >
               <Typography
                 color="primary"
@@ -269,12 +223,7 @@ export default function ManageBoard({ name }: Props) {
               </Typography>
             </Box>
 
-            <Box
-              height="50px"
-              display="flex"
-              flexDirection={"row"}
-              alignItems="center"
-            >
+            <Box className="permissionsGrid" height="50px">
               <Typography
                 color="primary"
                 variant="subtitle1"
@@ -302,15 +251,7 @@ export default function ManageBoard({ name }: Props) {
 
       <hr style={{ color: "rgb(104, 57, 13, 0.2)", borderWidth: "0.5px" }}></hr>
 
-      <Box
-        display={"flex"}
-        flexDirection="row"
-        justifyContent={"space-between"}
-        paddingLeft="20px"
-        paddingRight={"20px"}
-        paddingBottom="30px"
-        paddingTop={"20px"}
-      >
+      <Box className="leaveBoardButtons">
         <Button
           variant="contained"
           color="secondary"

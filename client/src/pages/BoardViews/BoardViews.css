@@ -1,0 +1,16 @@
+.boardHeaderBox {
+  padding-top: 5vh;
+  padding-right: 2vw;
+  padding-left: 2vw;
+  border-bottom: 1px solid #68390D;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+}
+
+.boardViewsBox{
+  padding-top: 5%;
+  justify-content: space-evenly;
+  display: flex;
+  flex-direction: row;
+}
