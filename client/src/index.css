@@ -20,3 +20,13 @@ code {
   height: 100%;
   min-height: 100vh;
 }
+
+.footer{
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #F6F0E9;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}

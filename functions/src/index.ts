@@ -1,6 +1,7 @@
 import corsHandler from "./cors";
 import { functions } from "./firebase";
 import { addList, getLists } from "./lists";
+import { addNote, getNote } from "./notes";
 
 export const helloWorld = functions.https.onRequest((request, response) => {
   functions.logger.info("Hello logs!", { structuredData: true });
@@ -12,4 +13,4 @@ export const helloWorld = functions.https.onRequest((request, response) => {
   });
 });
 
-export { addList, getLists };
+export { addList, getLists, addNote, getNote };
