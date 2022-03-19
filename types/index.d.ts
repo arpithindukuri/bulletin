@@ -1,9 +1,5 @@
 export interface Board {
   name: string;
-  notes: Note[];
-  lists: List[];
-  expenses: Expense[];
-  events: Event[];
 }
 
 export interface Note {

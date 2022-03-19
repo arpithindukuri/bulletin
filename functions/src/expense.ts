@@ -78,7 +78,7 @@ export const addExpense = functions.https.onRequest(async (request, response) =>
     const body = request.body;
 
     // Ensure the body has the necessary information
-    // In this case, we check if the body is of type
+    // In this case, we check if the body is of type expense
     if (!isExpense(body)) {
       response.status(400).send("Bad body in request.");
       return;
@@ -89,5 +89,70 @@ export const addExpense = functions.https.onRequest(async (request, response) =>
     // Send back a message that we've successfully written the message
     if (snapshot)
       response.send(`Messageasdfg with ID: ${snapshot.id} added.`);
+  });
+});
+export const deleteExpense = functions.https.onRequest(async (request, response) => {
+  // you need corsHandler to allow requests from localhost and the deployed website,
+  // so you don't get a CORS error.
+  corsHandler(request, response, async () => {
+    if (request.method !== "DELETE")
+      response.status(400).send("Bad method. Use DELETE");
+
+    const expense_id = request.query.expense_id
+    if(!expense_id){
+      response.status(400).send("Specify an expense id");
+    }
+    const board_id = request.query.board_id
+    if(!board_id){
+      response.status(400).send("Specify a board id");
+    }
+    // TODO: Check auth
+
+    // Get the expense based on the request parameters
+    const snapshot = await admin.firestore().collection('boards').doc(String(board_id)).collection('expenses').doc(String(expense_id));
+    
+    //delete the expense (if found) and send a response message
+    if ((await snapshot.get()).exists){
+      snapshot.delete();
+      response.status(400).send(`Event with ID: ${expense_id} is deleted.`);
+    }else 
+      response.status(400).send("Event Not Found");
+  });
+});
+export const editExpense = functions.https.onRequest(async (request, response) => {
+  // you need corsHandler to allow requests from localhost and the deployed website,
+  // so you don't get a CORS error.
+  corsHandler(request, response, async () => {
+    if (request.method !== "PUT")
+      response.status(400).send("Bad method. Use PUT");
+
+    const expense_id = request.query.expense_id
+    if(!expense_id){
+      response.status(400).send("Specify an expense id");
+    }
+    const board_id = request.query.board_id
+    if(!board_id){
+      response.status(400).send("Specify a board id");
+    }
+
+    const body = request.body;
+
+    // Ensure the body has the necessary information
+    // In this case, we check if the body is of type
+    if (!isExpense(body)) {
+      response.status(400).send("Bad body in request.");
+      return;
+    }
+    // TODO: Check auth
+
+    // Get the expense based on the request parameters
+    const snapshot = await admin.firestore().collection('boards').doc(String(board_id)).collection('expenses').doc(String(expense_id));
+    
+    //edit the expense (if found) and send a response message
+    if ((await snapshot.get()).exists){
+      snapshot.set(body);
+      response.status(400).send(`Expense with ID: ${expense_id} is updated.`);
+    }else 
+      response.status(400).send("Expense Not Found");
   });
 });
