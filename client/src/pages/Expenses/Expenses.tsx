@@ -1,4 +1,5 @@
 import { Container, Typography, Box, Button } from "@mui/material";
+import { render } from "@testing-library/react";
 import React from "react";
 import { useEffect, useState } from "react";
 import "./Expenses.css";
@@ -6,6 +7,12 @@ import ExpensesRow from "./ExpensesRow";
 
 interface Props {
   name: string;
+}
+
+var newExpense = false;
+
+const addNewExpense =()=> {
+    newExpense = true;
 }
 
 export default function Expenses({ name }: Props) {
@@ -86,8 +93,14 @@ export default function Expenses({ name }: Props) {
     })
    }, []);
 
+   const [newExpense, setNewExpense] = useState(false);
+
+   
   return (
     <Container>
+
+      {newExpense ? <Box className="addExpense"></Box> : null}
+
       <a href="/">
         <Typography
           variant="subtitle1"
@@ -201,6 +214,9 @@ export default function Expenses({ name }: Props) {
           </Box>
         </Box>
       </Box>
+
+        
+
     </Container>
   );
 }

@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
-import usedBoard from "../imgs/usedBoard.png";
-import newBoard from "../imgs/newBoard.png";
-import emptyBoard from "../imgs/emptyBoard.png";
+import usedBoard from "../../imgs/usedBoard.png";
+import newBoard from "../../imgs/newBoard.png";
+import emptyBoard from "../../imgs/emptyBoard.png";
 import { Button } from "@mui/material";
 
 interface Props {

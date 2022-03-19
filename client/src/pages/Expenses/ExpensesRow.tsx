@@ -17,7 +17,6 @@ const mockMemberInfo = [
 ];
 
 export default function ExpensesRow({ name, date, assigned, balance }: Props) {
-  const [assignedMember, setAssignedMember] = useState("");
 
   return (
     <>

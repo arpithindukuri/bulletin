@@ -7,6 +7,7 @@ import BoardsView from "./pages/BoardViews/BoardsView";
 import ManageBoard from "./pages/ManageBoard/ManageBoard";
 import MockFooter from "./components/MockFooter";
 import Expenses from "./pages/Expenses/Expenses";
+import SupportUs from "./pages/SupportUs/SupportUs";
 
 const url =
   process.env.NODE_ENV === "development"
@@ -58,7 +59,9 @@ function App() {
 
     {/* <ManageBoard name={mockBoardData[0].name}/> */}
 
-    <Expenses name={mockBoardData[0].name}/>
+    {/* <Expenses name={mockBoardData[0].name}/> */}
+
+    <SupportUs/>
 
     {/* <MockFooter/> */}
 
