@@ -14,7 +14,6 @@ export interface Note {
 
 export interface List {
   name: string;
-  items: ListItem[];
 }
 
 export interface ListItem {
@@ -24,15 +23,14 @@ export interface ListItem {
 
 export interface Expense {
   name: string;
-  deadline: Timestamp;
+  deadline: string;
   /** Number of cents to be paid */
   amount: Number;
 }
 
 export interface Event {
   name: string;
-  start: Timestamp;
-  end: Timestamp;
+  date: Date;
 }
 
 /** Number of milliseconds from UNIX Epoch */

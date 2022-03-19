@@ -1,7 +1,11 @@
 import corsHandler from "./cors";
 import { functions } from "./firebase";
 import { addList, getLists } from "./lists";
-import { addNote, getNote } from "./notes";
+import { addListItem, getListItems } from "./listItem";
+import { addNote, getNotes, getNote } from "./notes";
+import { addExpense, getExpenses, getExpense } from "./expense";
+import { addBoard, getBoards, getBoard } from "./board";
+import { addEvent, getEvents, getEvent } from "./event";
 
 export const helloWorld = functions.https.onRequest((request, response) => {
   functions.logger.info("Hello logs!", { structuredData: true });
@@ -13,4 +17,5 @@ export const helloWorld = functions.https.onRequest((request, response) => {
   });
 });
 
-export { addList, getLists, addNote, getNote };
+export { addList, getLists, addNote, getNotes, getNote, addEvent, getEvents, getEvent, addListItem, getListItems,
+  addExpense, getExpenses, getExpense, addBoard, getBoards, getBoard };
