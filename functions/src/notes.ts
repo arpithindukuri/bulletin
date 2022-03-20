@@ -76,7 +76,7 @@ export const addNote = functions.https.onRequest(async (request, response) => {
     const body = request.body;
 
     // Ensure the body has the necessary information
-    // In this case, we check if the body is of type
+    // In this case, we check if the body is of type note
     if (!isNote(body)) {
       response.status(400).send("Bad body in request.");
       return;
@@ -87,5 +87,71 @@ export const addNote = functions.https.onRequest(async (request, response) => {
     // Send back a message that we've successfully written the message
     if (snapshot)
       response.send(`Messageasdfg with ID: ${snapshot.id} added.`);
+  });
+});
+export const deleteNote = functions.https.onRequest(async (request, response) => {
+  // you need corsHandler to allow requests from localhost and the deployed website,
+  // so you don't get a CORS error.
+  corsHandler(request, response, async () => {
+    if (request.method !== "DELETE")
+      response.status(400).send("Bad method. Use DELETE");
+
+    const note_id = request.query.note_id
+    if(!note_id){
+      response.status(400).send("Specify a note id");
+    }
+    const board_id = request.query.board_id
+    if(!board_id){
+      response.status(400).send("Specify a board id");
+    }
+    // TODO: Check auth
+
+    // Get the note based on the request parameters
+    const snapshot = await admin.firestore().collection('boards').doc(String(board_id)).collection('notes').doc(String(note_id));
+    
+    // delete the note (if found) and send back a response
+    if ((await snapshot.get()).exists){
+      snapshot.delete();
+      response.status(400).send(`Note with ID: ${note_id} is deleted.`);
+    }
+    else 
+      response.status(400).send("Note Not Found");
+  });
+});
+export const editNote = functions.https.onRequest(async (request, response) => {
+  // you need corsHandler to allow requests from localhost and the deployed website,
+  // so you don't get a CORS error.
+  corsHandler(request, response, async () => {
+    if (request.method !== "PUT")
+      response.status(400).send("Bad method. Use PUT");
+
+    const note_id = request.query.note_id
+    if(!note_id){
+      response.status(400).send("Specify a note id");
+    }
+    const board_id = request.query.board_id
+    if(!board_id){
+      response.status(400).send("Specify a board id");
+    }
+
+    const body = request.body;
+
+    // Ensure the body has the necessary information
+    // In this case, we check if the body is of type Note
+    if (!isNote(body)) {
+      response.status(400).send("Bad body in request.");
+      return;
+    }
+    // TODO: Check auth
+
+   // Get the note based on the request parameters
+    const snapshot = await admin.firestore().collection('boards').doc(String(board_id)).collection('notes').doc(String(note_id));
+    
+    // Edit the note (if found) and send back a response
+    if ((await snapshot.get()).exists){
+      snapshot.set(body);
+      response.status(400).send(`Note with ID: ${note_id} is updated.`);
+    }else 
+      response.status(400).send("Note Not Found");
   });
 });
