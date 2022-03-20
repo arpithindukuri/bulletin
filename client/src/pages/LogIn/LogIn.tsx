@@ -21,14 +21,14 @@ const LogIn: React.FC = () => {
 
   const mockGetBoards = () => {
     axiosInstance
-          .get("/getBoards")
-          .then((res) => {
-            console.log("get boards response is: ", res);
-          })
-          .catch((err) => {
-            console.log("get boards error is: ", err);
-          });
-  }
+      .get("/getBoards")
+      .then((res) => {
+        console.log("get boards response is: ", res);
+      })
+      .catch((err) => {
+        console.log("get boards error is: ", err);
+      });
+  };
 
   const validateData = () => {
     errors.email = "";
@@ -95,13 +95,13 @@ const LogIn: React.FC = () => {
       <Grid
         className="login"
         direction="row"
-        justifyContent="center"
-        alignItems="center"
         container
         spacing={2}
       >
         <Grid
           className="login-left-container"
+          justifyContent="center"
+          alignItems="center"
           container
           item
           md={5}
@@ -202,13 +202,13 @@ const LogIn: React.FC = () => {
               Log In
             </Button>
 
-            <Button
+            {/* <Button
               onClick={mockGetBoards}
               className="login-button"
               variant="contained"
             >
               Get Boards
-            </Button>
+            </Button> */}
           </Grid>
         </Grid>
       </Grid>

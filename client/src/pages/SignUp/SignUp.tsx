@@ -136,8 +136,6 @@ const SignUp: React.FC = () => {
       <Grid
         className="signup"
         direction="row"
-        justifyContent="center"
-        alignItems="center"
         container
         spacing={2}
       >

@@ -1,11 +1,12 @@
 @import "../../styles/colors";
 
 .login-container {
-  min-height: 100vh;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
   .login {
     height: 100%;
     width: 100%;
+    margin: 0;
 
     &-app-description {
       color: $color-white;
@@ -14,9 +15,11 @@
     }
 
     &-left-container {
+      z-index: -1;
       background-color: $color-geyser;
       height: 100%;
       padding: 50px 0px;
+      width: 100%;
     }
 
     &-app-name {
@@ -55,12 +58,12 @@
     }
 
     &-inner-grid {
-        width: 100%;
+      width: 100%;
     }
 
     &-inner-grid-item {
-        width: 60%;
-        min-width: 200px;
+      width: 60%;
+      min-width: 200px;
     }
   }
 }

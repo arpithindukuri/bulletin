@@ -1,71 +1,122 @@
-import React from 'react';
-import styled from 'styled-components';
-const Header = (props: {
-  brand: { name: string; to: string },
-  links: Array<{ name: string, to: string }>
-}) => {
-  const { brand, links } = props;
-  const NavLinks: any = () => links.map((link: { name: string, to: string }) => <Li key={link.name}><a href={link.to}>{link.name}</a></Li>);
+// IMPORTING APIS
+import React, { useState } from "react";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  useMediaQuery,
+  Button,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+} from "@material-ui/core";
+import Typography from "@mui/material/Typography";
+import MenuIcon from "@mui/icons-material/Menu";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { useNavigate } from "react-router-dom";
+
+const useStyles = makeStyles((theme) => ({
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+  tabs: {
+    width: "100%",
+  },
+}));
+
+const Header = () => {
+  const navigate = useNavigate();
+  const classes = useStyles();
+  const [anchor, setAnchor] = useState<null | HTMLElement>(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchor(event.currentTarget);
+  };
+
+  const handleMenuButtonClick = (link: string) => {
+    setAnchor(null);
+    navigate(link);
+  };
+
   return (
-    <Navbar>
-      <Brand href={brand.to}>{brand.name}</Brand>
-      <Li>
-        <NavLinks />
-      </Li>
-    </Navbar >
+    <AppBar position="static" style={{ background: "#F0E6DB" }}>
+      <Toolbar>
+        <Typography
+          variant="h6"
+          noWrap
+          component="div"
+          className={classes.title}
+          sx={{
+            mr: 2,
+            color: "#534029",
+            display: { xs: "none", md: "flex" },
+          }}
+        >
+          BULLETIN
+        </Typography>
+        {isMobile ? (
+          <div>
+            <IconButton
+              color="inherit"
+              edge="start"
+              aria-label="menu"
+              onClick={handleMenu}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchor}
+              keepMounted
+              open={Boolean(anchor)}
+              onClose={() => {
+                setAnchor(null);
+              }}
+            >
+              <MenuItem onClick={() => handleMenuButtonClick("/home")}>
+                <Typography variant="h6">Main</Typography>
+              </MenuItem>
+              <MenuItem onClick={() => handleMenuButtonClick("/login")}>
+                <Typography variant="h6">Log In</Typography>
+              </MenuItem>
+              <MenuItem onClick={() => handleMenuButtonClick("/signup")}>
+                <Typography variant="h6">Sign Up</Typography>
+              </MenuItem>
+            </Menu>
+          </div>
+        ) : (
+          <div style={{ marginRight: "2rem" }}>
+            <Button
+              variant="text"
+              color="default"
+              onClick={() => navigate("/home")}
+            >
+              Main
+            </Button>
+            <Button
+              variant="text"
+              color="default"
+              onClick={() => navigate("/login")}
+            >
+              Log In
+            </Button>
+            <Button
+              variant="text"
+              color="default"
+              onClick={() => navigate("/signup")}
+            >
+              Sign Up
+            </Button>
+          </div>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 };
-
-const Theme = {
-  colors: {
-    bg: `#534029`,
-    light: `#F0E6DB`,
-  },
-  fonts: {
-    body: `Roboto`,
-    heading: `Roboto`,
-  }
-}
-
-const Navbar = styled.h1`
-  background: ${Theme.colors.light};
-  font-family: ${Theme.fonts.heading};
-  text-color: #534029;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  a { color: white; text-decoration: none; }`;
-
-const Brand = styled.a`
-  font-weight: bold;
-  color: ${Theme.colors.light};
-  margin-left: 1rem;
-  padding-right: 1rem;`;
-
-const Li = styled.li`
-  class: current;
-  flex: 0 0 auto;
-  -webkit-box-align: center;
-  -webkit-box-pack: center;
-  -webkit-tap-highlight-color: transparent;
-  align-items: center;
-  background-color: ${Theme.colors.bg};
-  color: ${Theme.colors.bg};
-  height: 100%;
-  justify-content: center;
-  text-decoration: none;
-  -webkit-box-align: center;
-  -webkit-box-pack: center;
-  -webkit-tap-highlight-color: transparent;
-  align-items: center;
-  display: flex;
-  font-size: 14px;
-  height: 50px;
-  justify-content: center;
-  line-height: 16px;
-  margin: 0 10px ;
-  text-decoration: none;
-  white-space: nowrap;`;
-
 
 export default Header;
