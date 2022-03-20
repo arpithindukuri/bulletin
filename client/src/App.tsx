@@ -51,7 +51,6 @@ function App() {
     <div className="App">    
 
 
-
 {/* My Pages */}
     <MockHeader/>
 
@@ -59,9 +58,9 @@ function App() {
 
     {/* <ManageBoard name={mockBoardData[0].name}/> */}
 
-    {/* <Expenses name={mockBoardData[0].name}/> */}
+    <Expenses name={mockBoardData[0].name}/>
 
-    <SupportUs/>
+    {/* <SupportUs/> */}
 
     {/* <MockFooter/> */}
 
