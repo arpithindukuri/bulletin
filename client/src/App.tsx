@@ -37,7 +37,7 @@ function App() {
   return (
     <div className="App">
       {/* <Header brand={brand} links={links} /> */}
-      <SignUp />
+      <LogIn />
     </div>
   );
 }

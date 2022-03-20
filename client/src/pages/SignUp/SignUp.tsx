@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosInstance from "../../axios";
 import React, { useState } from "react";
 import { Grid, Button, TextField } from "@material-ui/core";
 import Logo from "../../assets/logo.svg";
@@ -84,6 +85,19 @@ const SignUp: React.FC = () => {
       .then((res) => {
         console.log("Account Created!!!");
         console.log("Sign Up response is: ", res);
+        axiosInstance
+          .post("/addUser", {
+            id: res.data.localId,
+            name: name,
+            email: email,
+          })
+          .then((res) => {
+            console.log("user added to data base.");
+            console.log("response is: ", res);
+          })
+          .catch((err) => {
+            console.log("failed to add user to database", err);
+          });
       })
       .catch((err) => {
         errors.email = "Email already exists.";

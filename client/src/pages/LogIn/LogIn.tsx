@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosInstance from "../../axios";
 import React, { useState } from "react";
 import { Grid, Button, TextField } from "@material-ui/core";
 import Logo from "../../assets/logo.svg";
@@ -17,6 +18,17 @@ const LogIn: React.FC = () => {
     email: "",
     password: "",
   });
+
+  const mockGetBoards = () => {
+    axiosInstance
+          .get("/getBoards")
+          .then((res) => {
+            console.log("get boards response is: ", res);
+          })
+          .catch((err) => {
+            console.log("get boards error is: ", err);
+          });
+  }
 
   const validateData = () => {
     errors.email = "";
@@ -71,6 +83,7 @@ const LogIn: React.FC = () => {
       )
       .then((res) => {
         console.log("Sign In response is: ", res);
+        localStorage.setItem("refresh", res.data.refreshToken);
       })
       .catch((err) => {
         console.log("Failed to sign user in: ", err);
@@ -187,6 +200,14 @@ const LogIn: React.FC = () => {
               variant="contained"
             >
               Log In
+            </Button>
+
+            <Button
+              onClick={mockGetBoards}
+              className="login-button"
+              variant="contained"
+            >
+              Get Boards
             </Button>
           </Grid>
         </Grid>

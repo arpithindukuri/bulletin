@@ -33,5 +33,11 @@ export interface Event {
   date: Date;
 }
 
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
 /** Number of milliseconds from UNIX Epoch */
 export type Timestamp = Number;
