@@ -4,7 +4,8 @@ import { addList, getLists, editList, deleteList } from "./lists";
 import { addListItem, getListItems, editListItem, deleteListItem } from "./listItem";
 import { addNote, getNotes, getNote, editNote, deleteNote } from "./notes";
 import { addExpense, getExpenses, getExpense, editExpense, deleteExpense } from "./expense";
-import { addBoard, getBoards, getBoard, editBoard, deleteBoard } from "./board";
+import { addBudget, getBudgets, getBudget, editBudget, deleteBudget } from "./budget";
+import { addBoard, getBoards, getBoard, editBoard, deleteBoard, addUserToBoard, deleteUserFromBoard } from "./board";
 import { addEvent, getEvents, getEvent, editEvent, deleteEvent } from "./event";
 
 export const helloWorld = functions.https.onRequest((request, response) => {
@@ -18,4 +19,4 @@ export const helloWorld = functions.https.onRequest((request, response) => {
 });
 
 export { addList, getLists, editList, deleteList, addNote, getNotes, getNote, editNote, deleteNote, addEvent, getEvents, getEvent, editEvent, deleteEvent, addListItem, getListItems, editListItem, deleteListItem,
-  addExpense, getExpenses, getExpense, editExpense, deleteExpense, addBoard, getBoards, getBoard, editBoard, deleteBoard };
+  addExpense, getExpenses, getExpense, editExpense, deleteExpense, addBoard, getBoards, getBoard, editBoard, deleteBoard, addUserToBoard, deleteUserFromBoard, addBudget, getBudgets, getBudget, editBudget, deleteBudget  };
