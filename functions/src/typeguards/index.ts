@@ -25,9 +25,7 @@ export function isList(arg: any): arg is List {
     obj &&
     // Check that the object's properties exist
     obj.name !== undefined &&
-    obj.items !== undefined &&
     // Check that the object's properties are of the correct type
-    typeof obj.name === "string" &&
-    obj.items.every((item) => isListItem(item))
+    typeof obj.name === "string"
   );
 }
