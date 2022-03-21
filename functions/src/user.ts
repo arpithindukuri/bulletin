@@ -23,10 +23,33 @@ import { isUser } from "./typeguards/user";
         return;
       }
       
-      const snapshot = await admin.firestore().collection('users').add(body);
+      const snapshot = await admin.firestore().collection('users').doc(body.id).set(body);
       
       // Send back a message that we've successfully written the message
       if (snapshot)
-        response.send(`User with ID: ${snapshot.id} added.`);
+        response.send(`User with ID: ${body.id} added.`);
+    });
+  });
+
+
+  export const getUser = functions.https.onRequest(async (request, response) => {
+    // you need corsHandler to allow requests from localhost and the deployed website,
+    // so you don't get a CORS error.
+    corsHandler(request, response, async () => {
+      if (request.method !== "GET")
+        response.status(400).send("Bad method. Use GET");
+  
+      const user_id = request.query.user_id
+      if(!user_id){
+        response.status(400).send("Specify a user id");
+      }
+  
+      // Get User from Firestore using the Firebase Admin SDK.
+      const databaseUser = await admin.firestore().collection('users').doc(String(user_id)).get();
+      if(!databaseUser.exists) {
+        response.status(400).send("User Not Found");
+      } else {
+        response.json({ user: databaseUser.data() });
+      }
     });
   });
