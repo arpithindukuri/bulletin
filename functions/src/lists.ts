@@ -21,11 +21,16 @@ export const getLists = functions.https.onRequest(async (request, response) => {
     // TODO: Check auth
  
     // Push the new message into Firestore using the Firebase Admin SDK.
-    const snapshot = await admin.firestore().collection('boards').doc(String(board_id)).collection('lists').get();
-
+    const snapshot = await admin.firestore().collection('boards').doc(String(board_id));
+    const itemsSnapshot = await admin.firestore().collectionGroup('listItems').startAt(snapshot).get();
     // Send back a message that we've successfully written the message
     if (snapshot)
-      response.json({ lists: snapshot.docs.map((doc) => doc.data()) });
+      response.json(
+        { lists: {
+        data: (await snapshot.collection('lists').get()).docs.map((doc) => doc.data()),
+        id: itemsSnapshot.docs.map((doc)=>doc.ref.path)
+       }
+      });
   });
 });
 
@@ -53,6 +58,11 @@ export const addList = functions.https.onRequest(async (request, response) => {
     // In this case, we check if the body is of type list
     if (!isList(body)) {
       response.status(400).send("Bad body in request.");
+      return;
+    }
+    const checkName = await admin.firestore().collection('boards').doc(String(board_id)).collection('lists');
+    if((await checkName.get()).docs.filter((doc)=>doc.data().name == body.name).length!=0){
+      response.send(`list already exists`);
       return;
     }
     //add list at board with board_id

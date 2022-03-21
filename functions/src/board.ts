@@ -44,7 +44,16 @@ export const getBoard = functions.https.onRequest(async (request, response) => {
     
     // Send back a message that we've successfully written the message
     if ((await snapshot.get()).exists)
-      response.json({ board: (await snapshot.get()).data() });
+      response.json({ board: {
+        data: (await snapshot.get()).data(),
+        event: (await snapshot.collection('events').get()).docs.map((doc)=>doc.data()),
+        expenses: (await snapshot.collection('expenses').get()).docs.map((doc)=>doc.data()),
+        budget: (await snapshot.collection('budgets').get()).docs.map((doc)=>doc.data()),
+        lists: (await snapshot.collection('lists').get()).docs.map((doc)=>doc.data()),
+        notes: (await snapshot.collection('notes').get()).docs.map((doc)=>doc.data())
+        
+      }
+    });
     else 
       response.status(400).send("Board Not Found");
   });
@@ -162,6 +171,8 @@ export const addUserToBoard = functions.https.onRequest(async (request, response
 
     // Push the new message into Firestore using the Firebase Admin SDK.
     const snapshot = await admin.firestore().collection('boards').doc(String(board_id));
+    const board_name_snaphot = (await admin.firestore().collection('boards').get()).docs.filter((doc)=>doc.id == board_id);
+    const board_name = board_name_snaphot.map((doc)=>doc.data().name);
 
     //edit the board (if found) and send a response message
     if ((await snapshot.get()).exists){
@@ -178,7 +189,7 @@ export const addUserToBoard = functions.https.onRequest(async (request, response
       snapshot.update({
         users: admin.firestore.FieldValue.arrayUnion({id: user_id, role: user_role})
       });
-      response.status(400).send(`User has been added to board with ID: ${board_id}.`);
+      response.status(400).send(`User has been added to board with ID: ${board_id} and a name of ${board_name}.`);
     }else 
       response.status(400).send("Board Not Found");
   });
