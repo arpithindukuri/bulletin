@@ -5,6 +5,8 @@ import SideDrawer from "../../components/SideDrawer";
 import { Button, Grid, makeStyles, TextField } from "@material-ui/core";
 import { MuiPickersUtilsProvider, DatePicker } from "material-ui-pickers";
 import MomentUtils from "@date-io/moment";
+import { useTypedSelector } from "../../hooks/ReduxHooks";
+import { selectUserData } from "../../actions/UserActions/UserSelector";
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -18,11 +20,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Dashboard = () => {
+  const userData = useTypedSelector(selectUserData);
   const classes = useStyles();
   const [overview, setOverview] = useState("");
-  const [name, setName] = useState("");
+  const [name, setName] = useState(userData.name);
   const [birthday, setBirthday] = useState<null | Date>(null);
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(userData.email);
 
   const handleOverviewChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>

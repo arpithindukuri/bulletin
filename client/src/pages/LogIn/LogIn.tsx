@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import { Grid, Button, TextField } from "@material-ui/core";
 import Logo from "../../assets/logo.svg";
 import { signInEndPoint } from "../../authEndPoints";
+import { useTypedDispatch } from "../../hooks/ReduxHooks";
+import { userLoggedIn } from "../../actions/UserActions/UserActionCreator";
+import { useNavigate } from "react-router-dom";
 import "./LogIn.scss";
 
 interface LogInErrors {
@@ -12,6 +15,8 @@ interface LogInErrors {
 }
 
 const LogIn: React.FC = () => {
+  const dispatch = useTypedDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errors, setErrors] = useState<LogInErrors>({
@@ -19,16 +24,16 @@ const LogIn: React.FC = () => {
     password: "",
   });
 
-  const mockGetBoards = () => {
-    axiosInstance
-      .get("/getBoards")
-      .then((res) => {
-        console.log("get boards response is: ", res);
-      })
-      .catch((err) => {
-        console.log("get boards error is: ", err);
-      });
-  };
+  // const mockGetBoards = () => {
+  //   axiosInstance
+  //     .get("/getBoards")
+  //     .then((res) => {
+  //       console.log("get boards response is: ", res);
+  //     })
+  //     .catch((err) => {
+  //       console.log("get boards error is: ", err);
+  //     });
+  // };
 
   const validateData = () => {
     errors.email = "";
@@ -84,6 +89,12 @@ const LogIn: React.FC = () => {
       .then((res) => {
         console.log("Sign In response is: ", res);
         localStorage.setItem("refresh", res.data.refreshToken);
+        axiosInstance.get('/getUser', {params: {user_id: res.data.localId}}).then((uData) => {
+          dispatch(userLoggedIn(uData.data.user));
+          navigate("/home");
+        }).catch(userError => {
+          console.log("error while getting user info: ", userError)
+        })
       })
       .catch((err) => {
         console.log("Failed to sign user in: ", err);
