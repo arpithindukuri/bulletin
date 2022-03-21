@@ -8,7 +8,6 @@ import {
   Button,
   Menu,
   MenuItem,
-  ListItemIcon,
 } from "@material-ui/core";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -18,6 +17,10 @@ import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    background: "#F0E6DB",
   },
   title: {
     flexGrow: 1,
@@ -44,7 +47,7 @@ const Header = () => {
   };
 
   return (
-    <AppBar position="static" style={{ background: "#F0E6DB" }}>
+    <AppBar position="static" className={classes.appBar}>
       <Toolbar>
         <Typography
           variant="h6"
@@ -55,6 +58,7 @@ const Header = () => {
             mr: 2,
             color: "#534029",
             display: { xs: "none", md: "flex" },
+            fontWeight: "bold",
           }}
         >
           BULLETIN
