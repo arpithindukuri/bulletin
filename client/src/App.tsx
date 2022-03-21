@@ -2,6 +2,7 @@ import { useState } from "react";
 import Homepage from "./Homepage/Homepage";
 import Dashboard from "./Dashboard/Dashboard";
 import AccountInfo from "./AccountInfo/AccountInfo";
+import Personalization from "./Personalization/Personalization";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import logo from "./logo.svg";
@@ -37,9 +38,10 @@ function App() {
     <div className="App">
       {/* <Header brand={brand} links={links} /> */}
       <div>
-        {/* <Homepage /> */}
+        <Homepage />
         {/* <Dashboard /> */}
-        <AccountInfo />
+        {/* <AccountInfo /> */}
+        {/* <Personalization /> */}
       </div>
       {/* {<Footer />} */}
     </div>

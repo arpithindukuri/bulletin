@@ -33,6 +33,8 @@ const Dashboard = () => {
                     <input type="date" id="birthday" max="2012-12-31" className="input-date"></input>
                     <input type="email" id="email" placeholder="johndoe@gmail.com" className="input-email"></input>
                 </form>
+
+                <button className="button"><a href="#">Save</a></button>
             </header>
         </div>
     );

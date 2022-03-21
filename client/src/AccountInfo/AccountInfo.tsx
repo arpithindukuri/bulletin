@@ -39,7 +39,7 @@ const AccountInfo = () => {
                     <input type="email" id="alt-email" placeholder="johndoe1@gmail.com" className="input-email1"></input>
                 </form>
 
-                <button className="button">Save</button>
+                <button className="button"><a href="#">Save</a></button>
             </header>
         </div>
     );
