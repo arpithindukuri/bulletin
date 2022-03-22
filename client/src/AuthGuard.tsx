@@ -24,7 +24,6 @@ const AuthGuard: React.FC = ({ children }) => {
     } else {
         setAuthenticated(true);
     }
-    console.log("lollllll");
   }, []);
 
   if (authenticated === null) return <div />;
