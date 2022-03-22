@@ -77,12 +77,12 @@ const Header = () => {
 
   const authenticatedPaths = [
     {
-      name: "Board",
+      name: "Boards",
       function: () => {
         setAnchor(null);
-        navigate("/board");
+        navigate("/boards");
       },
-      path: "/board",
+      path: "/boards",
     },
     {
       name: "Notes",

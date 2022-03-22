@@ -1,0 +1,81 @@
+a {
+    text-decoration-color:  rgba(104, 57, 13, 0.54);
+}
+
+.manageHeaderBox{
+    justify-items: left;
+    text-align: left;
+    display: flex;
+    justify-content: start;
+}
+
+.managePhotoBox {
+    width: 25%;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    padding-right: 10%;
+}
+
+.profilePicture {
+    border-radius: 100%;
+    min-width: 100px;
+    width: 25%;
+}
+
+.underlineButton {
+    padding-top: 1vh;
+    text-decoration: underline;
+}
+
+.boardNameBox {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    justify-content: center;
+    padding-top: 2%;
+}
+
+.duplicateBoardBox {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 10%;
+}
+
+.newMemberInvitationBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.memberInfoBox {
+    padding-left: 10vw;
+    padding-right: 10vw;
+    padding-bottom: 5vh;
+}
+
+.memberInfoHeaderBox {
+    text-align: left;
+    display: inline;
+}
+
+.permissionsGrid {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.leaveBoardButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-top: 20px;
+}
