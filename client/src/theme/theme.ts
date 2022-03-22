@@ -1,19 +1,30 @@
 import { createTheme } from '@material-ui/core/styles'
 
+//modified theme - different from Ahmed Abdullah's
+
 export const theme = createTheme({
   palette: {
     primary: {
-      main: "#ecd1c5",
+      main: "#978575",
     },
     secondary: {
-      main: "#000",
+      main: "#68390D",
     },
     text: {
-      primary: "#62808E",
-      secondary: "#000",
+      primary: "#68390D",
+      secondary: "#AC927A",
     },
     background: {
       default: "#ffffff",
     },
   },
+  typography: {
+    button: {
+      textTransform: 'none',
+      '&:hover': {
+        backgroundColor: '#fff',
+        color: '#3c52b2',
+    },
+    },
+  }
 });

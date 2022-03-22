@@ -1,16 +1,20 @@
 import { useState } from "react";
-// import { ThemeProvider } from "@material-ui/core";
-// import { theme } from "./theme/theme";
-import "./index.css";
-// import LogIn from "./pages/LogIn/LogIn";
-// import Header  from "./components/Header";
-// import logo mfrom "./logo.svg";
+import { theme } from "./theme/theme";
+import { ThemeProvider } from "@mui/material/styles";
+import "./App.css";
 import CreateNewBoard from "./pages/CreateNewBoard/CreateNewBoard";
-
+import Header from "./components/Header";
 const url =
   process.env.NODE_ENV === "development"
     ? "http://localhost:5001/bulletin-be82d/us-central1/helloWorld"
     : "https://us-central1-bulletin-be82d.cloudfunctions.net/helloWorld";
+
+
+// // Mock Data
+// const mockBoardData = [{name: 'Doe Family'}]
+// const mockUserData = [{id: 1, name: 'Liane Doe', email: 'liane.doe@gmail.com' , role: 'Admin'},
+// {id: 2, name: 'Dad Doe', email: 'dad.doe@gmail.com', role: 'Admin'}, {id: 3, name: 'Logan Doe', email: 'logan.doe@gmail.com',
+//  role: 'Member'} , {id: 4, name: 'Aly Doe', email: 'aly.doe@gmail.com', role: 'Member'}];
 
 function App() {
   const [serverResponse, setServerResponse] = useState("no server response");
@@ -33,12 +37,14 @@ function App() {
   };
 
   const { brand, links } = navigation;
+
   return (
-    <div className="App">    
-      {/* <Header brand={brand} links={links} /> */}
-      {/*<LogIn />*/}
-      <CreateNewBoard />
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <Header brand={brand} links={links} />
+        <CreateNewBoard />
+      </div>
+    </ThemeProvider >
   );
 }
 
