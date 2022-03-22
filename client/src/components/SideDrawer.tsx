@@ -7,10 +7,9 @@ import {
   ListItemText,
   IconButton,
 } from "@material-ui/core";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -56,6 +55,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const listLinks = [
+  {
+    name: "My Profile",
+    path: "/profile",
+  },
   {
     name: "Account Information",
     path: "/account-info",

@@ -106,6 +106,10 @@ const LogIn: React.FC = () => {
       });
   };
 
+  const handleSignUpCLick = () => {
+    navigate("/signup");
+  };
+
   return (
     <div className="login-container">
       <Grid className="login" direction="row" container spacing={2}>
@@ -153,6 +157,7 @@ const LogIn: React.FC = () => {
             >
               <h4 className="login-signup-redirect-text">New Here ?</h4>
               <Button
+                onClick={handleSignUpCLick}
                 className="login-signup-redirect-button"
                 variant="contained"
               >
