@@ -1,4 +1,4 @@
-import { Typography, Container, Box, Button } from "@mui/material";
+import { Typography, Container, Box, Button, inputAdornmentClasses } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import './CreateNewBoard.css';
 import Grid from '@mui/material/Grid';
@@ -24,6 +24,7 @@ interface State {
 }
 
 export default function CreateNewBoard() {
+    // For Form
     const NAME_LIMIT = 20;
     const DESCRIPTION_LIMIT = 50;
 
@@ -37,6 +38,7 @@ export default function CreateNewBoard() {
             setValues({ ...values, [prop]: event.target.value });
         };
 
+    // For disarding
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -49,38 +51,50 @@ export default function CreateNewBoard() {
         setOpen(false);
     };
 
+    // For Image upload
+    const [selectedImage, setSelectedImage] = React.useState(null);
+    const [imageUrl, setImageUrl] = React.useState(null);
+
+    // // For image preview
+    // React.useEffect(() => {
+    //     if (selectedImage) {
+    //         setImageUrl(URL.createObjectURL(selectedImage)); // Doesnt seems to work rn
+    //     }
+    // }, [selectedImage]);
+
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{
+            width: "100%",
+            justifyContent: "flex-start", alignContent: "center"
+        }}>
+
             {/* Back to boards link */}
-            <Grid container spacing={1}
-                direction="column"
+            <Grid container
+                spacing={1}
+                direction="row"
                 justifyContent="flex-start"
-                alignItems="flex-start">
-                <Grid item xs={2} mt={2} ml={4}>
-                    <Link className='BackToBoardsLink' variant='body1' href="YourBoards" underline="hover">
-                        Back to boards
-                    </Link>
-                </Grid>
+                alignItems="flex-start"
+                sx={{ m: 2 }}>
+                <Link className='BackToBoardsLink' variant='body1' href="YourBoards" underline="hover">
+                    Back to boards
+                </Link>
 
                 {/* Create new board header container */}
-                <Grid container spacing={1}
-                    direction="column"
-                    justifyContent="flex-start"
-                    alignItems="flex-start">
-                    <Grid item xs={4} mt={2} ml={8}>
-                        <Typography className='CreateNewBoardHeader' variant='h4' color="secondary">
+                <Grid container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="flex-start"
+                    sx={{ width: '100%' }}>
+
+
+                    <Grid item xs={6} mt={2} direction="column"
+                        justifyContent="flex-start"
+                        alignItems="center"
+                        sx={{ width: '100%' }}>
+                        <Typography className='CreateNewBoardHeader' variant='h4' color="secondary" sx={{ fontWeight: 'bold', width: '100%' }}>
                             Create a new board!
                         </Typography>
-                    </Grid>
-                </Grid >
 
-                {/* create new board form container */}
-                <Grid container spacing={2} direction="row">
-
-                    {/* Create form */}
-                    <Grid item xs={6} mt={1} ml={8} direction="column"
-                        justifyContent="flex-start"
-                        alignItems="flex-start">
                         <Typography className='inputTitle' variant='h6' color="primary" sx={{ fontWeight: 'bold' }}>
                             Board Name
                         </Typography>
@@ -95,7 +109,7 @@ export default function CreateNewBoard() {
                                 maxlength: NAME_LIMIT
                             }}
                             helperText={`${values.name.length}/${NAME_LIMIT}`}
-                            style={{ width: 500 }}
+                            style={{ width: '100%' }}
                         />
                         <Typography className='inputTitle' variant='h6' color="primary" sx={{ fontWeight: 'bold' }}>
                             Description
@@ -113,7 +127,7 @@ export default function CreateNewBoard() {
                             }}
                             helperText={`${values.description.length}/${DESCRIPTION_LIMIT}`}
                             multiline
-                            style={{ width: 500, fontWeight: 'bold' }}
+                            style={{ width: '100%' }}
                         />
                         <Typography className='inputTitle' variant='h6' color="primary" sx={{ fontWeight: 'bold' }}>
                             Invite members
@@ -129,13 +143,13 @@ export default function CreateNewBoard() {
                             align-items="left"
                             id="emails-text"
                             helperText="Email, comma separated"
-                            style={{ width: 500 }}
+                            style={{ width: '100%' }}
                         />
 
                         {/* Save/Discard Buttons */}
-                        <Stack spacing={2} pt={2} direction="row" alignItems="center">
+                        <Stack spacing={2} direction="row" alignItems="center">
                             <Button className='DiscardButton' variant="contained"
-                                style={{ width: "250px", height: "50px", }}
+                                style={{ width: '100%', minHeight: "50px", }}
                                 onClick={handleClickOpen}>
                                 Discard </Button>
                             <Dialog
@@ -153,64 +167,72 @@ export default function CreateNewBoard() {
                                     </DialogContentText>
                                 </DialogContent>
                                 <DialogActions>
-                                    <Button autoFocus onClick={handleClose} variant="contained" style={{ width: "100px", height: "50px"}}>
+                                    <Button autoFocus onClick={handleClose} variant="contained" style={{ width: "100%", height: "50px" }}>
                                         Disagree
                                     </Button>
-                                    <Button onClick={handleClose} href="YourBoards" autoFocus variant="outlined" style={{ width: "100px", height: "50px"}}> 
+                                    <Button onClick={handleClose} href="YourBoards" autoFocus variant="outlined" style={{ width: "100%", height: "50px" }}>
                                         Agree
                                     </Button>
                                 </DialogActions>
                             </Dialog>
                             <Button className='SaveButton' variant="outlined"
-                                style={{
-                                    width: "250px",
-                                    height: "50px",
-                                }}> Create Board </Button>
+                                style={{ width: '100%', minHeight: "50px", }}> Create Board </Button>
                         </Stack>
                     </Grid>
-
                     {/* Preview */}
-                    <Grid item xs={4} direction="column"
+                    <Grid item xs={4} mt={2} direction="column"
                         justifyContent="center"
-                        alignItems="center">
+                        alignItems="flex-start"
+                        sx={{ width: '100%' }}>
 
                         {/* Profile Picture */}
-                        <Grid item xs={4} pl={8}>
-                            <img
+                        <Grid item xs={4}>
+                            <img className="profilePicture"
                                 src={defaultProfile}
-                                alt="Add A New Board"
-                                width={150}
+                            // src={imageUrl}
+                            // alt={selectedImage.name}
                             >
                             </img>
-                            <Grid item xs={4} pl={10} pb={2}>
-                                <Button
-                                    variant="text"
-                                    component="label"
-                                    size="small"
-                                >
-                                    Upload
-                                    <PhotoCamera />
-                                    <input
-                                        type="file"
-                                        hidden
-                                    />
-                                </Button>
-                            </Grid>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <input
+                                accept="image/*"
+                                type="file"
+                                id="select-image"
+                                style={{ display: 'none' }}
+                            // onChange={e => setSelectedImage(e.target.files[0])}
+                            />
+                            <Button
+                                variant="text"
+                                component="label"
+                                size="small"
+                                sx={{ fontWeight: 'bold', textAlign: 'center' }}
+                            >
+                                Upload
+                                <PhotoCamera />
 
+                            </Button>
+                        </Grid>
+
+                        <Grid item xs={4}>
                             {/* Board Preview */}
                             <img
                                 src={usedBoard}
                                 alt="Add A New Board"
-                                width={200}
                             ></img>
-                            <Typography className='inputTitle' variant='h6' color="secondary" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography className='inputTitle' variant='h6' color="secondary" sx={{ fontWeight: 'bold', textAlign: 'center' }} style={{ display: "inline-block", whiteSpace: "pre-line" }}>
                                 {values.name}
                             </Typography>
-                            <Typography className='inputTitle' variant='body1' color="primary" sx={{ textAlign: 'center' }}>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography className='inputTitle' variant='body1' color="primary" sx={{ textAlign: 'center' }} style={{ display: "inline-block", whiteSpace: "pre-line" }}>
                                 {values.description}
                             </Typography>
                         </Grid>
                     </Grid>
+
                 </Grid >
             </Grid >
         </Box >
