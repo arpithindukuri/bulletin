@@ -1,5 +1,5 @@
 // IMPORTING APIS
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -12,7 +12,11 @@ import {
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useTypedDispatch } from "../hooks/ReduxHooks";
+import { userSignedOut } from "../actions/UserActions/UserActionCreator";
+import { useTypedSelector } from "../hooks/ReduxHooks";
+import { selectUserData } from "../actions/UserActions/UserSelector";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -28,14 +32,88 @@ const useStyles = makeStyles((theme) => ({
   tabs: {
     width: "100%",
   },
+  buttonActive: {
+    borderTop: "5px solid white",
+  }
 }));
 
 const Header = () => {
+  const userData = useTypedSelector(selectUserData);
   const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useTypedDispatch();
   const classes = useStyles();
-  const [anchor, setAnchor] = useState<null | HTMLElement>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [anchor, setAnchor] = useState<null | HTMLElement>(null);
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+
+  const unauthenticatedPaths = [
+    {
+      name: "Main",
+      function: () => {
+        setAnchor(null);
+        navigate("/");
+      },
+      path: "/",
+    },
+    {
+      name: "Log In",
+      function: () => {
+        setAnchor(null);
+        navigate("/login");
+      },
+      path: "/login",
+    },
+    {
+      name: "Sign Up",
+      function: () => {
+        setAnchor(null);
+        navigate("/signup");
+      },
+      path: "/signup",
+    },
+  ];
+
+  const authenticatedPaths = [
+    {
+      name: "Boards",
+      function: () => {
+        setAnchor(null);
+        navigate("/boards");
+      },
+      path: "/boards",
+    },
+    {
+      name: "Notes",
+      function: () => {
+        setAnchor(null);
+        navigate("/notes");
+      },
+      path: "/notes"
+    },
+    {
+      name: "dashboard",
+      function: () => {
+        setAnchor(null);
+        navigate("/account-info");
+      },
+      path: "/account-info"
+    },
+    {
+      name: "logout",
+
+      function: () => {
+        setAnchor(null);
+        dispatch(userSignedOut());
+        localStorage.removeItem("root");
+        localStorage.removeItem("refresh");
+        localStorage.removeItem("access");
+        navigate("/login");
+      },
+      path: "/logout"
+    },
+  ];
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchor(event.currentTarget);
@@ -45,6 +123,16 @@ const Header = () => {
     setAnchor(null);
     navigate(link);
   };
+
+  useEffect(() => {
+    if (!userData?.id || !localStorage.getItem("refresh")) {
+      setAuthenticated(false);
+    } else {
+      setAuthenticated(true);
+    }
+  }, [userData]);
+
+  if (authenticated === null) return <div />;
 
   return (
     <AppBar position="static" className={classes.appBar}>
@@ -82,40 +170,56 @@ const Header = () => {
                 setAnchor(null);
               }}
             >
-              <MenuItem onClick={() => handleMenuButtonClick("/home")}>
-                <Typography variant="h6">Main</Typography>
-              </MenuItem>
-              <MenuItem onClick={() => handleMenuButtonClick("/login")}>
-                <Typography variant="h6">Log In</Typography>
-              </MenuItem>
-              <MenuItem onClick={() => handleMenuButtonClick("/signup")}>
-                <Typography variant="h6">Sign Up</Typography>
-              </MenuItem>
+              {authenticated ? (
+                <>
+                  {authenticatedPaths.map((item, idx) => (
+                    <MenuItem key={idx} onClick={item.function}>
+                      <Typography variant="h6">{item.name}</Typography>
+                    </MenuItem>
+                  ))}
+                </>
+              ) : (
+                <>
+                  {unauthenticatedPaths.map((item, idx) => (
+                    <MenuItem key={idx} onClick={item.function}>
+                      <Typography variant="h6">{item.name}</Typography>
+                    </MenuItem>
+                  ))}
+                </>
+              )}
             </Menu>
           </div>
         ) : (
           <div style={{ marginRight: "2rem" }}>
-            <Button
-              variant="text"
-              color="default"
-              onClick={() => navigate("/home")}
-            >
-              Main
-            </Button>
-            <Button
-              variant="text"
-              color="default"
-              onClick={() => navigate("/login")}
-            >
-              Log In
-            </Button>
-            <Button
-              variant="text"
-              color="default"
-              onClick={() => navigate("/signup")}
-            >
-              Sign Up
-            </Button>
+            {authenticated ? (
+              <>
+                {authenticatedPaths.map((item, idx) => (
+                  <Button
+                    key={idx}
+                    variant="text"
+                    color="default"
+                    onClick={item.function}
+                    className={item.path == location.pathname ? classes.buttonActive : ""}
+                  >
+                    {item.name}
+                  </Button>
+                ))}
+              </>
+            ) : (
+              <>
+                {unauthenticatedPaths.map((item, idx) => (
+                  <Button
+                    key={idx}
+                    variant="text"
+                    color="default"
+                    onClick={item.function}
+                    className={item.path == location.pathname ? classes.buttonActive : ""}
+                  >
+                    {item.name}
+                  </Button>
+                ))}
+              </>
+            )}
           </div>
         )}
       </Toolbar>
