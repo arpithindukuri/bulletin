@@ -33,7 +33,7 @@ export interface Budget {
 
 export interface Event {
   name: string;
-  date: Date;
+  date: String;
 }
 
 export interface User {
