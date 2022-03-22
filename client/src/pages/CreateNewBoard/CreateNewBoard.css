@@ -26,9 +26,19 @@
   text-align: left;
   font-weight: bolder;
   padding-top: 1.5;
+  align-self: flex-start;
 }
 
-.InputText[type="text"] {
+.text-field-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin: auto;
+}
+
+.InputText {
   /* Board Name */
 
   /* text portion */
@@ -36,6 +46,7 @@
   font-style: normal;
   font-weight: normal;
   text-align: left;
+  width: 100%;
 }
 
 .ProfileLetter{
