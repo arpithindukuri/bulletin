@@ -5,7 +5,7 @@ export interface Board {
 export interface Note {
   text: string;
   author: string;
-  attachmentURLs: string[];
+  date: string;
 }
 
 export interface List {

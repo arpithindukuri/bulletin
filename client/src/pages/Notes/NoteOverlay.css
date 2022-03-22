@@ -1,0 +1,47 @@
+.overlay {
+    position: absolute;
+    display: flex;
+    height: 95vh;
+    width: 98vw;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(83,64,41,0.2);
+    margin: 0 !important;
+    z-index: 1; 
+}
+
+.overlayBox {
+    width: 80%;
+    height: 60%;
+    background-color: white;
+    text-align: left;
+    padding-left: 5%;
+    padding-top: 2%;
+    color: #B8A590;
+}
+
+.overlayFields {
+    color: #675443;
+    padding-left: 5%;
+    padding-top: 2%;
+}
+
+.overlayFieldRow {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 50%;
+}
+
+.saveDiv {
+    display: flex;
+    justify-content: right;
+    padding-top: 5%;
+    padding-right: 10%;
+}
+
+.saveButton {
+    background-color: #AA896B;
+    color: white;
+    width: 30%;
+}

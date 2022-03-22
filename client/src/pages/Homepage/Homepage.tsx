@@ -38,8 +38,8 @@ const Homepage = () => {
             onChange={handleEmailChange}
             label={email === "" ? "Email" : ""}
             variant="outlined"
-            type="password"
-            error={errors != ""}
+            type="email"
+            error={errors !== ""}
             helperText={errors}
           />
           <Button className="email-signup-button">Sign Up Now!</Button>

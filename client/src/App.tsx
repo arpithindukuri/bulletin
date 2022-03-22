@@ -7,7 +7,9 @@ import SignUp from "./pages/SignUp/SignUp";
 import Homepage from "./pages/Homepage/Homepage";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import AccountInfo from "./pages/AccountInfo/AccountInfo";
+import Notes from "./pages/Notes/Notes";
 import Header from "./components/Header";
+
 // import Footer from "./components/Footer";
 import { store } from "./store";
 import { persistor } from "./store";
@@ -27,6 +29,7 @@ function App() {
               <Route path="/home" element={<Homepage />}></Route>
               <Route path="/account-info" element={<AccountInfo />}></Route>
               <Route path="/personalization" element={<Dashboard />}></Route>
+              <Route path="/notes" element={<Notes />}></Route>
             </Routes>
           </BrowserRouter>
         </div>
