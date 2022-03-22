@@ -2,11 +2,21 @@ import React, { useState } from "react";
 import profile from "./profile.svg";
 import "./Dashboard.scss";
 import SideDrawer from "../../components/SideDrawer";
-import { Button, Grid, makeStyles, TextField } from "@material-ui/core";
+import {
+  Button,
+  Grid,
+  makeStyles,
+  Snackbar,
+  TextField,
+} from "@material-ui/core";
 import { MuiPickersUtilsProvider, DatePicker } from "material-ui-pickers";
 import MomentUtils from "@date-io/moment";
 import { useTypedSelector } from "../../hooks/ReduxHooks";
 import { selectUserData } from "../../actions/UserActions/UserSelector";
+import axiosInstance from "../../axios";
+import { useTypedDispatch } from "../../hooks/ReduxHooks";
+import { userLoggedIn } from "../../actions/UserActions/UserActionCreator";
+import { Alert, AlertColor } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -21,11 +31,15 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
   const userData = useTypedSelector(selectUserData);
+  const dispatch = useTypedDispatch();
   const classes = useStyles();
-  const [overview, setOverview] = useState("");
+  const [overview, setOverview] = useState(userData.overview);
   const [name, setName] = useState(userData.name);
-  const [birthday, setBirthday] = useState<null | Date>(null);
+  const [birthday, setBirthday] = useState<null | Date>(userData.birthDay);
   const [email, setEmail] = useState(userData.email);
+  const [message, setMessage] = useState("");
+  const [messageOpen, setMessageOpen] = useState(false);
+  const [messageSeverity, setMessageSeverity] = useState<AlertColor>("success");
 
   const handleOverviewChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -50,7 +64,27 @@ const Dashboard = () => {
   };
 
   const handleSave = () => {
-    // call APIs
+    const newUserData = {
+      ...userData,
+      overview: overview,
+      name: name,
+      birthDay: birthday,
+    };
+    axiosInstance
+      .put("/editUser", newUserData)
+      .then(() => {
+        console.log("user data updated");
+        dispatch(userLoggedIn(newUserData));
+        setMessage("Information updated.");
+        setMessageSeverity("success");
+        setMessageOpen(true);
+      })
+      .catch((err) => {
+        console.log("error editing user data: ", err);
+        setMessage("Information update failed.");
+        setMessageSeverity("error");
+        setMessageOpen(true);
+      });
   };
 
   return (
@@ -94,22 +128,22 @@ const Dashboard = () => {
               style={{ width: "100%" }}
               spacing={2}
             >
-                <Grid className="dashboard-grid-item" xl={10} xs={10} item>
-              <p>Brief Overview</p>
-              <TextField
-                style={{ width: "100%" }}
-                className={classes.textField}
-                InputLabelProps={{ shrink: false }}
-                value={overview}
-                onChange={handleOverviewChange}
-                label={
-                  overview === ""
-                    ? "Tell everyone about yourself (max 150 characters)"
-                    : ""
-                }
-                variant="filled"
-              />
-            </Grid>
+              <Grid className="dashboard-grid-item" xl={10} xs={10} item>
+                <p>Brief Overview</p>
+                <TextField
+                  style={{ width: "100%" }}
+                  className={classes.textField}
+                  InputLabelProps={{ shrink: false }}
+                  value={overview}
+                  onChange={handleOverviewChange}
+                  label={
+                    overview === ""
+                      ? "Tell everyone about yourself (max 150 characters)"
+                      : ""
+                  }
+                  variant="filled"
+                />
+              </Grid>
               <Grid
                 xl={3}
                 lg={3}
@@ -181,6 +215,7 @@ const Dashboard = () => {
                     onChange={handleEmailChange}
                     label={email === "" ? "Email" : ""}
                     variant="filled"
+                    disabled
                   />
                 </Grid>
               </Grid>
@@ -197,6 +232,15 @@ const Dashboard = () => {
           </Button>
         </div>
       </div>
+      <Snackbar
+        open={messageOpen}
+        autoHideDuration={6000}
+        onClose={() => setMessageOpen(false)}
+      >
+        <Alert severity={messageSeverity} sx={{ width: "100%" }}>
+          {message}
+        </Alert>
+      </Snackbar>
     </>
   );
 };

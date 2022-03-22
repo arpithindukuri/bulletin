@@ -89,12 +89,17 @@ const LogIn: React.FC = () => {
       .then((res) => {
         console.log("Sign In response is: ", res);
         localStorage.setItem("refresh", res.data.refreshToken);
-        axiosInstance.get('/getUser', {params: {user_id: res.data.localId}}).then((uData) => {
-          dispatch(userLoggedIn(uData.data.user));
-          navigate("/home");
-        }).catch(userError => {
-          console.log("error while getting user info: ", userError)
-        })
+        axiosInstance
+          .get("/getUser", { params: { user_id: res.data.localId } })
+          .then((uData) => {
+            dispatch(
+              userLoggedIn({ ...uData.data.user, idToken: res.data.idToken })
+            );
+            navigate("/home");
+          })
+          .catch((userError) => {
+            console.log("error while getting user info: ", userError);
+          });
       })
       .catch((err) => {
         console.log("Failed to sign user in: ", err);
@@ -103,12 +108,7 @@ const LogIn: React.FC = () => {
 
   return (
     <div className="login-container">
-      <Grid
-        className="login"
-        direction="row"
-        container
-        spacing={2}
-      >
+      <Grid className="login" direction="row" container spacing={2}>
         <Grid
           className="login-left-container"
           justifyContent="center"
