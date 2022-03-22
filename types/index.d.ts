@@ -40,6 +40,11 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  birthDay: any;
+  alternativeEmail: string;
+  phoneNumber: string;
+  overview: string;
+  boards: Array<string>;
 }
 
 /** Number of milliseconds from UNIX Epoch */

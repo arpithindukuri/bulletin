@@ -90,6 +90,11 @@ const SignUp: React.FC = () => {
             id: res.data.localId,
             name: name,
             email: email,
+            birthDay: null,
+            alternativeEmail: "",
+            phoneNumber: "",
+            overview: "",
+            boards: [],
           })
           .then((res) => {
             console.log("user added to data base.");
@@ -133,12 +138,7 @@ const SignUp: React.FC = () => {
 
   return (
     <div className="signup-container">
-      <Grid
-        className="signup"
-        direction="row"
-        container
-        spacing={2}
-      >
+      <Grid className="signup" direction="row" container spacing={2}>
         <Grid
           className="signup-left-container"
           container

@@ -1,9 +1,22 @@
 import React, { useState } from "react";
 import profile from "./profile.svg";
-import logo from "./logo.svg";
 import "./Account.scss";
 import SideDrawer from "../../components/SideDrawer";
-import { Grid, TextField, makeStyles, Button } from "@material-ui/core";
+import {
+  Grid,
+  TextField,
+  makeStyles,
+  Button,
+  Snackbar,
+} from "@material-ui/core";
+import { changePasswordEndPoint } from "../../authEndPoints";
+import { useTypedSelector } from "../../hooks/ReduxHooks";
+import { selectUserData } from "../../actions/UserActions/UserSelector";
+import { useTypedDispatch } from "../../hooks/ReduxHooks";
+import axios from "axios";
+import axiosInstance from "../../axios";
+import { userLoggedIn } from "../../actions/UserActions/UserActionCreator";
+import { Alert, AlertColor } from "@mui/material";
 
 interface AccountEditErrors {
   password: string;
@@ -25,12 +38,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AccountInfo = () => {
+  const userData = useTypedSelector(selectUserData);
+  const dispatch = useTypedDispatch();
   const classes = useStyles();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [primaryEmail, setPrimaryEmail] = useState("");
-  const [alternativeEmail, setAlternativeEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(userData.phoneNumber);
+  const [primaryEmail, setPrimaryEmail] = useState(userData.email);
+  const [alternativeEmail, setAlternativeEmail] = useState(
+    userData.alternativeEmail
+  );
+  const [message, setMessage] = useState("");
+  const [messageOpen, setMessageOpen] = useState(false);
+  const [messageSeverity, setMessageSeverity] = useState<AlertColor>("success");
   const [errors, setErrors] = useState<AccountEditErrors>({
     password: "",
     confrimPassword: "",
@@ -70,8 +90,26 @@ const AccountInfo = () => {
   };
 
   const validateData = () => {
-    // validate data here
-    return false;
+    errors.password = "";
+    errors.confrimPassword = "";
+    errors.phoneNumber = "";
+    errors.primaryEmail = "";
+    errors.alternativeEmail = "";
+
+    let errorsExits = false;
+    if (password) {
+      if (!confirmPassword) {
+        errors.confrimPassword = "Please re-type your password";
+        errorsExits = true;
+      } else if (password != confirmPassword) {
+        errors.confrimPassword = "Passwords do not match";
+        errorsExits = true;
+      }
+    }
+
+    setErrors({ ...errors });
+
+    return !errorsExits;
   };
 
   const handleSave = () => {
@@ -79,7 +117,66 @@ const AccountInfo = () => {
       return;
     }
 
-    // make API calls to backend
+    let success = true;
+
+    if (password) {
+      axios
+        .post(
+          changePasswordEndPoint,
+          {
+            idToken: userData.idToken,
+            password: password,
+            returnSecureToken: true,
+          },
+          {
+            headers: {
+              "content-type": "application/json",
+            },
+          }
+        )
+        .then(() => {
+          console.log("passowrd updated!");
+          if (success) {
+            setMessage("Password updated.");
+            setMessageSeverity("success");
+          } else {
+            setMessage("Password update failed.");
+            setMessageSeverity("error");
+          }
+          setMessageOpen(true);
+        })
+        .catch((err) => {
+          console.log("error changing user's password: ", err);
+          success = false;
+        });
+    }
+
+    if (phoneNumber || alternativeEmail) {
+      const newUserData = {
+        ...userData,
+        alternativeEmail: alternativeEmail,
+        phoneNumber: phoneNumber,
+      };
+
+      axiosInstance
+        .put("/editUser", newUserData)
+        .then(() => {
+          console.log("user data updated");
+          dispatch(userLoggedIn(newUserData));
+          if (success) {
+            setMessage("Information updated.");
+            setMessageSeverity("success");
+          } else {
+            setMessage("Information update failed.");
+            setMessageSeverity("error");
+          }
+          setMessageOpen(true);
+        })
+        .catch((err) => {
+          console.log("error editing user data: ", err);
+          success = false;
+        });
+    }
   };
 
   return (
@@ -98,7 +195,7 @@ const AccountInfo = () => {
           >
             <div className="account-panel">
               <img src={profile} className="profile-pic"></img>
-              <h1 className="account-panel-name">John Doe</h1>
+              <h1 className="account-panel-name">{userData.name}</h1>
               <h1 className="account-panel-last-password">
                 Last Password Change: 20/01/2022
               </h1>
@@ -172,6 +269,7 @@ const AccountInfo = () => {
                 variant="filled"
                 error={errors.primaryEmail != ""}
                 helperText={errors.primaryEmail}
+                disabled
               />
             </Grid>
 
@@ -200,6 +298,15 @@ const AccountInfo = () => {
           </Grid>
         </Grid>
       </div>
+      <Snackbar
+        open={messageOpen}
+        autoHideDuration={6000}
+        onClose={() => setMessageOpen(false)}
+      >
+        <Alert severity={messageSeverity} sx={{ width: "100%" }}>
+          {message}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
