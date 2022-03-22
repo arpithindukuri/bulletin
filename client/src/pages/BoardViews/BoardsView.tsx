@@ -1,11 +1,10 @@
-import { Container, Typography } from "@mui/material";
+import { Container, Typography, Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import { Button } from "@mui/material";
 import BoardIcons from "./BoardIcons";
-import "./BoardViews.css"
+import "./BoardViews.css";
 
 export default function BoardsView() {
-
   //mock board names
   const mockBoards = [
     { id: 0, name: "" },
@@ -19,10 +18,9 @@ export default function BoardsView() {
   ];
 
   return (
-    <Container sx={{ width: "90vw" }} maxWidth={false}>
-
+    <Container sx={{ width: "100%", height: "100%" }} maxWidth={false}>
       {/* Header to filer and sort through existing boards */}
-      <Box className='boardHeaderBox'>
+      <Box className="boardHeaderBox">
         <Typography variant="subtitle1" color="primary">
           Your Boards
         </Typography>
@@ -35,30 +33,15 @@ export default function BoardsView() {
           </Button>
         </div>
       </Box>
-
-        {/* Box Displaying the first 4 boards (including new board) */}
-      <Box className='boardViewsBox'>
-        {mockBoards.slice(0, 4).map((mockBoard) => {
+      <Grid container direction="row" className="boardViewsBox" spacing={5}>
+        {mockBoards.map((mockBoard) => {
           return (
-            <Box sx={{ width: "50%" }}>
+            <Grid item xs={12} sm={6} lg={4} xl={3}>
               <BoardIcons name={mockBoard.name} id={mockBoard.id} />
-            </Box>
+            </Grid>
           );
         })}
-      </Box>
-
-        {/* Box displaying the last 4 boards */}
-      <Box
-        className='boardViewsBox'
-      >
-        {mockBoards.slice(4, 8).map((mockBoard) => {
-          return (
-            <Box sx={{ width: "50%" }}>
-              <BoardIcons name={mockBoard.name} id={mockBoard.id} />
-            </Box>
-          );
-        })}
-      </Box>
+      </Grid>
     </Container>
   );
 }

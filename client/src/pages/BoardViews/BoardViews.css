@@ -10,7 +10,5 @@
 
 .boardViewsBox{
   padding-top: 5%;
-  justify-content: space-evenly;
-  display: flex;
-  flex-direction: row;
+  width: 100%;
 }
