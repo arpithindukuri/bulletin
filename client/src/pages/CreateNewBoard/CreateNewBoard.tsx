@@ -63,7 +63,7 @@ export default function CreateNewBoard() {
           <Link
             className="BackToBoardsLink"
             variant="body1"
-            href="YourBoards"
+            href="boards"
             underline="hover"
           >
             Back to boards
@@ -82,7 +82,7 @@ export default function CreateNewBoard() {
             <Typography
               className="CreateNewBoardHeader"
               variant="h4"
-              color="secondary"
+              style={{color: "#68390D"}}
             >
               Create a new board!
             </Typography>
@@ -96,7 +96,7 @@ export default function CreateNewBoard() {
           direction="row"
           justifyContent="center"
           alignItems="center"
-          style={{marginTop: "30px"}}
+          style={{width: "100%", marginTop: "30px"}}
         >
           <Grid
             item
@@ -107,9 +107,12 @@ export default function CreateNewBoard() {
             direction="column"
             justifyContent="center"
             alignItems="center"
+            style={{width: "100%"}}
           >
-            <Grid item xs={4}>
-              <img src={defaultProfile} alt="Add A New Board" width={"200px"}></img>
+            <Grid container item justifyContent="center" alignItems="center" style={{width: "100%"}} direction="column">
+                <Grid item>
+                <img src={defaultProfile} alt="Add A New Board" width={"200px"}></img>
+                </Grid>
               <Grid item justifyContent="center" alignItems="center" style={{marginBottom: "30px"}}>
                 <Button variant="text" component="label" size="small">
                 <PhotoCamera />
@@ -119,27 +122,28 @@ export default function CreateNewBoard() {
               </Grid>
 
               {/* Board Preview */}
+              <Grid item>
               <img src={usedBoard} alt="Add A New Board" width={200}></img>
-              <Typography
+              </Grid>
+              <Grid item><Typography
                 className="inputTitle"
                 variant="h6"
                 color="secondary"
-                sx={{ fontWeight: "bold", textAlign: "center" }}
+                sx={{ fontWeight: "bold", textAlign: "center", color: "#68390D" }}
               >
                 {values.name}
-              </Typography>
-              <Typography
+              </Typography></Grid>
+              <Grid item><Typography
                 className="inputTitle"
                 variant="body1"
                 color="primary"
                 sx={{ textAlign: "center" }}
               >
                 {values.description}
-              </Typography>
+              </Typography></Grid>
             </Grid>
           </Grid>
 
-          {/*-------------------------------------------------------------------*/}
 
           <Grid
             item
