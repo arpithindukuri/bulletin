@@ -12,7 +12,7 @@
     },
     "ui": {
       "enabled": true,
-      "port": 4000
+      "port": 4052
     },
     "hosting": {
       "port": 5050
@@ -20,6 +20,9 @@
   },
   "functions": {
     "source": "functions"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec"
   },
   "hosting": {
     "public": "client/build",

@@ -5,7 +5,7 @@ export interface Board {
 export interface Note {
   text: string;
   author: string;
-  attachmentURLs: string[];
+  date: string;
 }
 
 export interface List {
@@ -33,7 +33,7 @@ export interface Budget {
 
 export interface Event {
   name: string;
-  date: Date;
+  date: String;
 }
 
 export interface User {
