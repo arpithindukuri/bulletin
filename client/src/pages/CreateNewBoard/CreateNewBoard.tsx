@@ -150,8 +150,11 @@ export default function CreateNewBoard() {
                         <Stack spacing={2} direction="row" alignItems="center">
                             <Button className='DiscardButton' variant="contained"
                                 style={{ width: '100%', minHeight: "50px", }}
+                                color="primary"
+                                sx={{ fontWeight: 'bold' }}
                                 onClick={handleClickOpen}>
-                                Discard </Button>
+                                Discard
+                            </Button>
                             <Dialog
                                 fullScreen={fullScreen}
                                 open={open}
@@ -176,7 +179,10 @@ export default function CreateNewBoard() {
                                 </DialogActions>
                             </Dialog>
                             <Button className='SaveButton' variant="outlined"
-                                style={{ width: '100%', minHeight: "50px", }}> Create Board </Button>
+                                style={{ width: '100%', minHeight: "50px", }}
+                                sx={{ border: '1px solid primary', fontWeight: 'bold', color: '#68390D' }}>
+                                Create Board
+                            </Button>
                         </Stack>
                     </Grid>
                     {/* Preview */}

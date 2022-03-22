@@ -22,9 +22,9 @@ export const theme = createTheme({
     button: {
       textTransform: 'none',
       '&:hover': {
-        backgroundColor: '#fff',
-        color: '#3c52b2',
-    },
+        backgroundColor: '#DBAE9A',
+        color: '#000000',
+      },
     },
   }
 });
