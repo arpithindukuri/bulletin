@@ -15,6 +15,7 @@ import BoardsView from "./pages/BoardViews/BoardsView";
 import ManageBoard from "./pages/ManageBoard/ManageBoard";
 import Expenses from "./pages/Expenses/Expenses";
 import SupportUs from "./pages/SupportUs/SupportUs";
+import CreateNewBoard from "./pages/CreateNewBoard/CreateNewBoard";
 import { store } from "./store";
 import { persistor } from "./store";
 import "./index.css";
@@ -26,6 +27,12 @@ const mockUserData = [
   { id: 3, name: "Logan Doe", email: "logan.doe@gmail.com", role: "Member" },
   { id: 4, name: "Aly Doe", email: "aly.doe@gmail.com", role: "Member" },
 ];
+
+// // Mock Data
+// const mockBoardData = [{name: 'Doe Family'}]
+// const mockUserData = [{id: 1, name: 'Liane Doe', email: 'liane.doe@gmail.com' , role: 'Admin'},
+// {id: 2, name: 'Dad Doe', email: 'dad.doe@gmail.com', role: 'Admin'}, {id: 3, name: 'Logan Doe', email: 'logan.doe@gmail.com',
+//  role: 'Member'} , {id: 4, name: 'Aly Doe', email: 'aly.doe@gmail.com', role: 'Member'}];
 
 function App() {
   return (
@@ -45,8 +52,15 @@ function App() {
                   <Route path="/profile" element={<Dashboard />}></Route>
                   <Route path="/support-us" element={<SupportUs />}></Route>
                   <Route path="/boards" element={<BoardsView />}></Route>
-                  <Route path="/expenses" element={<Expenses name="test" />}></Route>
-                  <Route path="/manage-board" element={<ManageBoard name="test"/>}></Route>
+                  <Route path="/create-board" element={<CreateNewBoard/>}></Route>
+                  <Route
+                    path="/expenses"
+                    element={<Expenses name="test" />}
+                  ></Route>
+                  <Route
+                    path="/manage-board"
+                    element={<ManageBoard name="test" />}
+                  ></Route>
                 </Routes>
               </AuthGuard>
             </BrowserRouter>
