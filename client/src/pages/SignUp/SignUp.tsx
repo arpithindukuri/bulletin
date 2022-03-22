@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Grid, Button, TextField } from "@material-ui/core";
 import Logo from "../../assets/logo.svg";
 import { signUpEndPoint } from "../../authEndPoints";
+import { useNavigate } from "react-router-dom";
 import "./SignUp.scss";
 
 interface SignUpErrors {
@@ -14,6 +15,7 @@ interface SignUpErrors {
 }
 
 const SignUp: React.FC = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -99,6 +101,7 @@ const SignUp: React.FC = () => {
           .then((res) => {
             console.log("user added to data base.");
             console.log("response is: ", res);
+            navigate("/login");
           })
           .catch((err) => {
             console.log("failed to add user to database", err);
@@ -185,6 +188,7 @@ const SignUp: React.FC = () => {
               <Button
                 className="signup-signup-redirect-button"
                 variant="contained"
+                onClick = {() => navigate("/login")}
               >
                 Log in
               </Button>
