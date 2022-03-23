@@ -8,6 +8,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import defaultProfile from "../../imgs/defaultProfile.png";
 import usedBoard from "../../imgs/usedBoard.png";
 import Stack from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -186,19 +187,25 @@ export default function CreateNewBoard() {
                         </Stack>
                     </Grid>
                     {/* Preview */}
-                    <Grid item xs={4} mt={2} direction="column"
-                        justifyContent="center"
-                        alignItems="flex-start"
-                        sx={{ width: '100%' }}>
-
+                    <Grid container xs={4} mt={2}
+                        direction="column"
+                        justifyContent="flex-start"
+                        alignItems="center"
+                    // sx={{ width: '100%', border: 'dashed blue 1px' }}
+                    >
                         {/* Profile Picture */}
-                        <Grid item xs={4}>
-                            <img className="profilePicture"
-                                src={defaultProfile}
-                            // src={imageUrl}
-                            // alt={selectedImage.name}
-                            >
-                            </img>
+
+                        <Grid item
+                            mt={2}
+                            xs={4}
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="center">
+                            <Avatar
+                                className="profileCircle"
+                                sx={{ background: '#f0e6db', color: '#AA896B', fontWeight: 'bold', width: ' 125px', height: '125px', fontSize: '70px' }} >
+                                {values.name.split(' ')[0][0]}
+                            </Avatar>
                         </Grid>
                         <Grid item xs={4}>
                             <input
@@ -212,11 +219,9 @@ export default function CreateNewBoard() {
                                 variant="text"
                                 component="label"
                                 size="small"
-                                sx={{ fontWeight: 'bold', textAlign: 'center' }}
-                            >
+                                sx={{ fontWeight: 'bold', textAlign: 'center' }}>
                                 Upload
                                 <PhotoCamera />
-
                             </Button>
                         </Grid>
 

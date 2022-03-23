@@ -3,6 +3,7 @@ import { theme } from "./theme/theme";
 import { ThemeProvider } from "@mui/material/styles";
 import "./App.css";
 import CreateNewBoard from "./pages/CreateNewBoard/CreateNewBoard";
+import Board from "./pages/Board/Board";
 import Header from "./components/Header";
 const url =
   process.env.NODE_ENV === "development"
@@ -43,6 +44,7 @@ function App() {
       <div className="App">
         <Header brand={brand} links={links} />
         <CreateNewBoard />
+        {/* <Board/> */}
       </div>
     </ThemeProvider >
   );
