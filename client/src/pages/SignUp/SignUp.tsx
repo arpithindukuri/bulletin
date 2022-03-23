@@ -214,6 +214,7 @@ const SignUp: React.FC = () => {
           <Grid className="signup-inner-grid-item" item>
             <p>Name</p>
             <TextField
+              id="signup-name-field"
               className="signup-text-field"
               InputLabelProps={{ shrink: false }}
               value={name}
@@ -227,6 +228,7 @@ const SignUp: React.FC = () => {
           <Grid className="signup-inner-grid-item" item>
             <p>Email</p>
             <TextField
+              id="signup-email-field"
               className="signup-text-field"
               InputLabelProps={{ shrink: false }}
               value={email}
@@ -240,6 +242,7 @@ const SignUp: React.FC = () => {
           <Grid className="signup-inner-grid-item" item>
             <p>Password</p>
             <TextField
+              id="signup-password-field"
               className="signup-text-field"
               InputLabelProps={{ shrink: false }}
               value={password}
@@ -254,6 +257,7 @@ const SignUp: React.FC = () => {
           <Grid className="signup-inner-grid-item" item>
             <p>Confrim Password</p>
             <TextField
+              id="signup-confirm-password-field"
               className="signup-text-field"
               InputLabelProps={{ shrink: false }}
               value={confirmPassword}
