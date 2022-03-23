@@ -17,13 +17,13 @@ function App() {
     []
   );
   const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
-    let title = prompt("Please enter the title of the event")?.trim();
+    let description = prompt("Date: " + selectInfo.start + "\n" +  "Please enter the description of the event")?.trim();
     let calendarApi = selectInfo.view.calendar;
     calendarApi.unselect();
-    if (title) {
+    if (description) {
       calendarApi.addEvent({
         id: createEventId(),
-        title,
+        description,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
         allDay: selectInfo.allDay
