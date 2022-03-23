@@ -3,20 +3,53 @@ import { Box } from "@mui/system";
 import { Button } from "@mui/material";
 import BoardIcons from "./BoardIcons";
 import "./BoardViews.css";
+import { selectUserData } from "../../actions/UserActions/UserSelector";
+import { useTypedSelector } from "../../hooks/ReduxHooks";
+import axiosInstance from "../../axios";
+import { useTypedDispatch } from "../../hooks/ReduxHooks";
+import { userLoggedIn } from "../../actions/UserActions/UserActionCreator";
+import { useState } from "react";
 
 export default function BoardsView() {
+  const userData = useTypedSelector(selectUserData);
+  // const [finished, setFinished] = useState(false);
+  const [currentBoards, setCurrentBoards] = useState([{
+    id: '0',
+    name: ''
+  }]);
+ 
+  
   //mock board names
-  const mockBoards = [
-    { id: 0, name: "" },
-    { id: 1, name: "Doe Family" },
-    { id: 2, name: "Smith Family" },
-    { id: 3, name: "Roomates Boards" },
-    { id: 4, name: "Friend Group" },
-    { id: 5, name: "" },
-    { id: 6, name: "" },
-    { id: 7, name: "" },
-  ];
-
+  console.log(userData.date)
+  setCurrentBoards([{
+    id: '0',
+    name: ''
+  }]);
+  userData.boards.map((boardData: any)=>{
+    let success = true;
+    axiosInstance
+    .get("./getBoard", {params: {id: boardData}})
+    .then((res) => {
+      const newBoard = {id: boardData, name: res.data.board.data.name};
+      const newCurrentBoard = [...currentBoards, newBoard]
+      setCurrentBoards(newCurrentBoard);
+      console.log(userData)
+      if (success) {
+        console.log("Information recieved Successfully")
+      } else {
+        console.log("Information cannot be recieved");
+        
+      }
+      
+    })
+    .catch((err) => {
+      console.log("error getting user boards: ", err);
+      success = false;
+    });
+    });
+    
+  // );
+  // console.log(currentBoards)
   return (
     <Container sx={{ width: "100%", height: "100%" }} maxWidth={false}>
       {/* Header to filer and sort through existing boards */}
@@ -34,9 +67,10 @@ export default function BoardsView() {
         </div>
       </Box>
       <Grid container direction="row" className="boardViewsBox" spacing={5}>
-        {mockBoards.map((mockBoard) => {
+        
+        {currentBoards.map((mockBoard) => {
           return (
-            <Grid item xs={12} sm={6} lg={4} xl={3}>
+            <Grid item key={mockBoard.id} xs={12} sm={6} lg={4} xl={3}>
               <BoardIcons name={mockBoard.name} id={mockBoard.id} />
             </Grid>
           );
