@@ -24,9 +24,16 @@ const List = () => (
     }}>
         <Button style={{
              backgroundColor: "#AA896B",
-             fontSize: "14px"
+             fontSize: "14px",
+             left: "200px"
         }}variant="contained" onClick={popUpMenu}>Sort</Button>
-        </div>
+        <Button style={{
+             backgroundColor: "#ECD1C5",
+             fontSize: "14px",
+             top: "25px"
+        }}variant="contained" onClick={popUpMenu}>+ Add another list</Button>
+        </div> 
+        
     </div>
     
   );
