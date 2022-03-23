@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Homepage from './pages/Homepage';
+import Calendar from "./pages/Calendar";
 
 const url =
   process.env.NODE_ENV === "development"
@@ -34,6 +35,7 @@ function App() {
      <Route path='/home' element={<Homepage/>}></Route>
      <Route path='/login' element={<Login/>}></Route>
      <Route path='/signup' element={<Signup/>}></Route>
+     <Route path='/calendar' element={<Calendar/>}></Route>
    </Routes>
    </BrowserRouter>
    <Footer/>
