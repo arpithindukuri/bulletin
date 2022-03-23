@@ -5,9 +5,6 @@ import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
-// REACT APP IMPORTS
-import LogIn from "../pages/Login";
-import SignUp from "../pages/Signup";
 //The local styling used here 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -80,21 +77,21 @@ const Footer = () => {
                       component={Link}
                       to="/login"
                     >
-                      <Typography variant="h6">Main</Typography>
+                      <Typography variant="h6">Connect With Us</Typography>
                     </MenuItem>
                     <MenuItem
                       onClick={() => setAnchor(null)}
                       component={Link}
                       to="/home"
                     >
-                      <Typography variant="h6">Log In</Typography>
+                      <Typography variant="h6">Office Location</Typography>
                     </MenuItem>
                     <MenuItem
                       onClick={() => setAnchor(null)}
                       component={Link}
                       to="/signup"
                     >
-                      <Typography variant="h6">Sign Up</Typography>
+                      <Typography variant="h6">Company</Typography>
                     </MenuItem>
                   </Menu>
                 </>
@@ -103,26 +100,20 @@ const Footer = () => {
                   <Button
                     variant="text"
                     color="default"
-                    component={Link}
-                    to="/home"
                   >
-                    Main
+                    Connect With Us
                   </Button>
                   <Button
                     variant="text"
                     color="default"
-                    component={Link}
-                    to="/login"
                   >
-                    Log In
+                    Office Location
                   </Button>
                   <Button
                     variant="text"
                     color="default"
-                    component={Link}
-                    to="/signup"
                   >
-                   Sign Up
+                   Company
                   </Button>
                 </div>
               )}
