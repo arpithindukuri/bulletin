@@ -147,6 +147,7 @@ export default function CreateNewBoard() {
                   setMessageSeverity("error");
                 }
                 setMessageOpen(true);
+                navigate("/boards");
                 
               })
               .catch((err) => {

@@ -52,14 +52,17 @@ function App() {
                   <Route path="/profile" element={<Dashboard />}></Route>
                   <Route path="/support-us" element={<SupportUs />}></Route>
                   <Route path="/boards" element={<BoardsView />}></Route>
-                  <Route path="/create-board" element={<CreateNewBoard/>}></Route>
                   <Route
-                    path="/expenses"
-                    element={<Expenses name="test" />}
+                    path="/create-board"
+                    element={<CreateNewBoard />}
                   ></Route>
                   <Route
-                    path="/manage-board"
-                    element={<ManageBoard name="test" />}
+                    path="/expenses/:board_id"
+                    element={<Expenses />}
+                  ></Route>
+                  <Route
+                    path="/manage-board/:board_id"
+                    element={<ManageBoard />}
                   ></Route>
                 </Routes>
               </AuthGuard>
