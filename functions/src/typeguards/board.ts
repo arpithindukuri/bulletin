@@ -9,8 +9,10 @@ export function isBoard(arg: any): arg is Board {
     obj &&
     // Check that the object's properties exist
     obj.name !== undefined &&
+    obj.description !== undefined &&
     // Check that the object's properties are of the correct type
-    typeof obj.name === "string"
+    typeof obj.name === "string" &&
+    typeof obj.description === "string"
 
   );
 }
