@@ -185,6 +185,7 @@ const LogIn: React.FC = () => {
           <Grid className="login-inner-grid-item" item>
             <p>Email</p>
             <TextField
+              id="login-username-email-field"
               className="login-text-field"
               InputLabelProps={{ shrink: false }}
               value={email}
@@ -198,6 +199,7 @@ const LogIn: React.FC = () => {
           <Grid className="login-inner-grid-item" item>
             <p>Password</p>
             <TextField
+              id="login-password-field"
               className="login-text-field"
               InputLabelProps={{ shrink: false }}
               value={password}

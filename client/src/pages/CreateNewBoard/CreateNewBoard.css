@@ -1,0 +1,88 @@
+.BackToBoardsLink {
+  /* Back to Boards */
+  cursor: pointer;
+  background-color: transparent;
+
+  text-align: left;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.CreateNewBoardHeader {
+  /* "Create a new board"*/
+  text-align: left;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bolder;
+  text-decoration-line: underline;
+  color: #68390D;
+}
+
+.inputTitle{
+  /*Text above textbox*/
+  font-family: "Roboto";
+  font-style: normal;
+  text-align: left;
+  font-weight: bolder;
+  padding-top: 1.5;
+  align-self: flex-start;
+}
+
+.text-field-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin: auto;
+}
+
+.InputText {
+  /* Board Name */
+
+  /* text portion */
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  text-align: left;
+  width: 100%;
+}
+
+.ProfileLetter{
+font-family: 'Roboto';
+font-style: normal;
+text-align: center;
+font-size: 100px;
+
+color: #AA896B;
+}
+
+.DiscardButton {
+  background: #ecd1c5;
+  border: 1px solid #534029;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+
+  opacity: 0.8;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.SaveButton {
+  background: #ecd1c5;
+  color: #ECD1C5;
+  border: 1px solid #534029;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+
+  opacity: 0.8;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.profilePicture {
+  margin-top: 150px;
+}

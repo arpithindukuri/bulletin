@@ -1,5 +1,7 @@
 import { createTheme } from '@material-ui/core/styles'
 
+//modified theme - different from Ahmed Abdullah's
+
 export const theme = createTheme({
     palette: {
         primary: {

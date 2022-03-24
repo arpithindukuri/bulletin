@@ -68,10 +68,6 @@ const listLinks = [
     path: "/personalization",
   },
   {
-    name: "Groups",
-    path: "/groups",
-  },
-  {
     name: "Support Us",
     path: "/support-us",
   },

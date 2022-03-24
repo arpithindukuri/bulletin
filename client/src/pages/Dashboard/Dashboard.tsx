@@ -111,7 +111,7 @@ const Dashboard = () => {
               <img src={profile} className="dashboard-profile-pic" />
             </Grid>
             <Grid item>
-              <h1 className="dashboard-user-info">John Doe</h1>
+              <h1 className="dashboard-user-info">{userData.name}</h1>
             </Grid>
             <Grid item>
               <h1 className="dashboard-user-info">Calgary, Alberta</h1>
