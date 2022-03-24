@@ -93,3 +93,27 @@ export const editUser = functions.https.onRequest(async (request, response) => {
     } else response.status(400).send("User Not Found");
   });
 });
+export const getUserByEmail = functions.https.onRequest(async (request, response) => {
+  // you need corsHandler to allow requests from localhost and the deployed website,
+  // so you don't get a CORS error.
+  corsHandler(request, response, async () => {
+    if (request.method !== "GET")
+      response.status(400).send("Bad method. Use GET");
+
+    const email = request.query.email;
+    if (!email) {
+      response.status(400).send("Specify a user email");
+    }
+
+    // Get User from Firestore using the Firebase Admin SDK.
+    const databaseUser = await admin
+      .firestore()
+      .collection("users")
+      .where('email', '==', email);
+    if (!databaseUser) {
+      response.status(400).send("User Not Found");
+    } else {
+      response.json({ user: (await databaseUser.get()).docs.map((doc)=>doc.data()) });
+    }
+  });
+});

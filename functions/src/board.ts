@@ -97,7 +97,7 @@ export const addBoard = functions.https.onRequest(async (request, response) => {
 
     // Send back a message that we've successfully written the message
     if (writeResult)
-      response.send(`Messageasdfg with ID: ${writeResult.id} added.`);
+      response.send(`Messageasdfg with ID: ${writeResult.id}`);
   });
 });
 export const deleteBoard = functions.https.onRequest(async (request, response) => {
