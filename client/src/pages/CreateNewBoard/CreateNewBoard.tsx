@@ -64,18 +64,19 @@ export default function CreateNewBoard() {
     // }, [selectedImage]);
 
     return (
-        <Box sx={{
-            width: "100%",
-            justifyContent: "flex-start", alignContent: "center"
-        }}>
-
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+            }}
+        >
             {/* Back to boards link */}
             <Grid container
-                spacing={1}
                 direction="row"
                 justifyContent="flex-start"
                 alignItems="flex-start"
-                sx={{ m: 2 }}>
+                sx={{ ml: 5 }}>
                 <Link className='BackToBoardsLink' variant='body1' href="YourBoards" underline="hover">
                     Back to boards
                 </Link>
@@ -246,6 +247,6 @@ export default function CreateNewBoard() {
 
                 </Grid >
             </Grid >
-        </Box >
+        </div >
     );
 }

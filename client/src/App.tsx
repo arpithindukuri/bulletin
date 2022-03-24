@@ -43,8 +43,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         <Header brand={brand} links={links} />
-        <CreateNewBoard />
-        {/* <Board/> */}
+        {/* <CreateNewBoard /> */}
+        <Board/>
       </div>
     </ThemeProvider >
   );

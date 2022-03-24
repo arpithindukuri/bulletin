@@ -1,56 +1,31 @@
-import { Container, Typography } from "@mui/material";
-// import { Box } from "@mui/system";
-// import { Button } from "@mui/material";
-// import BoardIcons from "./BoardIcons";
-// import "./BoardViews.css"
+import { Typography, Container, Box, Button } from "@mui/material";
+import Grid from '@mui/material/Grid';
 
-// export default function LoadNotes() {
 
-//   //mock board names
-//   const mockNotes = [
-//   ];
+interface Props {
+    message: string;
+    name: string;
+    id: number;
+}
+export default function BoardIcons({ message, name, id }: Props) {
 
-//   return (
-//     <Container sx={{ width: "90vw" }} maxWidth={false}>
-
-//       {/* Header to filer and sort through existing boards */}
-//       <Box className='boardHeaderBox'>
-//         <Typography variant="subtitle1" color="primary">
-//           Your Boards
-//         </Typography>
-//         <div>
-//           <Button size="small" variant="text" color="primary">
-//             Filter By
-//           </Button>
-//           <Button size="small" variant="text" color="primary">
-//             Sort
-//           </Button>
-//         </div>
-//       </Box>
-
-//         {/* Box Displaying the first 4 boards (including new board) */}
-//       <Box className='boardViewsBox'>
-//         {mockBoards.slice(0, 4).map((mockBoard) => {
-//           return (
-//             <Box sx={{ width: "50%" }}>
-//               <BoardIcons name={mockBoard.name} id={mockBoard.id} />
-//             </Box>
-//           );
-//         })}
-//       </Box>
-
-//         {/* Box displaying the last 4 boards */}
-//       <Box
-//         className='boardViewsBox'
-//       >
-//         {mockBoards.slice(4, 8).map((mockBoard) => {
-//           return (
-//             <Box sx={{ width: "50%" }}>
-//               <BoardIcons name={mockBoard.name} id={mockBoard.id} />
-//             </Box>
-//           );
-//         })}
-//       </Box>
-//     </Container>
-//   );
-// }
+    //Created Note + Name
+    return (
+        <Grid container>
+            <Box sx={{ background: '#FDFFE1', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', width: '100%'}}>
+                <Grid container direction="column">
+                    <Grid>
+                        <Typography ml={1} mr={1} mt={1} variant='body1' sx={{ fontFamily: 'Roboto', textAlign: 'center', color: 'rgba(132, 95, 0, 0.47)' }}>
+                            {message}
+                        </Typography>
+                    </Grid>
+                    <Grid container justifyContent="flex-end" alignContent="flex-end">
+                        <Typography ml={1} mr={1} mt={1} variant='body1' sx={{ fontFamily: 'Roboto', textAlign: 'center', color: 'rgba(132, 95, 0, 0.47)' }}>
+                            {name}
+                        </Typography>
+                    </Grid>
+                </Grid>
+            </Box>
+        </Grid>
+    );
+}
