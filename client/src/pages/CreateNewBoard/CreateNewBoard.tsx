@@ -5,8 +5,8 @@ import "./CreateNewBoard.css";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import defaultProfile from "../../imgs/defaultProfile.png";
-import usedBoard from "../../imgs/usedBoard.png";
+import defaultProfile from "../../assets/defaultProfile.png";
+import usedBoard from "../../assets/usedBoard.png";
 import {Snackbar, useForkRef} from "@material-ui/core";
 import { Alert, AlertColor } from "@mui/material";
 import { selectUserData } from "../../actions/UserActions/UserSelector";
@@ -121,7 +121,7 @@ export default function CreateNewBoard() {
     axiosInstance
           .post("/addBoard", {
             name: values.name,
-            describtion: values.description,
+            description: values.description,
             users: usersID
           })
           .then((res) => {
@@ -147,6 +147,7 @@ export default function CreateNewBoard() {
                   setMessageSeverity("error");
                 }
                 setMessageOpen(true);
+                navigate("/boards");
                 
               })
               .catch((err) => {

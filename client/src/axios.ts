@@ -8,7 +8,7 @@ interface ExtendedHeaderDefaults extends HeadersDefaults {
 
 
 const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_BASE_API_URL,
+  baseURL: "http://localhost:5001/bulletin-be82d/us-central1",
   timeout: 5000,
   headers: {
     "Content-Type": "application/json",
@@ -23,8 +23,8 @@ axiosInstance.interceptors.response.use(
     const failedRequest = error.config;
 
     if (
-      error.response.status === 401 &&
-      error.response.statusText === "Unauthorized"
+      error.response?.status === 401 &&
+      error.response?.statusText === "Unauthorized"
     ) {
       const refreshToken = localStorage.getItem("refresh");
 

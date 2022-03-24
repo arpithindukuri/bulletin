@@ -55,6 +55,9 @@ const SignUp: React.FC = () => {
     if (!password) {
       errors.password = "Please enter your password.";
       errorsExits = true;
+    } else if (password.length < 7) {
+      errors.password = "Password must be at least 7 characters";
+      errorsExits = true;
     }
 
     if (!confirmPassword) {
@@ -188,7 +191,7 @@ const SignUp: React.FC = () => {
               <Button
                 className="signup-signup-redirect-button"
                 variant="contained"
-                onClick = {() => navigate("/login")}
+                onClick={() => navigate("/login")}
               >
                 Log in
               </Button>

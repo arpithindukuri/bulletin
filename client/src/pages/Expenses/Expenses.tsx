@@ -1,20 +1,19 @@
-import { Container, Typography, Box, Button, TextField, Select, MenuItem } from "@mui/material";
-import { render } from "@testing-library/react";
 import React from "react";
+import {
+  Container,
+  Typography,
+  Box,
+  Button,
+  TextField,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import "./Expenses.css";
 import ExpensesRow from "./ExpensesRow";
-import ExpensesOverlay from "./ExpensesOverlay"
-
-interface Props {
-  name: string;
-}
-
-var newExpense = false;
-
-const addNewExpense =()=> {
-    newExpense = true;
-}
+import ExpensesOverlay from "./ExpensesOverlay";
+import { useParams } from "react-router-dom";
+import axiosInstance from "../../axios";
 
 const mockMemberInfo = [
   { id: 1, name: "Liane Doe", email: "liane.doe@gmail.com", role: "Admin" },
@@ -23,179 +22,174 @@ const mockMemberInfo = [
   { id: 4, name: "Aly Doe", email: "aly.doe@gmail.com", role: "Member" },
 ];
 
-export default function Expenses({ name }: Props) {
-  const mockExpenses = [
-    {
-      id: 1,
-      name: "Rent",
-      date: "01/03/22",
-      assigned: "Liane Doe",
-      balance: 2000.00,
-    },
-    {
-      id: 2,
-      name: "Water Bill",
-      date: "09/03/22",
-      assigned: "Dad Doe",
-      balance: 80.00,
-    },
-    {
-      id: 3,
-      name: "Electric Bill",
-      date: "12/03/22",
-      assigned: "Dad Doe",
-      balance: 200.00,
-    },
-    {
-      id: 4,
-      name: "Internet Bill",
-      date: "20/03/22",
-      assigned: "Dad Doe",
-      balance: 80.00,
-    },
-    {
-      id: 5,
-      name: "Car Insurance",
-      date: "12/03/22",
-      assigned: "Aly Doe",
-      balance: 150.00,
-    },
-  ];
+const mockExpenses = [
+  {
+    id: 1,
+    name: "Rent",
+    date: "01/03/22",
+    assigned: "Liane Doe",
+    balance: 2000.0,
+  },
+  {
+    id: 2,
+    name: "Water Bill",
+    date: "09/03/22",
+    assigned: "Dad Doe",
+    balance: 80.0,
+  },
+  {
+    id: 3,
+    name: "Electric Bill",
+    date: "12/03/22",
+    assigned: "Dad Doe",
+    balance: 200.0,
+  },
+  {
+    id: 4,
+    name: "Internet Bill",
+    date: "20/03/22",
+    assigned: "Dad Doe",
+    balance: 80.0,
+  },
+  {
+    id: 5,
+    name: "Car Insurance",
+    date: "12/03/22",
+    assigned: "Aly Doe",
+    balance: 150.0,
+  },
+];
 
-  const mockBudgets = [
-    {
-      id: 1,
-      name: "Groceries",
-      date: "07/03/22",
-      assigned: "Dad Doe",
-      balance: 300.00,
-    },
-    {
-      id: 2,
-      name: "Vacation",
-      date: "20/08/22",
-      assigned: "Dad Doe",
-      balance: 2500.00,
-    },
-    {
-      id: 3,
-      name: "Vacation",
-      date: "20/08/22",
-      assigned: "Liane Doe",
-      balance: 2500.00,
-    },
-  ];
+const mockBudgets = [
+  {
+    id: 1,
+    name: "Groceries",
+    date: "07/03/22",
+    assigned: "Dad Doe",
+    balance: 300.0,
+  },
+  {
+    id: 2,
+    name: "Vacation",
+    date: "20/08/22",
+    assigned: "Dad Doe",
+    balance: 2500.0,
+  },
+  {
+    id: 3,
+    name: "Vacation",
+    date: "20/08/22",
+    assigned: "Liane Doe",
+    balance: 2500.0,
+  },
+];
 
+export default function Expenses() {
+  const params = useParams();
+  const [boardName, setBoardName] = useState();
   const [expensesTotal, setExpensesTotal] = useState(0);
   const [budgetTotal, setBudgetTotal] = useState(0);
+  const [popupState, setPopupState] = useState(false);
+  const [popupHeader, setPopupHeader] = useState("New Expense");
+  const [popupType, setPopupType] = useState("Expense");
+  const [popupName, setPopupName] = useState("Add Expense Name...");
+  const [popupDateType, setPopupDateType] = useState("Due");
+  const [popupBalance, setPopupBalance] = useState("$0.00");
+  const [popupAssignee, setPopupAssignee] = useState("Assign To...");
 
   useEffect(() => {
-    mockExpenses.map((expenses)=>{
-      setExpensesTotal( (expensesTotal) => expensesTotal + expenses.balance);
-    })
-   }, []);
-    
-   useEffect(() => {
-    mockBudgets.map((budget)=>{
-      setBudgetTotal( (budgetTotal) => budgetTotal + budget.balance);
-    })
-   }, []);
+    mockExpenses.map((expenses) => {
+      setExpensesTotal((expensesTotal) => expensesTotal + expenses.balance);
+    });
 
-   const [popupState, setPopupState] = useState(false);
-   const [popupHeader, setPopupHeader] = useState("New Expense")
-   const [popupType, setPopupType] = useState("Expense")
-   const [popupName, setPopupName] = useState("Add Expense Name...")
-   const [popupDateType, setPopupDateType] = useState("Due")
-   const [popupBalance, setPopupBalance] = useState("$0.00")
-   const [popupAssignee, setPopupAssignee] = useState("Assign To...")
+    mockBudgets.map((budget) => {
+      setBudgetTotal((budgetTotal) => budgetTotal + budget.balance);
+    });
+  }, []);
 
-   const newExpensePopup=()=>{
-     setPopupState(true);
-     setPopupHeader("New Expense");
-     setPopupType("Expense");
-     setPopupName("Add Expense Name...")
-     setPopupDateType("Due");
-     setPopupBalance("$0.00");
-     setPopupAssignee("Assign To...")
-   }
+  useEffect(() => {
+    axiosInstance
+      .get("/getBoard", { params: { id: params.board_id } })
+      .then((res) => {
+        setBoardName(res.data.board.data.name);
+        console.log("Information recieved Successfully");
+      })
+      .catch((err) => {
+        console.log("error getting user boards: ", err);
+      });
+  }, [params.board_id]);
 
-   const newBudgetPopup=()=>{
+  const newExpensePopup = () => {
     setPopupState(true);
-    setPopupHeader("New Budget")
+    setPopupHeader("New Expense");
+    setPopupType("Expense");
+    setPopupName("Add Expense Name...");
+    setPopupDateType("Due");
+    setPopupBalance("$0.00");
+    setPopupAssignee("Assign To...");
+  };
+
+  const newBudgetPopup = () => {
+    setPopupState(true);
+    setPopupHeader("New Budget");
     setPopupType("Budget");
-    setPopupName("Add Budget Name...")
+    setPopupName("Add Budget Name...");
     setPopupDateType("End");
     setPopupBalance("$0.00");
-    setPopupAssignee("Assign To...")
-  }
-   
+    setPopupAssignee("Assign To...");
+  };
+
   return (
     <Container>
-
       {popupState ? (
         <div className="overlay">
-        <div className="overlayBox">
+          <div className="overlayBox">
             <div className="overlayHeader">
-            <Typography variant="h3">
-                {popupHeader}
-            </Typography>
+              <Typography variant="h3">{popupHeader}</Typography>
 
-            <Button onClick={()=>setPopupState(false)}>
-              <Typography variant="h5">
-                X
-              </Typography>
-              
-            </Button>
+              <Button onClick={() => setPopupState(false)}>
+                <Typography variant="h5">X</Typography>
+              </Button>
             </div>
 
             <div className="overlayFields">
-                <div className="overlayFieldRow">
-                    <Typography variant="h6">
-                        {popupType} Name
-                    </Typography>
-                    <TextField variant='standard' defaultValue={popupName}/>
-                </div>
+              <div className="overlayFieldRow">
+                <Typography variant="h6">{popupType} Name</Typography>
+                <TextField variant="standard" defaultValue={popupName} />
+              </div>
 
-                <div className="overlayFieldRow">
-                    <Typography variant="h6">
-                        {popupDateType} Date
-                    </Typography>
-                    <TextField variant='standard' defaultValue={"Add Date..."} />
-                </div>
-                <div className="overlayFieldRow">
-                    <Typography variant="h6">
-                        Assigned To
-                    </Typography>
-                    <Select
-
-                    sx={{width: "32%"}}>
-                    {
-                        mockMemberInfo.map((members)=> {
-                          return (
-                          <MenuItem key={members.id} value={members.name}>{members.name}</MenuItem>
-                          )
-                        })
-                      }
-                        
-                    </Select>
-                </div>
-                <div className="overlayFieldRow">
-                    <Typography variant="h6">
-                        Balance
-                    </Typography>
-                    <TextField variant="standard" defaultValue={popupBalance}/>
-                </div>
-                <div className="saveDiv">
-                    <Button className="saveButton" onClick={()=>setPopupState(false)}>
-                        Save {popupType}
-                    </Button>
-                </div>
+              <div className="overlayFieldRow">
+                <Typography variant="h6">{popupDateType} Date</Typography>
+                <TextField variant="standard" defaultValue={"Add Date..."} />
+              </div>
+              <div className="overlayFieldRow">
+                <Typography variant="h6">Assigned To</Typography>
+                <Select sx={{ width: "32%" }}>
+                  {mockMemberInfo.map((members) => {
+                    return (
+                      <MenuItem key={members.id} value={members.name}>
+                        {members.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </div>
+              <div className="overlayFieldRow">
+                <Typography variant="h6">Balance</Typography>
+                <TextField variant="standard" defaultValue={popupBalance} />
+              </div>
+              <div className="saveDiv">
+                <Button
+                  className="saveButton"
+                  onClick={() => setPopupState(false)}
+                >
+                  Save {popupType}
+                </Button>
+              </div>
             </div>
-
+          </div>
         </div>
-    </div>
-      )
-       : null}
+      ) : null}
 
       <a href="/">
         <Typography
@@ -204,7 +198,7 @@ export default function Expenses({ name }: Props) {
           align="left"
           sx={{ pt: "1vh" }}
         >
-          Back to {name} Board - Main
+          Back to {boardName} Board - Main
         </Typography>
       </a>
 
@@ -213,7 +207,11 @@ export default function Expenses({ name }: Props) {
       </Typography>
 
       <Box>
-        <Typography className="expensesSubtitles" fontWeight={"bold"} variant="h6">
+        <Typography
+          className="expensesSubtitles"
+          fontWeight={"bold"}
+          variant="h6"
+        >
           Bills & Expenses
         </Typography>
 
@@ -247,24 +245,29 @@ export default function Expenses({ name }: Props) {
               </Box>
             );
           })}
-          <Box className="expensesTableRow tableCellsFormatting addNewBox"  >
-            <Button variant="text" fullWidth={true} onClick={()=>newExpensePopup()}>
-              <Typography>
-                + Add New Expense
-              </Typography>
+          <Box className="expensesTableRow tableCellsFormatting addNewBox">
+            <Button
+              variant="text"
+              fullWidth={true}
+              onClick={() => newExpensePopup()}
+            >
+              <Typography>+ Add New Expense</Typography>
             </Button>
           </Box>
           <Box className="expensesTableRow calculateTotal">
             <Typography variant="h5">
               Total: ${expensesTotal.toFixed(2)}
-            </Typography> 
+            </Typography>
           </Box>
         </Box>
       </Box>
 
-
       <Box>
-        <Typography className="expensesSubtitles" fontWeight={"bold"} variant="h6">
+        <Typography
+          className="expensesSubtitles"
+          fontWeight={"bold"}
+          variant="h6"
+        >
           Budgets
         </Typography>
 
@@ -298,23 +301,22 @@ export default function Expenses({ name }: Props) {
               </Box>
             );
           })}
-          <Box className="expensesTableRow tableCellsFormatting addNewBox"  >
-            <Button variant="text" fullWidth={true} onClick={()=>newBudgetPopup()}>
-              <Typography>
-                + Add New Budget
-              </Typography>
+          <Box className="expensesTableRow tableCellsFormatting addNewBox">
+            <Button
+              variant="text"
+              fullWidth={true}
+              onClick={() => newBudgetPopup()}
+            >
+              <Typography>+ Add New Budget</Typography>
             </Button>
           </Box>
           <Box className="expensesTableRow calculateTotal">
             <Typography variant="h5">
               Total: ${budgetTotal.toFixed(2)}
-            </Typography> 
+            </Typography>
           </Box>
         </Box>
       </Box>
-
-        
-
     </Container>
   );
 }
