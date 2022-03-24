@@ -14,6 +14,7 @@ import AuthGuard from "./AuthGuard";
 import BoardsView from "./pages/BoardViews/BoardsView";
 import ManageBoard from "./pages/ManageBoard/ManageBoard";
 import Expenses from "./pages/Expenses/Expenses";
+import Notes from "./pages/Notes/Notes"
 import SupportUs from "./pages/SupportUs/SupportUs";
 import CreateNewBoard from "./pages/CreateNewBoard/CreateNewBoard";
 import { store } from "./store";
@@ -36,6 +37,7 @@ const mockUserData = [
 
 function App() {
   return (
+
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider theme={theme}>
@@ -68,6 +70,7 @@ function App() {
         </ThemeProvider>
       </PersistGate>
     </Provider>
+
   );
 }
 
