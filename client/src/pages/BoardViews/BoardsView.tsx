@@ -8,11 +8,11 @@ import { useTypedSelector } from "../../hooks/ReduxHooks";
 import axiosInstance from "../../axios";
 import { useTypedDispatch } from "../../hooks/ReduxHooks";
 import { userLoggedIn } from "../../actions/UserActions/UserActionCreator";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function BoardsView() {
   const userData = useTypedSelector(selectUserData);
-  // const [finished, setFinished] = useState(false);
+  
   const [currentBoards, setCurrentBoards] = useState([{
     id: '0',
     name: ''
@@ -20,33 +20,33 @@ export default function BoardsView() {
  
   
   //mock board names
-  console.log(userData.date)
-  setCurrentBoards([{
-    id: '0',
-    name: ''
-  }]);
-  userData.boards.map((boardData: any)=>{
-    let success = true;
-    axiosInstance
-    .get("./getBoard", {params: {id: boardData}})
-    .then((res) => {
-      const newBoard = {id: boardData, name: res.data.board.data.name};
-      const newCurrentBoard = [...currentBoards, newBoard]
-      setCurrentBoards(newCurrentBoard);
-      console.log(userData)
-      if (success) {
-        console.log("Information recieved Successfully")
-      } else {
-        console.log("Information cannot be recieved");
+  console.log(userData);
+  useEffect(()=>{
+    userData.boards.map((boardData: any)=>{
+      let success = true;
+      axiosInstance
+      .get("/getBoard", {params: {id: boardData}})
+      .then((res) => {
+        const newBoard = {id: boardData, name: res.data.board.data.name};
+        const newCurrentBoard = [...currentBoards, newBoard]
+        setCurrentBoards(newCurrentBoard);
+        console.log(userData)
+        if (success) {
+          console.log("Information recieved Successfully")
+        } else {
+          console.log("Information cannot be recieved");
+          
+        }
         
-      }
-      
-    })
-    .catch((err) => {
-      console.log("error getting user boards: ", err);
-      success = false;
-    });
-    });
+      })
+      .catch((err) => {
+        console.log("error getting user boards: ", err);
+        success = false;
+      });
+      });
+  }, []
+  );
+  
     
   // );
   // console.log(currentBoards)
