@@ -10,11 +10,6 @@ a {
 
 }
 
-.notesSubtitles {
-    text-align: left;
-    color:#68390D;
-    padding-top: 20px;
-}
 
 .notesTable {
     display: flex;
@@ -30,7 +25,7 @@ a {
     justify-content: space-evenly;
     margin-bottom: 10px;
     align-items: center;
-    height: 35px;    
+    height: 50px;    
     color: #68390D;
 }
 
@@ -47,6 +42,20 @@ a {
     width: 20%;
 }
 
+.noteNameCell{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 2%;
+    padding-right: 2%;
+    overflow: hidden; 
+    /* fix overflow  */
+}
+
+.addNewBox {
+    text-align: left;
+    width: 90%;
+}
 
 .overlay {
     position: absolute;
@@ -66,8 +75,10 @@ a {
     background-color: white;
     text-align: left;
     padding-left: 5%;
+    padding-right: 5%;
     padding-top: 2%;
-    color: #B8A590;
+    color: #68390D;
+
     border: 1px solid black;
 }
 
@@ -90,22 +101,46 @@ a {
     align-items: center;
 }
 
+.openButton{
+    outline: 1px solid #68390D;
+    color: #AA896B;
+}
+
+.tagBox {
+    background-color: #ECD1C5;
+    border-radius: 15%;
+    justify-content: space-evenly;
+    padding-right: 3px;
+    padding-left: 3px;
+}
+
+.noteHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.noteContent {
+    padding-top: 20px;
+}
+
+.noteContent textarea {
+    height: 300px;
+    width: 100%;
+    min-height: 100%;
+}
+
 .saveDiv {
     display: flex;
     justify-content: right;
-    padding-top: 5%;
-    padding-right: 10%;
+    padding-right: 10px;
+    padding-top: 10px;
+
 }
 
 .saveButton {
     background-color: #AA896B !important;
     color: white !important;
     width: 30%;
-}
-.tableHeader{
-    text-align: center;
-}
-.openButton{
-    outline: 1px solid #68390D;
-    color: #AA896B;
 }
