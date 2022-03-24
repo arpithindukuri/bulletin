@@ -13,16 +13,15 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 700,
+    height: '100%',
+    overflow:'scroll',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
   };
 
-const popUpMenu = () =>{
-    window.open("/addevent","","toolbar=no,status=no,menubar=no,location=center,scrollbars=no,resizable=no,height=500,width=657");
- }
  export default function Calendar () {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
