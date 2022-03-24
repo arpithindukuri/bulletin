@@ -1,7 +1,7 @@
 import { Typography, Button } from "@mui/material";
 import React from "react";
 import MockAccountSidebar from "../../components/MockAccountSidebar";
-import paymentMethods from "../../imgs/paymentMethods.png";
+import paymentMethods from "../../assets/paymentMethods.png";
 import SideDrawer from "../../components/SideDrawer";
 import "./SupportUs.css";
 

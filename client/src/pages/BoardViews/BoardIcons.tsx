@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
-import usedBoard from "../../imgs/usedBoard.png";
-import newBoard from "../../imgs/newBoard.png";
+import usedBoard from "../../assets/usedBoard.png";
+import newBoard from "../../assets/newBoard.png";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import './BoardIcons.css';

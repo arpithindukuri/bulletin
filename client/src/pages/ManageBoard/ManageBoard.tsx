@@ -2,7 +2,7 @@ import { Typography, Container, Box, Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import MemberPermissions from "./MemberPermissions";
 import MemberStatus from "./MemberStatus";
-import avatar from "../../imgs/avatar.jpg";
+import avatar from "../../assets/avatar.jpg";
 import "./ManageBoard.css";
 
 interface Props {
