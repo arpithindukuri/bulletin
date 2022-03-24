@@ -9,6 +9,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Homepage from './pages/Homepage';
 import Calendar from "./pages/Calendar";
 import List from "./pages/List";
+import AddEvent from "./pages/AddEvent";
+
 
 const url =
   process.env.NODE_ENV === "development"
@@ -38,6 +40,7 @@ function App() {
      <Route path='/signup' element={<Signup/>}></Route>
      <Route path='/calendar' element={<Calendar/>}></Route>
      <Route path='/list' element={<List/>}></Route>
+     <Route path='/addevent' element={<AddEvent/>}></Route>
    </Routes>
    </BrowserRouter>
    <Footer/>

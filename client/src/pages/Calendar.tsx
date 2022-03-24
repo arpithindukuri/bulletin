@@ -1,10 +1,11 @@
 import React from 'react';
 import StyledMenu from "../components/StyledMenu";
 import ShowCalendar from "../components/ShowCalendar";
-import Button from '@mui/material/Button';
+import { Modal, Typography, Box, Button} from "@mui/material";
 import "./Calendar.css";
-function popUpMenu(){
-    alert('The menu should pop up');
+
+const popUpMenu = () =>{
+    window.open("/addevent","","toolbar=no,status=no,menubar=no,location=center,scrollbars=no,resizable=no,height=500,width=657");
  }
 const Calendar = () => (
     <div>
@@ -26,7 +27,7 @@ const Calendar = () => (
         <Button style={{
              backgroundColor: "#AA896B",
              fontSize: "14px"
-        }}variant="contained" onClick={popUpMenu}>+ Add</Button>
+        }}variant="contained" onClick={()=>popUpMenu()}>+ Add Event</Button>
         </div>
         <ShowCalendar/>
     </div>

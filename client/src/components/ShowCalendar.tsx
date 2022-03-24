@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useCallback, useState } from "react";
 import FullCalendar, {
   DateSelectArg,
@@ -17,6 +18,7 @@ function App() {
     []
   );
   const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
+    
     let description = prompt("Date: " + selectInfo.start + "\n" +  "Please enter the description of the event")?.trim();
     let calendarApi = selectInfo.view.calendar;
     calendarApi.unselect();
