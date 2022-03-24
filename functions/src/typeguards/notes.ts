@@ -8,12 +8,14 @@ export function isNote(arg: any): arg is Note {
     // Check that the note exists
     obj &&
     // Check that the note's fields are defined
-    obj.text !== undefined &&
-    obj.author !== undefined &&
+    obj.name !== undefined &&
+    obj.content !== undefined &&
+    obj.tags !== undefined &&
     obj.date !== undefined &&
     // Check each note has the correct type
-    typeof obj.text === "string" &&
-    typeof obj.author === "string" &&
-    typeof obj.date === "string"
+    typeof obj.name === "string" &&
+    typeof obj.content === "string" &&
+    typeof obj.date === "string" &&
+    obj.tags.every((tag) => typeof tag === "string")
   );
 }

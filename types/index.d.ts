@@ -1,11 +1,13 @@
 export interface Board {
   name: string;
+  description: String;
 }
 
 export interface Note {
-  text: string;
-  author: string;
+  name: string;
   date: string;
+  tags: string [];
+  content: string;
 }
 
 export interface List {
