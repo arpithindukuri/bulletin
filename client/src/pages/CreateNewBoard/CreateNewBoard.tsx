@@ -121,7 +121,7 @@ export default function CreateNewBoard() {
     axiosInstance
           .post("/addBoard", {
             name: values.name,
-            describtion: values.description,
+            description: values.description,
             users: usersID
           })
           .then((res) => {
