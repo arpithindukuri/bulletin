@@ -1,8 +1,8 @@
 import { Typography } from "@mui/material";
 import usedBoard from "../../imgs/usedBoard.png";
 import newBoard from "../../imgs/newBoard.png";
-import emptyBoard from "../../imgs/emptyBoard.png";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import './BoardIcons.css';
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
 
 // Board Images + Names (maximum of 8??)
 export default function BoardIcons({ name, id }: Props) {
+  const navigate = useNavigate();
   //Create New Board
   if (id === 0) {
     return (
@@ -24,6 +25,7 @@ export default function BoardIcons({ name, id }: Props) {
             maxWidth: "10vw",
             "&:hover": { backgroundColor: "transparent" },
           }}
+          onClick={() => navigate("/create-board")}
         >
           <img
             style={{ boxShadow: "1px 5px 8px rgba(165, 165, 165)" }}
