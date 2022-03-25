@@ -60,14 +60,14 @@ export const getNote = functions.https.onRequest(async (request, response) => {
  * Take the note object send in the request body and insert it into Firestore
  * under the path /notes/writeResult.id
  */
-export const addNote = functions.https.onRequest(async (request, response) => {
+ export const addNote = functions.https.onRequest(async (request, response) => {
   // you need corsHandler to allow requests from localhost and the deployed website,
   corsHandler(request, response, async () => {
     // Check HTTP method
     if (request.method !== "POST")
       response.status(400).send("Bad method. Use POST");
 
-      var board_id = request.query.id
+      const board_id = request.query.id
       if(!board_id){
         response.status(400).send("Specify an id");
       }
