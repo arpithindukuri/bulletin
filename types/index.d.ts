@@ -47,6 +47,7 @@ export interface User {
   phoneNumber: string;
   overview: string;
   boards: Array<string>;
+  idToken: string;
 }
 
 /** Number of milliseconds from UNIX Epoch */
