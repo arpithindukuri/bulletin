@@ -85,14 +85,6 @@ const Header = () => {
       path: "/boards",
     },
     {
-      name: "Notes",
-      function: () => {
-        setAnchor(null);
-        navigate("/notes");
-      },
-      path: "/notes"
-    },
-    {
       name: "dashboard",
       function: () => {
         setAnchor(null);

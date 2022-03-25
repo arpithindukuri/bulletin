@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, Container, Box, Button } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import "./CreateNewBoard.css";
 import Grid from "@mui/material/Grid";
@@ -20,6 +20,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import { refreshUserStore } from "../../utils/RefreshUserStore";
 
 import axiosInstance from "../../axios";
 import { useNavigate } from "react-router-dom";
@@ -132,13 +133,12 @@ export default function CreateNewBoard() {
               const newBoard = res.data.substring(22)
               console.log(res.data.substring(22));
               console.log(userData);
-              const Boards = userData.boards;
+              const Boards = [...userData.boards];
               Boards.push(newBoard);
-              const newUserData = {...userData, boards: Boards}
+              const newUserData = {...userData, boards: [...Boards]}
               axiosInstance
               .put("./editUser", newUserData)
               .then(() => {
-                console.log("board Added for User");
                 dispatch(userLoggedIn(newUserData));
                 if (success) {
                   setMessageSeverity("success");

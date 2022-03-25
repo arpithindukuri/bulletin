@@ -15,6 +15,7 @@ export function isUser(arg: any): arg is User {
     obj.phoneNumber !== undefined &&
     obj.overview !== undefined &&
     obj.boards !== undefined &&
+    obj.idToken !== undefined &&
     // Check each user has the correct type
     typeof obj.id === "string" &&
     typeof obj.name === "string" &&
@@ -22,6 +23,7 @@ export function isUser(arg: any): arg is User {
     typeof obj.alternativeEmail == "string" &&
     typeof obj.phoneNumber == "string" &&
     typeof obj.overview == "string" &&
+    typeof obj.idToken == "string" &&
     Array.isArray(obj.boards)
   );
 }

@@ -100,6 +100,7 @@ const SignUp: React.FC = () => {
             phoneNumber: "",
             overview: "",
             boards: [],
+            idToken: res.data.idToken,
           })
           .then((res) => {
             console.log("user added to data base.");
