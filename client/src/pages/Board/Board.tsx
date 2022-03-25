@@ -170,7 +170,8 @@ export default function Board() {
                                             direction='row'>
                                             {mockNotes.map((mockNotes) => {
                                                 return (
-                                                    <Grid item xs={6} sm={6} mr={1} mt={1} >
+                                                    // <Grid item xs={6} sm={6} mr={1} mt={1} >
+                                                    <Grid item mr={1} mt={1}>
                                                         <LoadNote message={mockNotes.message} name={mockNotes.name} id={mockNotes.id} />
                                                     </Grid>
                                                 );
@@ -185,13 +186,19 @@ export default function Board() {
                                         xs={5}
                                         direction='column'>
                                         <Box mt={1} className='ListBox'>
-                                            <Typography variant='body1' sx={{ textAlign: 'left' }} style={{ display: "inline-block", whiteSpace: "pre-line" }}>
-                                                List Here
+                                            <Link className='ListFont' m={1} variant='body1' sx={{ textAlign: 'left', fontWeight: "bold" }}>
+                                                List
+                                            </Link>
+                                            <Typography className='ListFont' m={1} variant='body1' sx={{ textAlign: 'left' }}>
+                                                List link Here
                                             </Typography>
                                         </Box>
                                         <Box mt={1} mb={1} className='ExpenseBox'>
-                                            <Typography variant='body1' sx={{ textAlign: 'left' }} style={{ display: "inline-block", whiteSpace: "pre-line" }}>
-                                                Expense here
+                                            <Link className="ExpenseFont" m={1} variant='body1' sx={{ textAlign: 'left', fontWeight: "bold" }} >
+                                                Expense
+                                            </Link>
+                                            <Typography className="ExpenseFont" m={1} variant='body1' sx={{ textAlign: 'left' }} >
+                                                Expense link here
                                             </Typography>
                                         </Box>
                                     </Grid>
@@ -200,9 +207,13 @@ export default function Board() {
                                     className="personalNotesContainer"
                                     container
                                     direction='column'>
-                                    <Typography variant='body1' sx={{ textAlign: 'left' }} style={{ display: "inline-block", whiteSpace: "pre-line" }}>
-                                        Personal Notes Here
-                                    </Typography>
+                                    <Box mt={1} mb={1} className='PersonalNoteBox'>
+                                        <Grid container >
+                                            <Typography className="PersonalNoteFont" variant='body1' sx={{ textAlign: 'left' }} style={{ display: "inline-block", whiteSpace: "pre-line" }}>
+                                                Personal Notes Here
+                                            </Typography>
+                                        </Grid>
+                                    </Box>
                                 </Grid>
                             </Grid>
                             <Grid
