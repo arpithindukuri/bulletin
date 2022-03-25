@@ -1,0 +1,24 @@
+p {
+    color: #3E1E00
+  }
+  
+.button {
+    background-color: #AA896B; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px; 
+}
+
+.listTitle {
+    color: #68390D;
+}
+
+.taskName {
+    color: #68390D;
+    background-color: white;
+    text-align: center;
+}
