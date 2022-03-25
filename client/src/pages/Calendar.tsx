@@ -6,6 +6,12 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from "@material-ui/core/TextField";
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select, {SelectChangeEvent } from '@mui/material/Select';
+
 import "./Calendar.css";
 
 const style = {
@@ -14,7 +20,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 700,
-    height: '100%',
+    height: 500,
     overflow:'scroll',
     bgcolor: 'background.paper',
     border: '2px solid #000',
@@ -28,10 +34,13 @@ const style = {
     const handleClose = () => setOpen(false);
   
     const [textValue, setTextValue] = useState<string>("");
-  
-    const onTextChange = (e: any) => setTextValue(e.target.value);
-    const handleSubmit = () => console.log(textValue);
-    const handleReset = () => setTextValue("");
+    const handleSave = () => setOpen(false);
+    const [tags, setTag] = useState('');
+
+    const handleChange = (event: SelectChangeEvent) => {
+        setTag(event.target.value as string);
+    };
+    
      return (
     <div>
       <a href="/home"><p>Back to Doe Family Board - Main</p></a>
@@ -61,6 +70,12 @@ const style = {
       >
         <Box sx={style}>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Button style={{
+             color: "#AA896B",
+             backgroundColor: "#FFFFFF",
+             fontSize: "14px",
+             left:"600px"
+        }}variant="text" disableElevation onClick={handleClose}>Discard</Button>
           <Box
       component="form"
       sx={{
@@ -70,156 +85,48 @@ const style = {
       autoComplete="off"
     >
       <div>
-        <TextField
-          required
-          id="outlined-required"
-          label="Required"
-          defaultValue="Hello World"
-        />
-        <TextField
-          disabled
-          id="outlined-disabled"
-          label="Disabled"
-          defaultValue="Hello World"
-        />
-        <TextField
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-        />
-        <TextField
-          id="outlined-read-only-input"
-          label="Read Only"
-          defaultValue="Hello World"
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-        <TextField
-          id="outlined-number"
-          label="Number"
-          type="number"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-        <TextField id="outlined-search" label="Search field" type="search" />
-        <TextField
-          id="outlined-helperText"
-          label="Helper text"
-          defaultValue="Default Value"
-          helperText="Some important text"
-        />
+      <TextField id="standard-basic" label="Untitled" variant="standard" InputLabelProps={{
+    style: { color: "#B8A590"},
+  }} InputProps={{ disableUnderline: true }} fullWidth/>
+  </div>
+     <div>
+     <TextField id="standard-basic" label="Date (Month, Day, Year)" variant="standard" InputLabelProps={{
+    style: { color: "#675443"},
+  }} InputProps={{ disableUnderline: true }} fullWidth/>
       </div>
       <div>
-        <TextField
-          required
-          id="filled-required"
-          label="Required"
-          defaultValue="Hello World"
-          variant="filled"
-        />
-        <TextField
-          disabled
-          id="filled-disabled"
-          label="Disabled"
-          defaultValue="Hello World"
-          variant="filled"
-        />
-        <TextField
-          id="filled-password-input"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          variant="filled"
-        />
-        <TextField
-          id="filled-read-only-input"
-          label="Read Only"
-          defaultValue="Hello World"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="filled"
-        />
-        <TextField
-          id="filled-number"
-          label="Number"
-          type="number"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          variant="filled"
-        />
-        <TextField
-          id="filled-search"
-          label="Search field"
-          type="search"
-          variant="filled"
-        />
-        <TextField
-          id="filled-helperText"
-          label="Helper text"
-          defaultValue="Default Value"
-          helperText="Some important text"
-          variant="filled"
-        />
-      </div>
-      <div>
-        <TextField
-          required
-          id="standard-required"
-          label="Required"
-          defaultValue="Hello World"
-          variant="standard"
-        />
-        <TextField
-          disabled
-          id="standard-disabled"
-          label="Disabled"
-          defaultValue="Hello World"
-          variant="standard"
-        />
-        <TextField
-          id="standard-password-input"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          variant="standard"
-        />
-        <TextField
-          id="standard-read-only-input"
-          label="Read Only"
-          defaultValue="Hello World"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="standard"
-        />
-        <TextField
-          id="standard-number"
-          label="Number"
-          type="number"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          variant="standard"
-        />
-        <TextField
-          id="standard-search"
-          label="Search field"
-          type="search"
-          variant="standard"
-        />
-        <TextField
-          id="standard-helperText"
-          label="Helper text"
-          defaultValue="Default Value"
-          helperText="Some important text"
-          variant="standard"
-        />
-      </div>
+      <TextField id="standard-basic" label="Add Description Here" variant="standard" InputLabelProps={{
+    style: { color: "#675443"},
+  }} InputProps={{ disableUnderline: true }} fullWidth/>
+  </div>
+  <div>
+  <FormControl fullWidth>
+  <InputLabel id="demo-simple-select-label">Tags</InputLabel>
+  <Select
+    labelId="demo-simple-select-label"
+    id="demo-simple-select"
+    value={tags}
+    label="Tags"
+    onChange={handleChange}
+  >
+    <MenuItem value={"appointments"}>Appointments</MenuItem>
+    <MenuItem value={"birthdays"}>Birthdays</MenuItem>
+    <MenuItem value={"work"}>Work</MenuItem>
+    <MenuItem value={"family"}>Family</MenuItem>
+    <MenuItem value={"school"}>School</MenuItem>
+    <MenuItem value={"activties"}>Activties</MenuItem>
+  </Select>
+</FormControl>
+  </div>
+  <div>
+  <Button style={{
+             color: "#FFFFFF",
+             backgroundColor: "#AA896B",
+             fontSize: "14px",
+             left:"600px",
+             top: "110px"
+        }}variant="text" disableElevation onClick={handleSave}>Save Event</Button>
+  </div>
     </Box>
           </Typography>
         </Box>
