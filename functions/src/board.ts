@@ -250,14 +250,13 @@ export const deleteUserFromBoard = functions.https.onRequest(async (request, res
 });
 
 
-// export const testingDeleteBoard = async (id: string) => {
-//   const snapshot = await admin
-//         .firestore()
-//         .collection("boards")
-//         .doc(String(id));
+export const testingDeleteBoard = async (id: string) => {
+  const snapshot = await admin
+        .firestore()
+        .collection("boards")
+        .doc(String(id));
 
-//       //delete the event (if found) and send a response message
-//       if ((await snapshot.get()).exists) {
-//         snapshot.delete();
-//       }
-// }
+      if ((await snapshot.get()).exists) {
+        snapshot.delete();
+      }
+}
