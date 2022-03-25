@@ -23,47 +23,34 @@ const Personalization = () => {
                 <Grid
                     className="personalization-user-info"
                     container
-                    item
                     direction="column"
                     justifyContent="space-evenly"
                     alignItems="center"
-                    style={{ width: "100%", height: "100%" }}
+                    style={{ height: "100%" }}
                 >
                     <Grid
                         container
-                        item
-                        direction="row"
-                        justifyContent="center"
+                        direction="column"
+                        justifyContent="space-evenly"
                         alignItems="center"
-                        style={{ width: "100%", height: "100%" }}
                     >
-                        <Grid
-                            container
-                            item
-                            direction="column"
-                            justifyContent="space-evenly"
-                            alignItems="center"
-                        >
-                            <Grid item><h1>Personalization</h1></Grid>
-                            <Grid item><img src={profile} /></Grid>
-                            <Grid item><h2>John Doe</h2></Grid>
-                        </Grid>
-                        <Grid item direction="row">
-                            <Grid
-                                container
-                                item
-                                direction="row"
-                                justifyContent="space-evenly"
-                                alignItems="center"
-                            >
+                        <Grid><h1>Personalization</h1></Grid>
+                        <Grid><img src={profile} /></Grid>
+                        <Grid><h2>John Doe</h2></Grid>
+                    </Grid>
+
+                    <Grid
+                        container
+                        direction="row"
+                        justifyContent="space-evenly"
+                        alignItems="center"
+                    >
+                        <Grid>
+                            <Grid className="personalization-center">
                                 <h4>Edit Your Avatar</h4>
                             </Grid>
                             <Grid
                                 container
-                                item
-                                direction="row"
-                                justifyContent="space-evenly"
-                                alignItems="center"
                                 spacing={3}
                             >
                                 <Grid item><img src={avatar1} className="personalization-avatar" /></Grid>
@@ -72,10 +59,6 @@ const Personalization = () => {
                             </Grid>
                             <Grid
                                 container
-                                item
-                                direction="row"
-                                justifyContent="space-evenly"
-                                alignItems="center"
                                 spacing={3}
                             >
                                 <Grid item><img src={avatar4} className="personalization-avatar" /></Grid>
@@ -84,23 +67,13 @@ const Personalization = () => {
                             </Grid>
                             <Grid
                                 container
-                                item
-                                direction="row"
-                                justifyContent="space-evenly"
-                                alignItems="center"
                                 spacing={3}
                             >
                                 <Grid item><img src={avatar7} className="personalization-avatar" /></Grid>
                                 <Grid item><img src={avatar8} className="personalization-avatar" /></Grid>
                                 <Grid item><img src={avatar9} className="personalization-avatar" /></Grid>
                             </Grid>
-                            <Grid
-                                container
-                                item
-                                direction="row"
-                                justifyContent="space-evenly"
-                                alignItems="center"
-                            >
+                            <Grid className="personalization-center">
                                 <Button
                                     variant="text"
                                     component="label"
@@ -113,23 +86,20 @@ const Personalization = () => {
                                 </Button>
                             </Grid>
                         </Grid>
-                        <Grid
-                            container
-                            item
-                            direction="column"
-                            justifyContent="space-evenly"
-                            alignItems="center"
-                        >
-                            <h4>Appearance</h4>
+
+                        <Grid>
+                            <Grid className="personalization-center">
+                                <h4>Appearance</h4>
+                            </Grid>
                             <FormGroup>
-                                <FormControlLabel control={<Switch color="primary"/>}
+                                <FormControlLabel control={<Switch color="primary" />}
                                     label="Dark Mode"
                                     labelPlacement="start" />
                             </FormGroup>
                         </Grid>
                     </Grid>
                 </Grid>
-            </div>
+            </div >
         </>
     );
 };
