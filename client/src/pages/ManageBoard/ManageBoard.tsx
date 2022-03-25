@@ -1,34 +1,48 @@
+import React, { useEffect, useState } from "react";
 import { Typography, Container, Box, Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import MemberPermissions from "./MemberPermissions";
 import MemberStatus from "./MemberStatus";
-import avatar from "../../imgs/avatar.jpg";
+import avatar from "../../assets/avatar.jpg";
 import "./ManageBoard.css";
+import { useParams } from "react-router-dom";
+import axiosInstance from "../../axios";
 
-interface Props {
-  name: string;
-}
+//Mock Info passed into Member Status
+const mockMemberInfo = [
+  { id: 1, name: "Liane Doe", email: "liane.doe@gmail.com", role: "Admin" },
+  { id: 2, name: "Dad Doe", email: "dad.doe@gmail.com", role: "Admin" },
+  { id: 3, name: "Logan Doe", email: "logan.doe@gmail.com", role: "Member" },
+  { id: 4, name: "Aly Doe", email: "aly.doe@gmail.com", role: "Member" },
+];
 
-export default function ManageBoard({ name }: Props) {
-  //Mock Info passed into Member Status
-  const mockMemberInfo = [
-    { id: 1, name: "Liane Doe", email: "liane.doe@gmail.com", role: "Admin" },
-    { id: 2, name: "Dad Doe", email: "dad.doe@gmail.com", role: "Admin" },
-    { id: 3, name: "Logan Doe", email: "logan.doe@gmail.com", role: "Member" },
-    { id: 4, name: "Aly Doe", email: "aly.doe@gmail.com", role: "Member" },
-  ];
+//Headers passed into Member Permissions
+const permissionHeaders = [
+  { id: 1, name: "Notes", viewOn: true, editOn: false },
+  { id: 2, name: "Lists", viewOn: true, editOn: true },
+  { id: 3, name: "Expenses", viewOn: false, editOn: false },
+  { id: 4, name: "Calendar", viewOn: true, editOn: false },
+  { id: 5, name: "Personal Notes", viewOn: true, editOn: true },
+];
 
-  //Headers passed into Member Permissions
-  const permissionHeaders = [
-    { id: 1, name: "Notes", viewOn: true, editOn: false },
-    { id: 2, name: "Lists", viewOn: true, editOn: true },
-    { id: 3, name: "Expenses", viewOn: false, editOn: false },
-    { id: 4, name: "Calendar", viewOn: true, editOn: false },
-    { id: 5, name: "Personal Notes", viewOn: true, editOn: true },
-  ];
+export default function ManageBoard() {
+  const params = useParams();
+  const [boardName, setBoardName] = useState("");
+
+  useEffect(() => {
+    axiosInstance
+      .get("/getBoard", { params: { id: params.board_id } })
+      .then((res) => {
+        setBoardName(res.data.board.data.name);
+        console.log("Information recieved Successfully");
+      })
+      .catch((err) => {
+        console.log("error getting user boards: ", err);
+      });
+  }, [params.board_id]);
 
   return (
-    <Container maxWidth={false} sx={{}}>
+    <Container maxWidth={false}>
       <a href="/">
         <Typography
           variant="subtitle1"
@@ -36,7 +50,7 @@ export default function ManageBoard({ name }: Props) {
           align="left"
           sx={{ pt: "1vh" }}
         >
-          Back to {name} Board - Main
+          Back to {boardName} Board - Main
         </Typography>
       </a>
 
@@ -65,7 +79,7 @@ export default function ManageBoard({ name }: Props) {
           <Box className="boardNameBox">
             {/* For the Board name */}
             <Typography variant="h5" color="primary" fontWeight="bold">
-              {name}
+              {boardName}
             </Typography>
             <Button
               disableElevation={true}

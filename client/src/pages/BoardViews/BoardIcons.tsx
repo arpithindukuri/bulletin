@@ -1,20 +1,21 @@
 import { Typography } from "@mui/material";
-import usedBoard from "../../imgs/usedBoard.png";
-import newBoard from "../../imgs/newBoard.png";
+import usedBoard from "../../assets/usedBoard.png";
+import newBoard from "../../assets/newBoard.png";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import './BoardIcons.css';
 
 interface Props {
-  name: string;
-  id: number;
+  name?: string;
+  id?: string;
+  isAdd: boolean;
 }
 
 // Board Images + Names (maximum of 8??)
-export default function BoardIcons({ name, id }: Props) {
+export default function BoardIcons({ name, id, isAdd }: Props) {
   const navigate = useNavigate();
   //Create New Board
-  if (id === 0) {
+  if (isAdd) {
     return (
       <div
         className="board-icon-container"

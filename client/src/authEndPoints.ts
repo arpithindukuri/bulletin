@@ -1,4 +1,4 @@
-const apiKey = process.env.REACT_APP_FIREBASE_API_KEY;
+const apiKey = "AIzaSyCvJNxQELUCOUTN-s-DYutLidT9UHhvdmo";
 
 const signInEndPoint =
   "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
