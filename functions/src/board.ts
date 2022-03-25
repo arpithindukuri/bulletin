@@ -1,7 +1,8 @@
+
 import corsHandler from "./cors";
 import { admin, functions } from "./firebase";
 import { isBoard } from "./typeguards/board";
-import { isUserAuthorized } from "./auth";
+// import { isUserAuthorized } from "./auth";
 
 /**
  * Gets all boards from firestore, under the path /boards, and returns it as a json
@@ -14,15 +15,15 @@ export const getBoards = functions.https.onRequest(async (request, response) => 
     if (request.method !== "GET")
       response.status(400).send("Bad method. Use GET");
 
-      const accessToken = request.get("Authorization")?.split(" ")[1];
+      // const accessToken = request.get("Authorization")?.split(" ")[1];
 
-      isUserAuthorized(accessToken).then(res => {
-        if(!res) {
-          response.status(401).send("User is unauthorized");
-        }
-      }).catch(err => {
-        response.status(401).send("User is unauthorized");
-      })
+      // isUserAuthorized(accessToken).then(res => {
+      //   if(!res) {
+      //     response.status(401).send("User is unauthorized");
+      //   }
+      // }).catch(err => {
+      //   response.status(401).send("User is unauthorized");
+      // })
     // TODO: Check auth
 
     // Push the new message into Firestore using the Firebase Admin SDK.
@@ -96,8 +97,11 @@ export const addBoard = functions.https.onRequest(async (request, response) => {
     const writeResult = await admin.firestore().collection("boards").add(body);
 
     // Send back a message that we've successfully written the message
-    if (writeResult)
-      response.send(`Messageasdfg with ID: ${writeResult.id}`);
+    if (writeResult) {
+      response.json({board: {
+        id: writeResult.id,
+      }});
+    }
   });
 });
 export const deleteBoard = functions.https.onRequest(async (request, response) => {
@@ -244,3 +248,16 @@ export const deleteUserFromBoard = functions.https.onRequest(async (request, res
       response.status(400).send("Board Not Found");
   });
 });
+
+
+// export const testingDeleteBoard = async (id: string) => {
+//   const snapshot = await admin
+//         .firestore()
+//         .collection("boards")
+//         .doc(String(id));
+
+//       //delete the event (if found) and send a response message
+//       if ((await snapshot.get()).exists) {
+//         snapshot.delete();
+//       }
+// }
