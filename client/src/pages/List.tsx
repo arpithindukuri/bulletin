@@ -48,7 +48,7 @@ export default function List() {
   };
 
   return (
-    <Container>
+    <Container style={{marginTop: "40px"}}>
       <a href="/home">
         <p>Back to Doe Family Board - Main</p>
       </a>
