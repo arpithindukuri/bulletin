@@ -1,5 +1,4 @@
 import { Typography, Container, Box, Button } from "@mui/material";
-import TextField from "@mui/material/TextField";
 import './Board.css';
 import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
@@ -8,27 +7,33 @@ import LoadNote from './LoadNotes'
 
 import * as React from 'react';
 import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-
-
-import BoardBackground from "../../imgs/Board/BoardBackground.png"
-import DailyReminders from "../../imgs/Board/DailyReminders.png"
-import Expense from "../../imgs/Board/Expense.png"
-import Lists from "../../imgs/Board/Lists.png"
-import Note from "../../imgs/Board/Note.png"
-import Personal from "../../imgs/Board/Personal.png"
-import { width } from "@mui/system";
 import AddNote from "./AddNote"
+// import LoadCalendar from "./LoadCalendar";
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import { Today } from "@material-ui/icons";
+
 
 export default function Board() {
-
+    // Mock data
     const mockBoardData = { id: 1, boardName: "Doe Family", description: "Welcome to the Doe Family board!" };
-
-    //mock notes
     const mockNotes = [
-        { id: 1, message: "I love you", name: "Jon" },
-        { id: 2, message: "Seeing Jen", name: "Al" },
+        { id: 1, message: "I love you, mwah mwah mwah mwah mwah ", name: "Jon" },
+        { id: 2, message: "Seeing Jen", name: "Julia" },
+        { id: 3, message: "Seeing Jen", name: "A very long name" },
+        { id: 4, message: "Seeing Jen", name: "Al" },
     ];
+    const mockList = [{ id: 1, ListName: "To do" }, { id: 2, ListName: "Grocery" }, { id: 3, ListName: "Chores" }];
+    const mockExpense = [{ id: 1, ExpenseName: "Food" }, { id: 2, ExpenseName: "Phone bill" }, { id: 3, ExpenseName: "Electic" }];
+    const mockPersonal = [{ id: 1, NoteName: "Take Luna for a walk" }, { id: 2, NoteName: "Sign Logan’s School Waiver form tonight" }, { id: 3, NoteName: "Pick up medicine" }];
+
+    const [date, setDate] = React.useState(new Date());
+
+    const onDateChange = (newDate: any) => {
+        setDate(newDate);
+        console.log(newDate);
+    }
+
 
     return (
         <div
@@ -127,6 +132,7 @@ export default function Board() {
                     justifyContent="center"
                     alignItems="center"
                     direction="row"
+                    mb={1}
                     container>
                     <Box
                         className="bulletinBoardBox" sx={{ width: '100%', height: '100%' }}>
@@ -148,8 +154,6 @@ export default function Board() {
                                     className="topLeftBoard"
                                     container
                                     ml={1}
-                                    mt={1}
-                                    mb={1}
                                     justifyContent="center"
                                     alignItems="flex-start"
                                     direction='row'>
@@ -157,21 +161,20 @@ export default function Board() {
                                         className="boardNotes"
                                         container
                                         xs={7}
+                                        pt={1}
+                                        pr={1}
                                         direction='column'>
                                         <Grid className="NoteHeader" container direction='column'>
-                                            <Typography className="noteHeader" variant='body1' sx={{ textAlign: 'left', fontWeight: 'bold', fontSize: '20px' }} style={{ display: "inline-block", whiteSpace: "pre-line" }}>
+                                            <Typography className="noteHeader" variant='h5' sx={{ textAlign: 'left', fontWeight: 'bold' }} style={{ display: "inline-block", whiteSpace: "pre-line" }}>
                                                 Notes
                                             </Typography>
                                             <AddNote />
                                         </Grid>
-                                        <Grid className="noteItems"
-                                            justifyContent="center"
-                                            alignItems="flex-start"
-                                            direction='row'>
+                                        <Grid container spacing={{ xs: 2, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                                             {mockNotes.map((mockNotes) => {
                                                 return (
                                                     // <Grid item xs={6} sm={6} mr={1} mt={1} >
-                                                    <Grid item mr={1} mt={1}>
+                                                    <Grid item >
                                                         <LoadNote message={mockNotes.message} name={mockNotes.name} id={mockNotes.id} />
                                                     </Grid>
                                                 );
@@ -185,21 +188,39 @@ export default function Board() {
                                         alignItems="center"
                                         xs={5}
                                         direction='column'>
-                                        <Box mt={1} className='ListBox'>
-                                            <Link className='ListFont' m={1} variant='body1' sx={{ textAlign: 'left', fontWeight: "bold" }}>
+                                        <Box mt={1} pb={1} className='ListBox'>
+                                            <Typography className='ListFont' m={1} variant='h5' sx={{ textAlign: 'left', fontWeight: "bold", color: ' #631800', }}>
                                                 List
-                                            </Link>
-                                            <Typography className='ListFont' m={1} variant='body1' sx={{ textAlign: 'left' }}>
-                                                List link Here
                                             </Typography>
+                                            {mockList.map((mockList) => {
+                                                return (
+                                                    <Typography className="ExpenseFont" m={1} variant='body1' sx={{ textAlign: 'left', color: ' #631800' }} >
+                                                        {mockList.ListName}
+                                                    </Typography>
+                                                );
+                                            })}
+                                            <div style={{ width: "100%", textAlign: "left" }}>
+                                                <Link className='ListFont' m={1} variant='body1' sx={{ textAlign: 'left', color: ' #631800' }}>
+                                                    View Lists
+                                                </Link>
+                                            </div>
                                         </Box>
-                                        <Box mt={1} mb={1} className='ExpenseBox'>
-                                            <Link className="ExpenseFont" m={1} variant='body1' sx={{ textAlign: 'left', fontWeight: "bold" }} >
+                                        <Box mt={1} pb={1} className='ExpenseBox'>
+                                            <Typography className="ExpenseFont" m={1} variant='h5' sx={{ textAlign: 'left', fontWeight: "bold" }} >
                                                 Expense
-                                            </Link>
-                                            <Typography className="ExpenseFont" m={1} variant='body1' sx={{ textAlign: 'left' }} >
-                                                Expense link here
                                             </Typography>
+                                            {mockExpense.map((mockExpense) => {
+                                                return (
+                                                    <Typography className="ExpenseFont" m={1} variant='body1' sx={{ textAlign: 'left', color: ' #032200' }} >
+                                                        {mockExpense.ExpenseName}
+                                                    </Typography>
+                                                );
+                                            })}
+                                            <div style={{ width: "100%", textAlign: "left" }}>
+                                                <Link className='ExpenseFont' m={1} variant='body1' sx={{ textAlign: 'left', width: "100%", color: ' #032200' }}>
+                                                    View Expenses
+                                                </Link>
+                                            </div>
                                         </Box>
                                     </Grid>
                                 </Grid>
@@ -207,11 +228,21 @@ export default function Board() {
                                     className="personalNotesContainer"
                                     container
                                     direction='column'>
-                                    <Box mt={1} mb={1} className='PersonalNoteBox'>
-                                        <Grid container >
-                                            <Typography className="PersonalNoteFont" variant='body1' sx={{ textAlign: 'left' }} style={{ display: "inline-block", whiteSpace: "pre-line" }}>
-                                                Personal Notes Here
+                                    <Box mt={1} ml={0.5} mb={1} className='PersonalNoteBox'>
+                                        <Grid container direction="column">
+                                            <Typography className="PersonalNoteFont" m={1} variant='h5' sx={{ textAlign: 'left', fontWeight: "bold" }} >
+                                                Personal Notes
                                             </Typography>
+                                            {mockPersonal.map((mockPersonal) => {
+                                                return (
+                                                    <Typography className="PersonalNoteFont" ml={1} mr={1} mt={0.5} variant='body1' sx={{ textAlign: 'left', color: ' #032200' }} >
+                                                        {mockPersonal.NoteName}
+                                                    </Typography>
+                                                );
+                                            })}
+                                            <Link className='PersonalNoteFont' m={1} variant='body1' sx={{ textAlign: 'left', color: ' #032200' }}>
+                                                View more notes
+                                            </Link>
                                         </Grid>
                                     </Box>
                                 </Grid>
@@ -222,7 +253,10 @@ export default function Board() {
                                 alignItems="center"
                                 container
                                 xs={6}
-                                direction="column">
+                                pl={2}
+                                pr={1}
+                                direction="column"
+                                display="flex">
                                 <Grid
                                     className="calendarRightBoard"
                                     container
@@ -230,9 +264,11 @@ export default function Board() {
                                     justifyContent="center"
                                     alignItems="center"
                                     direction="column">
-                                    <Typography variant='body1' sx={{ textAlign: 'left' }} style={{ display: "inline-block", whiteSpace: "pre-line" }}>
-                                        Calendar
-                                    </Typography>
+                                    <Box className='CalendarBox' p={1}>
+                                        <div className='calendar-container'>
+                                            <Calendar onChange={setDate} value={date} locale={"en-US"}/>
+                                        </div>
+                                    </Box>
                                 </Grid>
                                 <Grid
                                     className="todayReminder"
