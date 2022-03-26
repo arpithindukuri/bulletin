@@ -4,6 +4,8 @@ React App: https://bulletin-be82d.web.app/
 
 # TODO:
 
+test commit #2
+
 - [ ] Design the app
   - [ ] Work on functionality
   - [ ] Figma draft
