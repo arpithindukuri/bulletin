@@ -129,7 +129,7 @@ export default function CreateNewBoard() {
             if (success) {
               setMessage("Board Added.");
               setMessageSeverity("success");
-              
+
               const newBoard = res.data.board.id
               console.log(newBoard);
               console.log(userData);

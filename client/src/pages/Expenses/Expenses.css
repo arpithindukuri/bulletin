@@ -53,27 +53,24 @@ a {
     padding-right: 20px;
 }
 
-.overlay {
+/* .overlay {
     position: absolute;
     display: flex;
     height: 100%;
-    width: 100%;
+    width: 80%;
     align-items: center;
     justify-content: center;
     margin: 0 !important;
     z-index: 1; 
     
-}
+} */
 
 .overlayBox {
+    margin: auto;
     width: 80%;
-    height: 60%;
+    margin-top: 10%;
     background-color: white;
-    text-align: left;
-    padding-left: 5%;
-    padding-top: 2%;
     color: #B8A590;
-    border: 1px solid black;
 }
 
 .overlayHeader {
