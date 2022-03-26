@@ -101,7 +101,7 @@ export interface User {
   name: string;
   email: string;
   pictureURL?: string;
-  dateOfBirth: any;
+  dateOfBirth: string;
   alternativeEmail?: string;
   phoneNumber: string;
   overview: string;
