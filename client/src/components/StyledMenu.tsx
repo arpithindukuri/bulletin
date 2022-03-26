@@ -71,7 +71,8 @@ export default function CustomizedMenus() {
         style={{
             backgroundColor: "#FFFFFF",
             fontSize: "14px",
-            color: "#AA896B"
+            color: "#AA896B",
+            zIndex: 1,
        }}
       >
         Filter

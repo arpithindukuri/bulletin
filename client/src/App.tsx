@@ -40,7 +40,6 @@ function App() {
      <Route path='/list' element={<List/>}></Route>
    </Routes>
    </BrowserRouter>
-   <Footer/>
    </>
   );
 }
