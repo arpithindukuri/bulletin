@@ -56,13 +56,7 @@ export const getBoard = functions.https.onRequest(async (request, response) => {
     // Send back a message that we've successfully written the message
     if ((await snapshot.get()).exists)
       response.json({ board: {
-        data: (await snapshot.get()).data(),
-        event: (await snapshot.collection('events').get()).docs.map((doc)=>doc.data()),
-        expenses: (await snapshot.collection('expenses').get()).docs.map((doc)=>doc.data()),
-        budget: (await snapshot.collection('budgets').get()).docs.map((doc)=>doc.data()),
-        lists: (await snapshot.collection('lists').get()).docs.map((doc)=>doc.data()),
-        notes: (await snapshot.collection('notes').get()).docs.map((doc)=>doc.data())
-        
+        data: (await snapshot.get()).data()  
       }
     });
     else 

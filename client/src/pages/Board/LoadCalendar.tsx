@@ -5,8 +5,8 @@ import { MuiPickersUtilsProvider, Calendar } from "@material-ui/pickers";
 import enLocale from "date-fns/locale/ru";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 // import green from "@material-ui/core/colors/green";
-import Grid from "@mui/material/Grid";
-import { MaterialUiPickersDate } from "material-ui-pickers";
+import Grid from '@mui/material/Grid';
+
 
 // const theme = createMuiTheme({
 //     palette: {
@@ -21,23 +21,21 @@ import { MaterialUiPickersDate } from "material-ui-pickers";
 // }
 
 export default function LoadCalendar() {
-  const [selectedDate, setSelectedDate] = useState<MaterialUiPickersDate>(
-    new Date()
-  );
-  const locale = "en";
-  const handleDateChange = (date: any) => {
-    setSelectedDate(date);
-    console.log("Date is: ", date);
-  };
-  //
-  return (
-    // <MuiPickersUtilsProvider utils={Utils} locale={localeMap[locale]}>
-    <Grid>
-      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={enLocale}>
-        <Paper style={{ overflow: "hidden" }}>
-          <Calendar date={selectedDate} onChange={handleDateChange} />
-        </Paper>
-      </MuiPickersUtilsProvider>
-    </Grid>
-  );
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const locale = "en";
+    const handleDateChange = (date: any) => {
+        setSelectedDate(date);
+        console.log("Date is: ", date);
+    };
+    //
+    return (
+        // <MuiPickersUtilsProvider utils={Utils} locale={localeMap[locale]}>
+        <Grid>
+            <MuiPickersUtilsProvider utils={DateFnsUtils} locale={enLocale}>
+                <Paper style={{ overflow: "hidden" }}>
+                    {/* <Calendar date={selectedDate} onChange={handleDateChange} /> */}
+                </Paper>
+            </MuiPickersUtilsProvider>
+        </Grid >
+    );
 }

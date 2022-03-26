@@ -43,14 +43,14 @@ export default function ManageBoard() {
 
   return (
     <Container maxWidth={false}>
-      <a href="/">
+      <a href={"/board/" + params.board_id}>
         <Typography
           variant="subtitle1"
           color="primary.light"
           align="left"
           sx={{ pt: "1vh" }}
         >
-          Back to {boardName} Board - Main
+          Back to '{boardName}' Board - Main
         </Typography>
       </a>
 

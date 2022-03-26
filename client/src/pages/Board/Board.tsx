@@ -1,65 +1,167 @@
-import { Typography, Container, Box, Button } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
-import AvatarGroup from "@mui/material/AvatarGroup";
 import * as React from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Link from "@mui/material/Link";
-
+import { useParams } from "react-router-dom";
 import "./Board.css";
-import AddNote from "./AddNote";
+import ViewNote from "./ViewNote";
 import LoadNote from "./LoadNotes";
+import axiosInstance from "../../axios";
+import { useEffect, useState } from "react";
 
 interface ReminderState {
   reminderType: string;
   data: {}[];
 }
 
+interface NotesProp {
+  id: string;
+  name: string;
+  date: string;
+  content: string;
+}
+
+interface ExpenseProp {
+  id: string;
+  name: string;
+  amount: number;
+  deadline: string;
+}
+
+interface BudgetProp {
+  name: string;
+  date: string;
+  assigned: string;
+  balance: number;
+  id: string;
+}
+
+interface BoardProp {
+  name: string;
+  description: string;
+}
+interface ListsProp {
+  name: string;
+  date: string;
+}
+
 export default function Board() {
-  // Mock data
-  const mockBoardData = {
-    id: 1,
-    boardName: "Doe Family",
-    description: "Welcome to the Doe Family board!",
-  };
-  const mockNotes = [
-    { id: 1, message: "I love you, mwah mwah mwah mwah mwah ", name: "Jon" },
-    { id: 2, message: "Seeing Jen", name: "Julia" },
-    {
-      id: 3,
-      message: "Walking Luna, will be back soon",
-      name: "A very long name",
-    },
-    { id: 4, message: "Watching a movie", name: "Jax" },
-  ];
-  const mockList = [
-    { id: 1, ListName: "To do" },
-    { id: 2, ListName: "Grocery" },
-    { id: 3, ListName: "Chores" },
-  ];
-  const mockExpense = [
-    { id: 1, ExpenseName: "Food" },
-    { id: 2, ExpenseName: "Phone bill" },
-    { id: 3, ExpenseName: "Electic" },
-  ];
-  const mockPersonal = [
-    { id: 1, NoteName: "Take Luna for a walk" },
-    { id: 2, NoteName: "Sign Logan’s School Waiver form tonight" },
-    { id: 3, NoteName: "Pick up medicine" },
-  ];
+  const params = useParams();
+  const [expenses, setExpenses] = useState<Array<ExpenseProp>>([]);
+  const [notes, setNotes] = useState<Array<NotesProp>>([]);
+  const [budgets, setBudgets] = useState<Array<BudgetProp>>([]);
+  const [board, setBoard] = useState<BoardProp>({ name: "", description: "" });
+  const [lists, setLists] = useState<Array<ListsProp>>([]);
+  const [eventsToday, setEventsToday] = useState<Array<ListsProp>>([]);
 
-  // Mock data
-  const mockCalendarDataToday = [
-    { id: 1, EventName: "Luna Vet Checkup" },
-    { id: 2, EventName: "Phone meeting with Regional Department" },
-  ];
+  useEffect(() => {
+    let success = true;
+    axiosInstance
+      .get("/getBoard", { params: { id: params.board_id } })
+      .then((res) => {
+        console.log(res);
+        if (success) {
+          setBoard(res.data.board.data);
+        }
+      })
+      .catch((err) => {
+        console.log("error getting board: ", err);
+        success = false;
+      });
+  }, []);
 
-  const mockCalendarDataSeven = [
-    { id: 1, EventName: "Liane Doe’s 45th Birthday" },
-    { id: 2, EventName: "Logan’s School Ski Feild Trip" },
-    { id: 3, EventName: "Doctor’s Appointment: Yearly Check-up" },
-  ];
+  useEffect(() => {
+    let success = true;
+    axiosInstance
+      .get("/getExpenses", { params: { id: params.board_id } })
+      .then((res) => {
+        console.log(res);
+        if (success) {
+          setExpenses(res.data.expenses);
+        }
+      })
+      .catch((err) => {
+        console.log("error getting expenses: ", err);
+        success = false;
+      });
+  }, []);
+
+  useEffect(() => {
+    let success = true;
+    axiosInstance
+      .get("/getNotes", { params: { board_id: params.board_id } })
+      .then((res) => {
+        console.log(res);
+        if (success) {
+          setNotes(res.data.notes);
+        }
+      })
+      .catch((err) => {
+        console.log("error getting notes: ", err);
+        success = false;
+      });
+  }, []);
+
+  useEffect(() => {
+    let success = true;
+    axiosInstance
+      .get("/getBudgets", { params: { id: params.board_id } })
+      .then((res) => {
+        console.log(res);
+        if (success) {
+          setBudgets(res.data.budgets);
+        }
+      })
+      .catch((err) => {
+        console.log("error getting budgets: ", err);
+        success = false;
+      });
+  }, []);
+
+  useEffect(() => {
+    let success = true;
+    axiosInstance
+      .get("/getLists", { params: { board_id: params.board_id } })
+      .then((res) => {
+        console.log(res);
+        if (success) {
+          setLists(res.data.lists);
+        }
+      })
+      .catch((err) => {
+        console.log("error getting lists: ", err);
+        success = false;
+      });
+  }, []);
+
+  useEffect(() => {
+    let newDate = new Date();
+    let day = newDate.getDate();
+    let month = newDate.getMonth() + 1;
+    let year = newDate.getFullYear();
+
+    let currDate = `${day}/${month}/${year}`;
+
+    let success = true;
+    axiosInstance
+      .get("/getEvents", { params: { id: params.board_id } })
+      .then((res) => {
+        console.log(currDate);
+        if (success) {
+          const filteredEvents = res.data.events.filter(
+            (event: any) => event.date === currDate
+          );
+          setEventsToday(filteredEvents);
+        }
+      })
+      .catch((err) => {
+        console.log("error getting events: ", err);
+        success = false;
+      });
+  }, []);
 
   return (
     <div
@@ -67,8 +169,6 @@ export default function Board() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "30px",
-        paddingBottom: "50px"
       }}
     >
       <Grid
@@ -103,9 +203,10 @@ export default function Board() {
                 width: " 80px",
                 height: "80px",
                 fontSize: "60px",
+                marginTop: "10px",
               }}
             >
-              {mockBoardData.boardName.split(" ")[0][0]}
+              {board.name.split(" ")[0][0]}
             </Avatar>
             <Grid
               className="info-container"
@@ -134,7 +235,7 @@ export default function Board() {
                   }}
                   style={{ display: "inline-block", whiteSpace: "pre-line" }}
                 >
-                  {mockBoardData.boardName}
+                  {board.name}
                 </Typography>
                 <Typography
                   className="BoardDescription"
@@ -142,7 +243,7 @@ export default function Board() {
                   sx={{ textAlign: "left", fontSize: "14px" }}
                   style={{ display: "inline-block", whiteSpace: "pre-line" }}
                 >
-                  {mockBoardData.description}
+                  {board.description}
                 </Typography>
               </Grid>
             </Grid>
@@ -165,21 +266,12 @@ export default function Board() {
               <Link
                 variant="body1"
                 color="primary"
+                fontSize={30}
                 underline="hover"
-                href="ManageBoard"
+                href={"/manage-board/" + params.board_id}
               >
                 Manage Board
               </Link>
-              <AvatarGroup max={4}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-                <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-                <Avatar
-                  alt="Trevor Henderson"
-                  src="/static/images/avatar/5.jpg"
-                />
-              </AvatarGroup>
             </Grid>
           </Grid>
         </Grid>
@@ -238,19 +330,19 @@ export default function Board() {
                       >
                         Notes
                       </Typography>
-                      <AddNote />
+                      <ViewNote />
                     </Grid>
                     <Grid
                       container
                       spacing={{ xs: 2, md: 1 }}
                       columns={{ xs: 4, sm: 8, md: 12 }}
                     >
-                      {mockNotes.map((mockNotes) => {
+                      {notes.map((mockNotes) => {
                         return (
                           // <Grid item xs={6} sm={6} mr={1} mt={1} >
                           <Grid item>
                             <LoadNote
-                              message={mockNotes.message}
+                              message={mockNotes.content}
                               name={mockNotes.name}
                               id={mockNotes.id}
                             />
@@ -280,7 +372,7 @@ export default function Board() {
                       >
                         List
                       </Typography>
-                      {mockList.map((mockList) => {
+                      {lists.map((mockList) => {
                         return (
                           <Typography
                             className="ExpenseFont"
@@ -288,7 +380,7 @@ export default function Board() {
                             variant="body1"
                             sx={{ textAlign: "left", color: " #631800" }}
                           >
-                            {mockList.ListName}
+                            {mockList.name}
                           </Typography>
                         );
                       })}
@@ -298,6 +390,7 @@ export default function Board() {
                           m={1}
                           variant="body1"
                           sx={{ textAlign: "left", color: " #631800" }}
+                          href={"/lists/" + params.board_id}
                         >
                           View Lists
                         </Link>
@@ -311,7 +404,7 @@ export default function Board() {
                       >
                         Expense
                       </Typography>
-                      {mockExpense.map((mockExpense) => {
+                      {expenses.map((mockExpense) => {
                         return (
                           <Typography
                             className="ExpenseFont"
@@ -319,7 +412,7 @@ export default function Board() {
                             variant="body1"
                             sx={{ textAlign: "left", color: " #032200" }}
                           >
-                            {mockExpense.ExpenseName}
+                            {mockExpense.name}
                           </Typography>
                         );
                       })}
@@ -333,6 +426,7 @@ export default function Board() {
                             width: "100%",
                             color: " #032200",
                           }}
+                          href={"/expenses/" + params.board_id}
                         >
                           View Expenses
                         </Link>
@@ -354,9 +448,9 @@ export default function Board() {
                         variant="h5"
                         sx={{ textAlign: "left", fontWeight: "bold" }}
                       >
-                        Personal Notes
+                        Budget
                       </Typography>
-                      {mockPersonal.map((mockPersonal) => {
+                      {budgets.map((mockBudget) => {
                         return (
                           <Typography
                             className="PersonalNoteFont"
@@ -364,7 +458,7 @@ export default function Board() {
                             variant="body1"
                             sx={{ textAlign: "left", color: " #032200" }}
                           >
-                            {mockPersonal.NoteName}
+                            {mockBudget.name}
                           </Typography>
                         );
                       })}
@@ -373,8 +467,9 @@ export default function Board() {
                         m={0.5}
                         variant="body1"
                         sx={{ textAlign: "left", color: " #032200" }}
+                        href={"/expenses/" + params.board_id}
                       >
-                        View more notes
+                        View more Budget
                       </Link>
                     </Grid>
                   </Box>
@@ -418,7 +513,7 @@ export default function Board() {
                     >
                       Today
                     </Typography>
-                    {mockCalendarDataSeven.map((mockCalendarDataSeven) => {
+                    {eventsToday.map((mockEvent) => {
                       return (
                         <Typography
                           className="TodayFont"
@@ -426,7 +521,7 @@ export default function Board() {
                           variant="body1"
                           sx={{ textAlign: "left" }}
                         >
-                          {mockCalendarDataSeven.EventName}
+                          {mockEvent.name}
                         </Typography>
                       );
                     })}
@@ -436,48 +531,7 @@ export default function Board() {
                         m={1}
                         variant="body1"
                         sx={{ color: " #62808e" }}
-                      >
-                        View Calendar
-                      </Link>
-                    </div>
-                  </Box>
-                </Grid>
-                <Grid
-                  className="nextSevenReminder"
-                  container
-                  item
-                  pt={1}
-                  pr={2}
-                  justifyContent="center"
-                  alignItems="center"
-                  direction="column"
-                >
-                  <Box p={1} className="SevenDayBox">
-                    <Typography
-                      className="SevenDayFont"
-                      variant="h5"
-                      sx={{ textAlign: "left", fontWeight: "bold" }}
-                    >
-                      Today
-                    </Typography>
-                    {mockCalendarDataToday.map((mockCalendarDataToday) => {
-                      return (
-                        <Typography
-                          className="SevenDayFont"
-                          m={1}
-                          variant="body1"
-                          sx={{ textAlign: "left" }}
-                        >
-                          {mockCalendarDataToday.EventName}
-                        </Typography>
-                      );
-                    })}
-                    <div style={{ width: "100%", textAlign: "left" }}>
-                      <Link
-                        className="SevenDayFont"
-                        m={1}
-                        variant="body1"
-                        sx={{ color: " #62678e" }}
+                        href={"/calendar/" + params.board_id}
                       >
                         View Calendar
                       </Link>
