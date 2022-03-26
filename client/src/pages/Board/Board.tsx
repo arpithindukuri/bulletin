@@ -241,7 +241,7 @@ export default function Board() {
                                                     </Typography>
                                                 );
                                             })}
-                                            <Link className='PersonalNoteFont' m={1} variant='body1' sx={{ textAlign: 'left', color: ' #032200' }}>
+                                            <Link className='PersonalNoteFont' m={0.5} variant='body1' sx={{ textAlign: 'left', color: ' #032200' }}>
                                                 View more notes
                                             </Link>
                                         </Grid>
