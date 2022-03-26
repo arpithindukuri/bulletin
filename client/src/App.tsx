@@ -11,6 +11,7 @@ import SignUp from "./pages/SignUp/SignUp";
 import Homepage from "./pages/Homepage/Homepage";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import AccountInfo from "./pages/AccountInfo/AccountInfo";
+import Board from "./pages/Board/Board";
 import Header from "./components/Header";
 import AuthGuard from "./AuthGuard";
 import BoardsView from "./pages/BoardViews/BoardsView";
@@ -42,6 +43,7 @@ function App() {
                   <Route path="/support-us" element={<SupportUs />}></Route>
                   <Route path="/boards" element={<BoardsView />}></Route>
                   <Route path="/notes/:board_id" element={<Notes />}></Route>
+                  <Route path="/board" element={<Board />}></Route>
                   <Route
                     path="/create-board"
                     element={<CreateNewBoard />}
