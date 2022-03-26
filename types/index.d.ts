@@ -100,7 +100,6 @@ export interface User {
   id: string | null;
   name: string;
   email: string;
-  pictureURL?: string;
   dateOfBirth: string;
   alternativeEmail?: string;
   phoneNumber: string;
