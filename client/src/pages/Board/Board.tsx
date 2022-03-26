@@ -22,8 +22,8 @@ export default function Board() {
     const mockNotes = [
         { id: 1, message: "I love you, mwah mwah mwah mwah mwah ", name: "Jon" },
         { id: 2, message: "Seeing Jen", name: "Julia" },
-        { id: 3, message: "Seeing Jen", name: "A very long name" },
-        { id: 4, message: "Seeing Jen", name: "Al" },
+        { id: 3, message: "Walking Luna, will be back soon", name: "A very long name" },
+        { id: 4, message: "Watching a movie", name: "Jax" },
     ];
     const mockList = [{ id: 1, ListName: "To do" }, { id: 2, ListName: "Grocery" }, { id: 3, ListName: "Chores" }];
     const mockExpense = [{ id: 1, ExpenseName: "Food" }, { id: 2, ExpenseName: "Phone bill" }, { id: 3, ExpenseName: "Electic" }];
@@ -185,15 +185,15 @@ export default function Board() {
                                         justifyContent="center"
                                         alignItems="center"
                                         xs={5}
-                                        pr={1}
+                                        pr={3}
                                         direction='column'>
-                                        <Box className='ListBox'>
-                                            <Typography className='ListFont' m={1} variant='h5' sx={{ textAlign: 'left', fontWeight: "bold", color: ' #631800', }}>
+                                        <Box p={1} className='ListBox'>
+                                            <Typography className='ListFont' variant='h5' sx={{ textAlign: 'left', fontWeight: "bold", color: ' #631800', }}>
                                                 List
                                             </Typography>
                                             {mockList.map((mockList) => {
                                                 return (
-                                                    <Typography className="ExpenseFont" m={1} variant='body1' sx={{ textAlign: 'left', color: ' #631800' }} >
+                                                    <Typography className="ExpenseFont" p={1} variant='body1' sx={{ textAlign: 'left', color: ' #631800' }} >
                                                         {mockList.ListName}
                                                     </Typography>
                                                 );
@@ -204,8 +204,8 @@ export default function Board() {
                                                 </Link>
                                             </div>
                                         </Box>
-                                        <Box mt={1} pb={1} className='ExpenseBox'>
-                                            <Typography className="ExpenseFont" m={1} variant='h5' sx={{ textAlign: 'left', fontWeight: "bold" }} >
+                                        <Box mt={1} p={1} className='ExpenseBox'>
+                                            <Typography className="ExpenseFont"  variant='h5' sx={{ textAlign: 'left', fontWeight: "bold" }} >
                                                 Expense
                                             </Typography>
                                             {mockExpense.map((mockExpense) => {
@@ -231,12 +231,12 @@ export default function Board() {
                                     pt={1}>
                                     <Box p={1} className='PersonalNoteBox'>
                                         <Grid container direction="column">
-                                            <Typography className="PersonalNoteFont" m={1} variant='h5' sx={{ textAlign: 'left', fontWeight: "bold" }} >
+                                            <Typography className="PersonalNoteFont" variant='h5' sx={{ textAlign: 'left', fontWeight: "bold" }} >
                                                 Personal Notes
                                             </Typography>
                                             {mockPersonal.map((mockPersonal) => {
                                                 return (
-                                                    <Typography className="PersonalNoteFont" ml={1} mr={1} mt={0.5} variant='body1' sx={{ textAlign: 'left', color: ' #032200' }} >
+                                                    <Typography className="PersonalNoteFont" m={0.5} variant='body1' sx={{ textAlign: 'left', color: ' #032200' }} >
                                                         {mockPersonal.NoteName}
                                                     </Typography>
                                                 );
