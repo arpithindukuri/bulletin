@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Calendar from "./pages/Calendar";
-import List from "./pages/List";
 import { theme } from "./theme/theme";
 import { ThemeProvider } from "@mui/material/styles";
 import { Provider } from "react-redux";
@@ -17,6 +15,7 @@ import BoardsView from "./pages/BoardViews/BoardsView";
 import ManageBoard from "./pages/ManageBoard/ManageBoard";
 import Expenses from "./pages/Expenses/Expenses";
 import Notes from "./pages/Notes/Notes";
+import Board from "./pages/Board/Board";
 import SupportUs from "./pages/SupportUs/SupportUs";
 import CreateNewBoard from "./pages/CreateNewBoard/CreateNewBoard";
 import { store } from "./store";
@@ -40,8 +39,16 @@ function App() {
                   <Route path="/account-info" element={<AccountInfo />}></Route>
                   <Route path="/profile" element={<Dashboard />}></Route>
                   <Route path="/support-us" element={<SupportUs />}></Route>
-                  <Route path="/boards" element={<BoardsView />}></Route>
-                  <Route path="/notes/:board_id" element={<Notes />}></Route>
+                  <Route path="/boardsView" element={<BoardsView />}></Route>
+                  
+                  <Route 
+                    path="/notes/:board_id" 
+                    element={<Notes />}
+                  ></Route>
+                   <Route 
+                    path="/board/:board_id" 
+                    element={<Board />}
+                  ></Route>
                   <Route
                     path="/create-board"
                     element={<CreateNewBoard />}
@@ -54,8 +61,6 @@ function App() {
                     path="/manage-board/:board_id"
                     element={<ManageBoard />}
                   ></Route>
-                  <Route path="/calendar" element={<Calendar />}></Route>
-                  <Route path="/list" element={<List />}></Route>
                 </Routes>
               </AuthGuard>
             </BrowserRouter>

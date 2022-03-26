@@ -103,7 +103,7 @@ export default function Expenses() {
         />
       ) : null}
       <div style={{ marginLeft: "5%" }}>
-        <a href="/">
+        <a href={"/board/"+params.board_id}>
           <Typography
             variant="subtitle1"
             color="primary.light"
