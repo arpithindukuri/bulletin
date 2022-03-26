@@ -1,13 +1,11 @@
-import StyledMenu from "../components/StyledMenu";
-import ShowCalendar from "../components/ShowCalendar";
-import React, { useState } from "react";
+import StyledMenu from "../../components/StyledMenu";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -15,6 +13,8 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import "./List.css";
 import { Container } from "@material-ui/core";
+import axiosInstance from "../../axios";
+import { useParams } from "react-router-dom";
 
 const style = {
   position: "absolute" as "absolute",
@@ -31,26 +31,40 @@ const style = {
 };
 
 export default function List() {
+  const params = useParams();
   const [open, setOpen] = useState(false);
   const [openTask, setOpenTask] = useState(false);
+  const [listType, setlistType] = useState("");
+  const [textValue, setTextValue] = useState<string>("");
+  const [boardName, setBoardName] = useState("");
+
   const handleOpen = () => setOpen(true);
   const handleOpenTask = () => setOpenTask(true);
   const handleClose = () => setOpen(false);
   const handleCloseTask = () => setOpenTask(false);
-
-  const [textValue, setTextValue] = useState<string>("");
   const handleSave = () => setOpen(false);
   const handleSort = () => setOpen(false);
-  const [listType, setlistType] = useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
     setlistType(event.target.value as string);
   };
 
+  useEffect(() => {
+    axiosInstance
+      .get("/getBoard", { params: { id: params.board_id } })
+      .then((res) => {
+        setBoardName(res.data.board.data.name);
+        console.log("Information recieved Successfully");
+      })
+      .catch((err) => {
+        console.log("error getting user boards: ", err);
+      });
+  }, [params.board_id]);
+
   return (
-    <Container style={{marginTop: "40px"}}>
-      <a href="/home">
-        <p>Back to Doe Family Board - Main</p>
+    <Container style={{ marginTop: "40px" }}>
+      <a href={"/board/" + params.board_id}>
+        <p>Back to '{boardName}' Board - Main</p>
       </a>
       <h1 style={{ color: "#68390D", fontSize: "2.8rem" }}>Lists</h1>
       <div

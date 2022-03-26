@@ -1,19 +1,20 @@
-import StyledMenu from "../components/StyledMenu";
-import ShowCalendar from "../components/ShowCalendar";
-import React, { useState } from "react";
+import StyledMenu from "../../components/StyledMenu";
+import ShowCalendar from "../../components/ShowCalendar";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import "./Calendar.css";
 import { Container } from "@material-ui/core";
+import { useParams } from "react-router-dom";
+import axiosInstance from "../../axios";
 
 const style = {
   position: "absolute",
@@ -30,17 +31,31 @@ const style = {
 };
 
 export default function Calendar() {
+  const params = useParams();
   const [open, setOpen] = useState(false);
+  const [textValue, setTextValue] = useState<string>("");
+  const [tags, setTag] = useState("");
+  const [boardName, setBoardName] = useState("");
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const [textValue, setTextValue] = useState<string>("");
   const handleSave = () => setOpen(false);
-  const [tags, setTag] = useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
     setTag(event.target.value as string);
   };
+
+  useEffect(() => {
+    axiosInstance
+      .get("/getBoard", { params: { id: params.board_id } })
+      .then((res) => {
+        setBoardName(res.data.board.data.name);
+        console.log("Information recieved Successfully");
+      })
+      .catch((err) => {
+        console.log("error getting user boards: ", err);
+      });
+  }, [params.board_id]);
 
   return (
     <Container>
@@ -53,8 +68,8 @@ export default function Calendar() {
           width: "90%",
         }}
       >
-        <a href="/home">
-          <p>Back to Doe Family Board - Main</p>
+        <a href={"/board/" + params.board_id}>
+          <p>Back to '{boardName}' Board - Main</p>
         </a>
         <div
           style={{

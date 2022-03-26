@@ -1,7 +1,7 @@
-import { useState } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Calendar from "./pages/Calendar";
-import List from "./pages/List";
+import Calendar from "./pages/Calendar/Calendar";
+import List from "./pages/List/List";
 import { theme } from "./theme/theme";
 import { ThemeProvider } from "@mui/material/styles";
 import { Provider } from "react-redux";
@@ -56,7 +56,10 @@ function App() {
                     path="/manage-board/:board_id"
                     element={<ManageBoard />}
                   ></Route>
-                  <Route path="/calendar/:board_id" element={<Calendar />}></Route>
+                  <Route
+                    path="/calendar/:board_id"
+                    element={<Calendar />}
+                  ></Route>
                   <Route path="/lists/:board_id" element={<List />}></Route>
                 </Routes>
               </AuthGuard>
