@@ -5,9 +5,11 @@
     "noUnusedLocals": true,
     "outDir": "lib",
     "sourceMap": true,
-    "strict": true,
-    "target": "es2017"
+    "strict": false,
+    "target": "es2017",
+    "lib": ["es6"],
+    "types": ["node", "mocha"]
   },
   "compileOnSave": true,
-  "include": ["src"]
+  "include": ["src", "tests"]
 }

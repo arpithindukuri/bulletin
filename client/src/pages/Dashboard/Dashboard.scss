@@ -1,0 +1,40 @@
+@import "../../styles/colors.scss";
+.dashboard {
+  width: 100%;
+  height: 100%;
+
+  margin-top: -15px;
+
+  &-user-info {
+    color: $color-brown;
+    font-size: 1rem;
+    &-container {
+      height: 100%;
+    }
+  }
+
+  &-grid-item {
+    width: 100%;
+    min-width: 200px;
+    margin: auto;
+  }
+
+  &-grid-item > p {
+    color: $color-brown;
+  }
+
+  .save-button {
+    background-color: $color-pink;
+    color: $color-brown;
+    width: 30%;
+    min-width: 150px;
+    margin-bottom: 80px;
+    margin-top: -15px;
+
+    &-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

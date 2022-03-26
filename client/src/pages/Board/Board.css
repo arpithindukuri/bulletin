@@ -1,131 +1,131 @@
 .bulletinBoardBox {
-    background: #e8d1b5;
-    border: 4px solid #aa896b;
-    box-sizing: border-box;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  background: #e8d1b5;
+  border: 4px solid #aa896b;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .profileCircle {
-    background: #f0e6db;
-    border: 4px solid #aa896b;
-    box-sizing: border-box;
-    border-radius: 80px;
-    width: 100px;
-    height: 100px;
-    align-items: center;
+  background: #f0e6db;
+  border: 4px solid #aa896b;
+  box-sizing: border-box;
+  border-radius: 80px;
+  width: 100px;
+  height: 100px;
+  align-items: center;
 
-    font-family: "Roboto";
-    font-style: normal;
-    text-align: center;
+  font-family: "Roboto";
+  font-style: normal;
+  text-align: center;
 
-    color: #aa896b;
+  color: #aa896b;
 }
 
 .BoardNameHeader {
-    font-family: "Roboto";
-    font-style: normal;
-    line-height: 23px;
+  font-family: "Roboto";
+  font-style: normal;
+  line-height: 23px;
 
-    color: #68390d;
+  color: #68390d;
 }
 
 .BoardDescription {
-    font-family: "Roboto";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 12px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
 
-    color: rgba(104, 57, 13, 0.54);
+  color: rgba(104, 57, 13, 0.54);
 }
 
 .NoteHeader {
-    font-family: "Roboto";
-    font-style: normal;
-    line-height: 20px;
+  font-family: "Roboto";
+  font-style: normal;
+  line-height: 20px;
 
-    color: #68390d;
+  color: #68390d;
 }
 
 .NoteAdd {
-    font-family: "Roboto";
-    font-style: normal;
-    line-height: 20px;
+  font-family: "Roboto";
+  font-style: normal;
+  line-height: 20px;
 
-    color: #68390d;
+  color: #68390d;
 }
 
 .ListBox {
-    background: #fff6ed;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 100%;
-    height: 100%;
+  background: #fff6ed;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 100%;
 }
 
 .ListFont {
-    font-family: "Roboto";
-    font-style: normal;
+  font-family: "Roboto";
+  font-style: normal;
 
-    color: #631800;
+  color: #631800;
 }
 .ExpenseBox {
-    background: #d3f4d4;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 100%;
-    height: 100%;
+  background: #d3f4d4;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 100%;
 }
 
 .ExpenseFont {
-    font-family: "Roboto";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 21px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 21px;
 
-    color: #032200;
+  color: #032200;
 }
 
 .PersonalNoteBox {
-    background: #ffffff;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 100%;
-    height: 100%;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 100%;
 }
 
 .PersonalNoteFont {
-    font-family: "Roboto";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 21px;
-    color: #032200;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 21px;
+  color: #032200;
 }
 
 .CalendarBox {
-    background: #ffffff;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .TodayBox {
-    background: #c6e1ee;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 100%;
-    height: 100%;
+  background: #c6e1ee;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 100%;
 }
 .TodayFont {
-    font-family: "Roboto";
-    font-style: normal;
-    color: #62808e;
+  font-family: "Roboto";
+  font-style: normal;
+  color: #62808e;
 }
 
 .SevenDayBox {
-    background: #c6caee;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 100%;
-    height: 100%;
+  background: #c6caee;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 100%;
 }
 
 .SevenDayFont {
-    font-family: "Roboto";
-    font-style: normal;
-    color: #62678e;
+  font-family: "Roboto";
+  font-style: normal;
+  color: #62678e;
 }
