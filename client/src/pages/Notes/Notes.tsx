@@ -146,7 +146,7 @@ const Notes: React.FC = () => {
       return;
     }
     let newDate = new Date()
-    let day = newDate.getDay();
+    let day = newDate.getDate();
     let month = newDate.getMonth() + 1;
     let year = newDate.getFullYear();
 
@@ -204,7 +204,7 @@ const Notes: React.FC = () => {
         </div>
       ) : null}
 
-      <a href="/boards">
+      <a href={"/board/"+params.board_id}>
         <Typography
           variant="subtitle1"
           color="primary.light"

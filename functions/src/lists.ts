@@ -21,16 +21,11 @@ export const getLists = functions.https.onRequest(async (request, response) => {
     // TODO: Check auth
  
     // Push the new message into Firestore using the Firebase Admin SDK.
-    const snapshot = await admin.firestore().collection('boards').doc(String(board_id));
-    const itemsSnapshot = await admin.firestore().collectionGroup('listItems').startAt(snapshot).get();
+    const snapshot = await admin.firestore().collection('boards').doc(String(board_id)).collection('lists').get();
+
     // Send back a message that we've successfully written the message
     if (snapshot)
-      response.json(
-        { lists: {
-        data: (await snapshot.collection('lists').get()).docs.map((doc) => doc.data()),
-        id: itemsSnapshot.docs.map((doc)=>doc.ref.path)
-       }
-      });
+      response.json({ lists: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))});
   });
 });
 

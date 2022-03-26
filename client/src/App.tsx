@@ -41,9 +41,9 @@ function App() {
                   <Route path="/account-info" element={<AccountInfo />}></Route>
                   <Route path="/profile" element={<Dashboard />}></Route>
                   <Route path="/support-us" element={<SupportUs />}></Route>
-                  <Route path="/boards" element={<BoardsView />}></Route>
+                  <Route path="/boardsView" element={<BoardsView />}></Route>
                   <Route path="/notes/:board_id" element={<Notes />}></Route>
-                  <Route path="/board" element={<Board />}></Route>
+                  <Route path="/board/:board_id" element={<Board />}></Route>
                   <Route
                     path="/create-board"
                     element={<CreateNewBoard />}
@@ -56,8 +56,8 @@ function App() {
                     path="/manage-board/:board_id"
                     element={<ManageBoard />}
                   ></Route>
-                  <Route path="/calendar" element={<Calendar />}></Route>
-                  <Route path="/list" element={<List />}></Route>
+                  <Route path="/calendar/:board_id" element={<Calendar />}></Route>
+                  <Route path="/lists/:board_id" element={<List />}></Route>
                 </Routes>
               </AuthGuard>
             </BrowserRouter>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Typography, Box, Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import Avatar from '@mui/material/Avatar';
 import "./CreateNewBoard.css";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
@@ -63,7 +64,6 @@ export default function CreateNewBoard() {
     (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setValues({ ...values, [prop]: event.target.value });
     };
-
 
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
@@ -148,7 +148,7 @@ export default function CreateNewBoard() {
                   setMessageSeverity("error");
                 }
                 setMessageOpen(true);
-                navigate("/boards");
+                navigate("/boardsView");
                 
               })
               .catch((err) => {
@@ -176,7 +176,7 @@ export default function CreateNewBoard() {
           <Link
             className="BackToBoardsLink"
             variant="body1"
-            href="boards"
+            href="boardsView"
             underline="hover"
           >
             Back to boards
@@ -224,19 +224,18 @@ export default function CreateNewBoard() {
           >
             <Grid container item justifyContent="center" alignItems="center" style={{width: "100%"}} direction="column">
                 <Grid item>
-                <img src={defaultProfile} alt="Add A New Board" width={"200px"}></img>
+                  <Avatar
+                    className="profileCircle"
+                    sx={{ background: '#f0e6db', color: '#AA896B', fontWeight: 'bold', width: ' 200px', height: '200px', fontSize: '60px', marginTop:"10px", marginBottom:"10px" }} >
+                    {values.name.split(' ')[0][0]}
+                  </Avatar>
                 </Grid>
-              <Grid item justifyContent="center" alignItems="center" style={{marginBottom: "30px"}}>
-                <Button variant="text" component="label" size="small">
-                <PhotoCamera />
-                &nbsp;Upload
-                  <input type="file" hidden />
-                </Button>
-              </Grid>
+             
 
               {/* Board Preview */}
               <Grid item>
               <img src={usedBoard} alt="Add A New Board" width={200}></img>
+                
               </Grid>
               <Grid item><Typography
                 className="inputTitle"
