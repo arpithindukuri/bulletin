@@ -87,6 +87,8 @@
 .PersonalNoteBox {
     background: #ffffff;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    height: 100%;
 }
 
 .PersonalNoteFont {
@@ -95,11 +97,35 @@
     font-weight: 700;
     font-size: 18px;
     line-height: 21px;
-
     color: #032200;
 }
 
 .CalendarBox {
     background: #ffffff;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.TodayBox {
+    background: #c6e1ee;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    height: 100%;
+}
+.TodayFont {
+    font-family: "Roboto";
+    font-style: normal;
+    color: #62808e;
+}
+
+.SevenDayBox {
+    background: #c6caee;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    height: 100%;
+}
+
+.SevenDayFont {
+    font-family: "Roboto";
+    font-style: normal;
+    color: #62678e;
 }

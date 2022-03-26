@@ -1,18 +1,20 @@
 import { Typography, Container, Box, Button } from "@mui/material";
-import './Board.css';
 import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
-import LoadNote from './LoadNotes'
-
 import * as React from 'react';
-import Link from '@mui/material/Link';
-import AddNote from "./AddNote"
-// import LoadCalendar from "./LoadCalendar";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { Today } from "@material-ui/icons";
+import Link from '@mui/material/Link';
 
+import './Board.css';
+import AddNote from "./AddNote"
+import LoadNote from './LoadNotes'
+
+interface ReminderState {
+    reminderType: string;
+    data: {}[];
+}
 
 export default function Board() {
     // Mock data
@@ -27,13 +29,10 @@ export default function Board() {
     const mockExpense = [{ id: 1, ExpenseName: "Food" }, { id: 2, ExpenseName: "Phone bill" }, { id: 3, ExpenseName: "Electic" }];
     const mockPersonal = [{ id: 1, NoteName: "Take Luna for a walk" }, { id: 2, NoteName: "Sign Logan’s School Waiver form tonight" }, { id: 3, NoteName: "Pick up medicine" }];
 
-    const [date, setDate] = React.useState(new Date());
+    // Mock data 
+    const mockCalendarDataToday = [{ id: 1, EventName: "Luna Vet Checkup" }, { id: 2, EventName: "Phone meeting with Regional Department" }];
 
-    const onDateChange = (newDate: any) => {
-        setDate(newDate);
-        console.log(newDate);
-    }
-
+    const mockCalendarDataSeven = [{ id: 1, EventName: "Liane Doe’s 45th Birthday" }, { id: 2, EventName: "Logan’s School Ski Feild Trip" }, { id: 3, EventName: "Doctor’s Appointment: Yearly Check-up" }];
 
     return (
         <div
@@ -142,6 +141,7 @@ export default function Board() {
                             alignItems="center"
                             container
                             direction="row"
+                            p={1}
                             sx={{ width: '100%', height: '100%' }}>
                             <Grid
                                 className="leftBoard"
@@ -153,7 +153,6 @@ export default function Board() {
                                 <Grid
                                     className="topLeftBoard"
                                     container
-                                    ml={1}
                                     justifyContent="center"
                                     alignItems="flex-start"
                                     direction='row'>
@@ -161,7 +160,6 @@ export default function Board() {
                                         className="boardNotes"
                                         container
                                         xs={7}
-                                        pt={1}
                                         pr={1}
                                         direction='column'>
                                         <Grid className="NoteHeader" container direction='column'>
@@ -187,8 +185,9 @@ export default function Board() {
                                         justifyContent="center"
                                         alignItems="center"
                                         xs={5}
+                                        pr={1}
                                         direction='column'>
-                                        <Box mt={1} pb={1} className='ListBox'>
+                                        <Box className='ListBox'>
                                             <Typography className='ListFont' m={1} variant='h5' sx={{ textAlign: 'left', fontWeight: "bold", color: ' #631800', }}>
                                                 List
                                             </Typography>
@@ -227,8 +226,10 @@ export default function Board() {
                                 <Grid
                                     className="personalNotesContainer"
                                     container
-                                    direction='column'>
-                                    <Box mt={1} ml={0.5} mb={1} className='PersonalNoteBox'>
+                                    direction='column'
+                                    pr={3}
+                                    pt={1}>
+                                    <Box p={1} className='PersonalNoteBox'>
                                         <Grid container direction="column">
                                             <Typography className="PersonalNoteFont" m={1} variant='h5' sx={{ textAlign: 'left', fontWeight: "bold" }} >
                                                 Personal Notes
@@ -253,10 +254,7 @@ export default function Board() {
                                 alignItems="center"
                                 container
                                 xs={6}
-                                pl={2}
-                                pr={1}
-                                direction="column"
-                                display="flex">
+                                direction="column">
                                 <Grid
                                     className="calendarRightBoard"
                                     container
@@ -264,33 +262,63 @@ export default function Board() {
                                     justifyContent="center"
                                     alignItems="center"
                                     direction="column">
-                                    <Box className='CalendarBox' p={1}>
-                                        <div className='calendar-container'>
-                                            <Calendar onChange={setDate} value={date} locale={"en-US"}/>
-                                        </div>
+                                    <Box p={1} className='CalendarBox' >
+                                        <Calendar locale={"en-US"} className="react-calendar" />
                                     </Box>
                                 </Grid>
                                 <Grid
                                     className="todayReminder"
                                     container
                                     item
+                                    pt={1}
+                                    pr={2}
                                     justifyContent="center"
                                     alignItems="center"
                                     direction="column">
-                                    <Typography variant='body1' sx={{ textAlign: 'left' }} style={{ display: "inline-block", whiteSpace: "pre-line" }}>
-                                        Reminder
-                                    </Typography>
+                                    <Box p={1} className='TodayBox'>
+                                        <Typography className='TodayFont' variant='h5' sx={{ textAlign: 'left', fontWeight: "bold" }}>
+                                            Today
+                                        </Typography>
+                                        {mockCalendarDataSeven.map((mockCalendarDataSeven) => {
+                                            return (
+                                                <Typography className="TodayFont" m={1} variant='body1' sx={{ textAlign: 'left' }}>
+                                                    {mockCalendarDataSeven.EventName}
+                                                </Typography>
+                                            );
+                                        })}
+                                        <div style={{ width: "100%", textAlign: "left" }}>
+                                            <Link className='TodayFont' m={1} variant='body1' sx={{ color: ' #62808e' }}>
+                                                View Calendar
+                                            </Link>
+                                        </div>
+                                    </Box>
                                 </Grid>
                                 <Grid
                                     className="nextSevenReminder"
                                     container
                                     item
+                                    pt={1}
+                                    pr={2}
                                     justifyContent="center"
                                     alignItems="center"
                                     direction="column">
-                                    <Typography variant='body1' sx={{ textAlign: 'left' }} style={{ display: "inline-block", whiteSpace: "pre-line" }}>
-                                        Next 7 Day Reminder
-                                    </Typography>
+                                    <Box p={1} className='SevenDayBox'>
+                                        <Typography className='SevenDayFont'variant='h5' sx={{ textAlign: 'left', fontWeight: "bold" }}>
+                                            Today
+                                        </Typography>
+                                        {mockCalendarDataToday.map((mockCalendarDataToday) => {
+                                            return (
+                                                <Typography className="SevenDayFont" m={1} variant='body1' sx={{ textAlign: 'left' }}>
+                                                    {mockCalendarDataToday.EventName}
+                                                </Typography>
+                                            );
+                                        })}
+                                        <div style={{ width: "100%", textAlign: "left" }}>
+                                            <Link className='SevenDayFont' m={1} variant='body1' sx={{ color: ' #62678e' }}>
+                                                View Calendar
+                                            </Link>
+                                        </div>
+                                    </Box>
                                 </Grid>
                             </Grid>
                         </Grid>
