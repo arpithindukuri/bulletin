@@ -1,7 +1,5 @@
 # Bulletin
 
-test commit
-
 React App: https://bulletin-be82d.web.app/
 
 # TODO:
