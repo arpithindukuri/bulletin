@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Calendar from "./pages/Calendar";
+import List from "./pages/List";
 import { theme } from "./theme/theme";
 import { ThemeProvider } from "@mui/material/styles";
 import { Provider } from "react-redux";
@@ -20,20 +22,6 @@ import CreateNewBoard from "./pages/CreateNewBoard/CreateNewBoard";
 import { store } from "./store";
 import { persistor } from "./store";
 import "./index.css";
-
-const mockBoardData = [{ name: "Doe Family" }];
-const mockUserData = [
-  { id: 1, name: "Liane Doe", email: "liane.doe@gmail.com", role: "Admin" },
-  { id: 2, name: "Dad Doe", email: "dad.doe@gmail.com", role: "Admin" },
-  { id: 3, name: "Logan Doe", email: "logan.doe@gmail.com", role: "Member" },
-  { id: 4, name: "Aly Doe", email: "aly.doe@gmail.com", role: "Member" },
-];
-
-// // Mock Data
-// const mockBoardData = [{name: 'Doe Family'}]
-// const mockUserData = [{id: 1, name: 'Liane Doe', email: 'liane.doe@gmail.com' , role: 'Admin'},
-// {id: 2, name: 'Dad Doe', email: 'dad.doe@gmail.com', role: 'Admin'}, {id: 3, name: 'Logan Doe', email: 'logan.doe@gmail.com',
-//  role: 'Member'} , {id: 4, name: 'Aly Doe', email: 'aly.doe@gmail.com', role: 'Member'}];
 
 function App() {
   return (
@@ -66,6 +54,8 @@ function App() {
                     path="/manage-board/:board_id"
                     element={<ManageBoard />}
                   ></Route>
+                  <Route path="/calendar" element={<Calendar />}></Route>
+                  <Route path="/list" element={<List />}></Route>
                 </Routes>
               </AuthGuard>
             </BrowserRouter>

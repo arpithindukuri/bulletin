@@ -1,0 +1,40 @@
+p {
+  color: #3e1e00;
+}
+
+.button {
+  background-color: #aa896b; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.listTitle {
+  color: rgba(104, 57, 13, 0.75);
+  font-weight: 750;
+  font-size: 1.5rem;
+}
+
+.taskName {
+  color: #68390d;
+  background-color: white;
+  height: 30px;
+  line-height: 30px;
+  padding-left: 10px;
+  font-weight: 540;
+  padding-top: 5px;
+}
+
+.taskDots {
+  background: white;
+  text-align: right;
+  margin-top: -20px;
+  padding-right: 10px;
+  line-height: 0px;
+  height: 5px;
+  padding-bottom: 8px;
+}
