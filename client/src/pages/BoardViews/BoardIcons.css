@@ -1,0 +1,19 @@
+.board-icon-image {
+    width: 80%;
+    box-shadow: "1px 5px 8px rgba(165, 165, 165)";
+}
+
+.board-icon-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+} 
+
+
+@media screen and (max-width: 600px) {
+    .board-icon-image {
+        width: 100%;
+        box-shadow: "1px 5px 8px rgba(165, 165, 165)";
+    }
+  }

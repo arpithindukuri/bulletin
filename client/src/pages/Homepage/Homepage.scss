@@ -1,0 +1,71 @@
+.email-signup-page {
+  width: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  .email-signup-page-inner {
+    margin-top: 7%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .Bulletin-logo {
+    width: 53px;
+    height: 54px;
+  }
+
+  .title-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+  }
+
+  .email-signup-primary {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 50px;
+    color: #534029;
+  }
+
+  .secondary {
+    width: 690px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 23px;
+
+    color: #6d5a43;
+  }
+
+  .email-signup-button {
+    border: 1px solid #f0e6db;
+    background-color: #ecd1c5;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    color: white;
+    text-align: center;
+    font-size: 20px;
+  }
+
+  .email-input-field {
+    box-sizing: border-box;
+    border: 0px;
+    width: 40%;
+    margin-right: 30px;
+
+    background: #ffffff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    color: #9082708f;
+    font-size: 20px;
+    font-weight: 600;
+  }
+}

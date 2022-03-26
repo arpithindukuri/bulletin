@@ -1,20 +1,16 @@
 export interface Board {
   name: string;
-  notes: Note[];
-  lists: List[];
-  expenses: Expense[];
-  events: Event[];
+  description: String;
 }
 
 export interface Note {
-  text: string;
-  author: string;
-  attachmentURLs: string[];
+  name: string;
+  date: string;
+  content: string;
 }
 
 export interface List {
   name: string;
-  items: ListItem[];
 }
 
 export interface ListItem {
@@ -24,15 +20,32 @@ export interface ListItem {
 
 export interface Expense {
   name: string;
-  deadline: Timestamp;
-  /** Number of cents to be paid */
-  amount: Number;
+  deadline: string;
+  amount: number;
+  assignee: string;
+}
+export interface Budget {
+  name: string;
+  date: string;
+  assigned: string;
+  balance: number;
 }
 
 export interface Event {
   name: string;
-  start: Timestamp;
-  end: Timestamp;
+  date: String;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  birthDay: any;
+  alternativeEmail: string;
+  phoneNumber: string;
+  overview: string;
+  boards: Array<string>;
+  idToken: string;
 }
 
 /** Number of milliseconds from UNIX Epoch */

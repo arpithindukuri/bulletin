@@ -1,139 +1,221 @@
 // IMPORTING APIS
-import React from "react";
-import { AppBar, Toolbar, IconButton, useMediaQuery, Button, Menu, MenuItem, ListItemIcon} from "@material-ui/core";
-import Typography from '@mui/material/Typography';
-import MenuIcon from '@mui/icons-material/Menu';
+import React, { useEffect, useState } from "react";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  useMediaQuery,
+  Button,
+  Menu,
+  MenuItem,
+} from "@material-ui/core";
+import Typography from "@mui/material/Typography";
+import MenuIcon from "@mui/icons-material/Menu";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
-// REACT APP IMPORTS
-import Homepage from "../pages/Homepage";
-import Login from "../pages/Login";
-import Signup from "../pages/Signup";
-//The local styling used here 
+import { useNavigate, useLocation } from "react-router-dom";
+import { useTypedDispatch } from "../hooks/ReduxHooks";
+import { userSignedOut } from "../actions/UserActions/UserActionCreator";
+import { useTypedSelector } from "../hooks/ReduxHooks";
+import { selectUserData } from "../actions/UserActions/UserSelector";
+
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1
-  },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    background: "#F0E6DB",
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   tabs: {
-    width: '100%'
+    width: "100%",
+  },
+  buttonActive: {
+    borderTop: "5px solid white",
   }
 }));
 
 const Header = () => {
+  const userData = useTypedSelector(selectUserData);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useTypedDispatch();
   const classes = useStyles();
-  const [anchor, setAnchor] = React.useState(null);
-  const open = Boolean(anchor);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchor, setAnchor] = useState<null | HTMLElement>(null);
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+
+  const unauthenticatedPaths = [
+    {
+      name: "Main",
+      function: () => {
+        setAnchor(null);
+        navigate("/");
+      },
+      path: "/",
+    },
+    {
+      name: "Log In",
+      function: () => {
+        setAnchor(null);
+        navigate("/login");
+      },
+      path: "/login",
+    },
+    {
+      name: "Sign Up",
+      function: () => {
+        setAnchor(null);
+        navigate("/signup");
+      },
+      path: "/signup",
+    },
+  ];
+
+  const authenticatedPaths = [
+    {
+      name: "Boards",
+      function: () => {
+        setAnchor(null);
+        navigate("/boards");
+      },
+      path: "/boards",
+    },
+    {
+      name: "dashboard",
+      function: () => {
+        setAnchor(null);
+        navigate("/account-info");
+      },
+      path: "/account-info"
+    },
+    {
+      name: "logout",
+
+      function: () => {
+        setAnchor(null);
+        dispatch(userSignedOut());
+        localStorage.removeItem("root");
+        localStorage.removeItem("refresh");
+        localStorage.removeItem("access");
+        navigate("/login");
+      },
+      path: "/logout"
+    },
+  ];
+
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
+    setAnchor(event.currentTarget);
   };
 
+  const handleMenuButtonClick = (link: string) => {
+    setAnchor(null);
+    navigate(link);
+  };
+
+  useEffect(() => {
+    if (!userData?.id || !localStorage.getItem("refresh")) {
+      setAuthenticated(false);
+    } else {
+      setAuthenticated(true);
+    }
+  }, [userData]);
+
+  if (authenticated === null) return <div />;
+
   return (
-    <div className={classes.root}>
-      <BrowserRouter>
-          <AppBar position="static"  style={{ background: '#F0E6DB' }}>
-            <Toolbar>
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                className={classes.title}
-                sx={{ mr: 2, color: '#534029', display: { xs: 'none', md: 'flex' } }}
-              >
-                BULLETIN
-              </Typography>
-              {isMobile ? (
+    <AppBar position="static" className={classes.appBar}>
+      <Toolbar>
+        <Typography
+          variant="h6"
+          noWrap
+          component="div"
+          className={classes.title}
+          sx={{
+            mr: 2,
+            color: "#534029",
+            display: { xs: "none", md: "flex" },
+            fontWeight: "bold",
+          }}
+        >
+          BULLETIN
+        </Typography>
+        {isMobile ? (
+          <div>
+            <IconButton
+              color="inherit"
+              edge="start"
+              aria-label="menu"
+              onClick={handleMenu}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchor}
+              keepMounted
+              open={Boolean(anchor)}
+              onClose={() => {
+                setAnchor(null);
+              }}
+            >
+              {authenticated ? (
                 <>
-                  <IconButton
-                    color="inherit"
-                    className={classes.menuButton}
-                    edge="start"
-                    aria-label="menu"
-                    onClick={handleMenu}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                  <Menu
-                    id="menu-appbar"
-                    anchorEl={anchor}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right"
-                    }}
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right"
-                    }}
-                    open={open}
-                  >
-                    <MenuItem
-                      onClick={() => setAnchor(null)}
-                      component={Link}
-                      to="/login"
-                    >
-                      <Typography variant="h6">Main</Typography>
+                  {authenticatedPaths.map((item, idx) => (
+                    <MenuItem key={idx} onClick={item.function}>
+                      <Typography variant="h6">{item.name}</Typography>
                     </MenuItem>
-                    <MenuItem
-                      onClick={() => setAnchor(null)}
-                      component={Link}
-                      to="/home"
-                    >
-                      <Typography variant="h6">Log In</Typography>
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => setAnchor(null)}
-                      component={Link}
-                      to="/signup"
-                    >
-                      <Typography variant="h6">Sign Up</Typography>
-                    </MenuItem>
-                  </Menu>
+                  ))}
                 </>
               ) : (
-                <div style={{ marginRight: "2rem" }}>
-                  <Button
-                    variant="text"
-                    color="default"
-                    component={Link}
-                    to="/home"
-                  >
-                    Main
-                  </Button>
-                  <Button
-                    variant="text"
-                    color="default"
-                    component={Link}
-                    to="/login"
-                  >
-                    Log In
-                  </Button>
-                  <Button
-                    variant="text"
-                    color="default"
-                    component={Link}
-                    to="/signup"
-                  >
-                   Sign Up
-                  </Button>
-                </div>
+                <>
+                  {unauthenticatedPaths.map((item, idx) => (
+                    <MenuItem key={idx} onClick={item.function}>
+                      <Typography variant="h6">{item.name}</Typography>
+                    </MenuItem>
+                  ))}
+                </>
               )}
-            </Toolbar>
-          </AppBar>
-          <Routes>
-            <Route path='/home' element={<Homepage/>}></Route>
-            <Route path='/login' element={<Login/>}></Route>
-            <Route path='/signup' element={<Signup/>}></Route>
-          </Routes>
-          </BrowserRouter>
-    </div>
+            </Menu>
+          </div>
+        ) : (
+          <div style={{ marginRight: "2rem" }}>
+            {authenticated ? (
+              <>
+                {authenticatedPaths.map((item, idx) => (
+                  <Button
+                    key={idx}
+                    variant="text"
+                    color="default"
+                    onClick={item.function}
+                    className={item.path == location.pathname ? classes.buttonActive : ""}
+                  >
+                    {item.name}
+                  </Button>
+                ))}
+              </>
+            ) : (
+              <>
+                {unauthenticatedPaths.map((item, idx) => (
+                  <Button
+                    key={idx}
+                    variant="text"
+                    color="default"
+                    onClick={item.function}
+                    className={item.path == location.pathname ? classes.buttonActive : ""}
+                  >
+                    {item.name}
+                  </Button>
+                ))}
+              </>
+            )}
+          </div>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 };
 

@@ -5,6 +5,10 @@ import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+// REACT APP IMPORTS
+import LogIn from "../pages/LogIn/LogIn";
+import SignUp from "../pages/SignUp/SignUp";
+
 //The local styling used here 
 const useStyles = makeStyles((theme) => ({
   root: {
