@@ -6,7 +6,6 @@ export interface Board {
 export interface Note {
   name: string;
   date: string;
-  tags: string [];
   content: string;
 }
 
