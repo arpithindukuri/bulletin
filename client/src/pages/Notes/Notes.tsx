@@ -9,15 +9,15 @@ import { Snackbar } from "@material-ui/core";
 import { Alert, AlertColor } from "@mui/material";
 
 interface NotesProp {
+  id: string;
   name: string;
   date: string;
-  tags: string[];
   content: string;
 }
 interface State {
+  id: string;
   name: string;
   date: string;
-  tags: string[];
   content: string;
 }
 interface CreateNoteErrors {
@@ -32,9 +32,9 @@ const Notes: React.FC = () => {
   const [noteAdded, setNoteAdded] = useState(false);
 
   const [values, setValues] = React.useState<State>({
+    id: "",
     name: "",
     date: "",
-    tags: [],
     content: "",
   });
   const [errors, setErrors] = useState<CreateNoteErrors>({
@@ -54,6 +54,7 @@ const Notes: React.FC = () => {
     axiosInstance
       .get("/getNotes", { params: { board_id: params.board_id } })
       .then((res) => {
+        console.log(res);
         if (success) {
           setNotes(res.data.notes);
         }
@@ -94,16 +95,67 @@ const Notes: React.FC = () => {
     setErrors({ ...errors });
     return !errorsExits;
   };
-
+  const handleEditNote = (id: string, newName: string, newContent: string, newDate: String) => {
+    console.log(id);
+    console.log(newName);
+    console.log(newContent);
+    let success = true
+    axiosInstance
+      .put("/editNote", {name: newName, content: newContent, date: newDate}, 
+      { params: { note_id: id, board_id: params.board_id } })
+      .then((res) => {
+        console.log(res);
+        if (success) {
+          setMessage("Note edited.");
+          setMessageSeverity("success");
+          setNoteAdded(!noteAdded);
+        } else {
+          setMessage("Note cannot be edited.");
+          setMessageSeverity("error");
+        }
+      })
+      .catch((err) => {
+        console.log("error deleting note: ", err);
+        success = false;
+      });
+    
+  }
+  const handleDeleteNote = (id: string) => {
+    console.log(id);
+    let success = true
+    axiosInstance
+      .delete("/deleteNote", { params: { note_id: id, board_id: params.board_id } })
+      .then((res) => {
+        console.log(res);
+        if (success) {
+          setMessage("Note deleted.");
+          setMessageSeverity("success");
+          setNoteAdded(!noteAdded);
+        } else {
+          setMessage("Note cannot be deleted.");
+          setMessageSeverity("error");
+        }
+      })
+      .catch((err) => {
+        console.log("error deleting note: ", err);
+        success = false;
+      });
+  }
   const handleSaveNote = () => {
     if (!validateData()) {
       return;
     }
+    let newDate = new Date()
+    let day = newDate.getDay();
+    let month = newDate.getMonth() + 1;
+    let year = newDate.getFullYear();
+
+    values.date = `${day}/${month}/${year}`;
     console.log(params.board_id);
     console.log(values);
     let success = true;
     axiosInstance
-      .post("/addNote", values, { params: { id: params.board_id } })
+      .post("/addNote", {name: values.name, content: values.content, date: values.date}, { params: { id: params.board_id } })
       .then((res) => {
         console.log(res);
         if (success) {
@@ -170,15 +222,13 @@ const Notes: React.FC = () => {
       <Box>
         <Box className="notesTable">
           <Box className="notesTableRow">
-            <Box width={"60%"}>
+            <Box width={"70%"}>
               <Typography fontWeight={"bold"}>Note Title</Typography>
             </Box>
             <Box width={"20%"}>
               <Typography fontWeight={"bold"}>Date Created</Typography>
             </Box>
-            <Box width={"10%"}>
-              <Typography fontWeight={"bold"}>Tags</Typography>
-            </Box>
+            
             <Box width={"5%"}></Box>
             <Box width={"5%"}></Box>
           </Box>
@@ -186,10 +236,12 @@ const Notes: React.FC = () => {
             return (
               <Box key={idx} className="notesTableRow">
                 <NoteRow
+                  id={notes.id}
                   name={notes.name}
                   date={notes.date}
-                  tags={notes.tags}
                   content={notes.content}
+                  onDelete = {handleDeleteNote}
+                  onEdit = {handleEditNote}
                 ></NoteRow>
               </Box>
             );
