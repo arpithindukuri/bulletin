@@ -2,9 +2,32 @@ export interface Board {
   id: string | null;
   name: string;
   description: string;
-  memberUserIDs: string;
+  members: BoardMember[];
+  memberPermissions: MemberPermissions;
   notes: Note[];
   lists: List[];
+  expenses: Expense[];
+  events: Event[];
+}
+
+export interface BoardMember {
+  userID: string;
+  role: BoardRole;
+}
+
+type BoardRole = "admin" | "member";
+
+export interface MemberPermissions {
+  viewNotes: boolean;
+  viewLists: boolean;
+  viewExpenses: boolean;
+  viewCalendar: boolean;
+  viewPersonalReminders: boolean;
+  editNotes: boolean;
+  editLists: boolean;
+  editExpenses: boolean;
+  editCalendar: boolean;
+  editPersonalReminders: boolean;
 }
 
 export interface Note {
