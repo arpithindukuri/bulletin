@@ -25,7 +25,12 @@ export const getBudgets = functions.https.onRequest(async (request, response) =>
 
     // Send back a message that we've successfully written the message
     if (snapshot)
-      response.json({ notes: snapshot.docs.map((doc) => doc.data()) });
+      response.status(200).json({ budgets: snapshot.docs.map(
+        (doc) => {
+        return {id: doc.id, ...doc.data()}
+      }
+      ) 
+    });
   });
 });
 
@@ -88,7 +93,7 @@ export const addBudget = functions.https.onRequest(async (request, response) => 
     
     // Send back a message that we've successfully written the message
     if (snapshot)
-      response.send(`Messageasdfg with ID: ${snapshot.id} added.`);
+      response.status(201).json({id: snapshot.id});
   });
 });
 export const deleteBudget = functions.https.onRequest(async (request, response) => {
@@ -114,8 +119,8 @@ export const deleteBudget = functions.https.onRequest(async (request, response) 
     //delete the budget (if found) and send a response message
     if ((await snapshot.get()).exists){
       snapshot.delete();
-      response.status(400).send(`Budget with ID: ${budget_id} is deleted.`);
-    }else 
+      response.status(204).send(`Budget with ID: ${budget_id} is deleted.`);
+    } else 
       response.status(400).send("Budget Not Found");
   });
 });
@@ -151,7 +156,7 @@ export const editBudget = functions.https.onRequest(async (request, response) =>
     //edit the budget (if found) and send a response message
     if ((await snapshot.get()).exists){
       snapshot.set(body);
-      response.status(400).send(`Budget with ID: ${budget_id} is updated.`);
+      response.status(200).send(`Budget with ID: ${budget_id} is updated.`);
     }else 
       response.status(400).send("Budget Not Found");
   });

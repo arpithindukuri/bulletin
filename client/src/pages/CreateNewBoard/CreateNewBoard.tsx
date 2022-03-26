@@ -129,9 +129,7 @@ export default function CreateNewBoard() {
             if (success) {
               setMessage("Board Added.");
               setMessageSeverity("success");
-              
-              const newBoard = res.data.substring(22)
-              console.log(res.data.substring(22));
+              const newBoard = res.data.board.id;
               console.log(userData);
               const Boards = [...userData.boards];
               Boards.push(newBoard);

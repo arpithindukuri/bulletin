@@ -22,15 +22,14 @@ export interface ListItem {
 export interface Expense {
   name: string;
   deadline: string;
-  /** Number of cents to be paid */
-  amount: Number;
+  amount: number;
+  assignee: string;
 }
 export interface Budget {
   name: string;
   date: string;
-  assigned: String;
-  /** Number of cents to be paid */
-  balance: Number;
+  assigned: string;
+  balance: number;
 }
 
 export interface Event {

@@ -11,10 +11,11 @@ export function isExpense(arg: any): arg is Expense {
     obj.name !== undefined &&
     obj.deadline !== undefined &&
     obj.amount !== undefined &&
-    
+    obj.assignee &&    
     // Check each item has the correct type
     typeof obj.name === "string" &&
     typeof obj.deadline === "string" &&
-    typeof obj.amount === "number"
+    typeof obj.amount === "number" &&
+    typeof obj.assignee == "string"
   );
 }
