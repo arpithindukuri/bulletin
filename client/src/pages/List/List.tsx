@@ -12,18 +12,40 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import "./List.css";
-import { Container } from "@material-ui/core";
+import { Container, withStyles } from "@material-ui/core";
 import axiosInstance from "../../axios";
 import { useParams } from "react-router-dom";
 
+interface ListErrors {
+  name: string;
+  type: string;
+}
+
+interface ListItemErrors {
+  name: string;
+  description: string;
+  isDone?: boolean;
+}
+
+interface List {
+  id: string;
+  name: string;
+  listItem: Array<ListItem>;
+}
+
+interface ListItem {
+  name: string;
+  isDone?: boolean;
+}
+
 const style = {
-  position: "absolute" as "absolute",
+  position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 700,
-  height: 450,
-  overflow: "scroll",
+  height: 270,
+  overflowY: "scroll",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -31,22 +53,183 @@ const style = {
 };
 
 export default function List() {
+  const BrownTextField = withStyles({
+    root: {
+      "& .MuiInput-underline:before": {
+        borderBottomColor: "#683900",
+      },
+      "& .MuiInput-underline:hover:before": {
+        borderBottomColor: "##68390D",
+      },
+      "& .MuiInput-underline:after": {
+        borderBottomColor: "#68390D",
+      },
+    },
+  })(TextField);
+
   const params = useParams();
   const [open, setOpen] = useState(false);
   const [openTask, setOpenTask] = useState(false);
   const [listType, setlistType] = useState("");
-  const [textValue, setTextValue] = useState<string>("");
+  const [listName, setListName] = useState("");
+  const [listItemName, setListItemName] = useState("");
+  const [listItemDescription, setListItemDescription] = useState("");
   const [boardName, setBoardName] = useState("");
+  const [lists, setLists] = useState<Array<List>>([]);
+  const [listErrors, setListErrors] = useState<ListErrors>({
+    name: "",
+    type: "",
+  });
+  const [listItemErrors, setListItemErrors] = useState<ListItemErrors>({
+    name: "",
+    description: "",
+    isDone: false,
+  });
+  const [currentListID, setCurrentListId] = useState("");
 
   const handleOpen = () => setOpen(true);
-  const handleOpenTask = () => setOpenTask(true);
-  const handleClose = () => setOpen(false);
-  const handleCloseTask = () => setOpenTask(false);
-  const handleSave = () => setOpen(false);
+  const handleOpenTask = (id: string) => {
+    setCurrentListId(id);
+    setOpenTask(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    setListName("");
+  };
+  const handleCloseTask = () => {
+    setOpenTask(false);
+    setListItemName("");
+    setListItemDescription("");
+  };
   const handleSort = () => setOpen(false);
 
   const handleChange = (event: SelectChangeEvent) => {
     setlistType(event.target.value as string);
+  };
+
+  const handleListNameChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setListName(event.target.value);
+  };
+
+  const handleTaskNameChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setListItemName(event.target.value);
+  };
+
+  const handleTaskDescriptionChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setListItemDescription(event.target.value);
+  };
+
+  const fetchLists = () => {
+    axiosInstance
+      .get("/getLists", { params: { board_id: params.board_id } })
+      .then((res) => {
+        console.log("get lists response is: ", res);
+        setLists(res.data.lists);
+      })
+      .catch((err) => {
+        console.log("error getting board lists: ", err);
+      });
+  };
+
+  const validateAddListForm = () => {
+    listErrors.name = "";
+    listErrors.type = "";
+
+    let errorsExits = false;
+
+    if (!listName) {
+      listErrors.name = "Please enter a list name.";
+      errorsExits = true;
+    }
+
+    setListErrors({ ...listErrors });
+    return !errorsExits;
+  };
+
+  const validateAddItemForm = () => {
+    listItemErrors.name = "";
+    listItemErrors.description = "";
+
+    let errorsExits = false;
+
+    if (!listItemName) {
+      listItemErrors.name = "Please enter a task name.";
+      errorsExits = true;
+    }
+
+    setListItemErrors({ ...listItemErrors });
+    return !errorsExits;
+  };
+
+  const handleAddList = () => {
+    if (!validateAddListForm()) {
+      return;
+    }
+
+    const values = {
+      name: listName,
+      listItem: [],
+    };
+
+    axiosInstance
+      .post("/addList", values, { params: { id: params.board_id } })
+      .then((res) => {
+        console.log(res);
+        handleClose();
+        const newValues = {
+          id: res.data.id,
+          ...values,
+        } as List;
+        lists.push(newValues);
+        setLists([...lists]);
+      })
+      .catch((err) => {
+        console.log("error adding List: ", err);
+      });
+  };
+
+  const handleAddListItem = () => {
+    console.log("list id is: ", currentListID);
+    if (!validateAddItemForm()) {
+      return;
+    }
+
+    const values = {
+      name: listItemName,
+      isDone: false, // functionality not implemented in frontend
+    };
+
+    axiosInstance
+      .post("/addListItem", values, {
+        params: { board_id: params.board_id, list_id: currentListID },
+      })
+      .then((res) => {
+        console.log("add list item response is: ", res);
+        const index = lists.findIndex((x) => x.id === currentListID);
+        if (index > -1) {
+          const index2 = lists[index].listItem.findIndex(
+            (x) => x.name === values.name
+          );
+          if (index2 === -1) {
+            if (lists[index].listItem) {
+              lists[index].listItem.push(values);
+            } else {
+              lists[index].listItem = [values];
+            }
+            setLists([...lists]);
+          }
+        }
+        handleCloseTask();
+      })
+      .catch((err) => {
+        console.log("error adding List Item: ", err);
+      });
   };
 
   useEffect(() => {
@@ -61,8 +244,12 @@ export default function List() {
       });
   }, [params.board_id]);
 
+  useEffect(() => {
+    fetchLists();
+  }, [params.board_id]);
+
   return (
-    <Container style={{ marginTop: "40px" }}>
+    <Container style={{ marginTop: "40px", paddingBottom: "40px" }}>
       <a href={"/board/" + params.board_id}>
         <p>Back to '{boardName}' Board - Main</p>
       </a>
@@ -116,7 +303,7 @@ export default function List() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box sx={style} style={{ height: "200px" }}>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <Button
               style={{
@@ -140,46 +327,20 @@ export default function List() {
               autoComplete="off"
             >
               <div>
-                <TextField
+                <BrownTextField
                   id="standard-basic"
-                  label="Untitled"
+                  label="List Name"
                   variant="standard"
                   InputLabelProps={{
                     style: { color: "#B8A590" },
                   }}
-                  InputProps={{ disableUnderline: true }}
                   fullWidth
+                  value={listName}
+                  onChange={handleListNameChange}
+                  error={listErrors.name != ""}
+                  helperText={listErrors.name}
+                  autoFocus
                 />
-              </div>
-              <div>
-                <TextField
-                  id="standard-basic"
-                  label="Number of Tasks"
-                  variant="standard"
-                  InputLabelProps={{
-                    style: { color: "#675443" },
-                  }}
-                  InputProps={{ disableUnderline: true }}
-                  fullWidth
-                />
-              </div>
-              <div>
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">
-                    Type of List
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={listType}
-                    label="Types of List"
-                    onChange={handleChange}
-                  >
-                    <MenuItem value={"chores"}>Chores</MenuItem>
-                    <MenuItem value={"professional"}>Professional</MenuItem>
-                    <MenuItem value={"projects"}>Projects</MenuItem>
-                  </Select>
-                </FormControl>
               </div>
               <div>
                 <Button
@@ -188,11 +349,11 @@ export default function List() {
                     backgroundColor: "#AA896B",
                     fontSize: "14px",
                     left: "600px",
-                    top: "110px",
+                    top: "50px",
                   }}
                   variant="text"
                   disableElevation
-                  onClick={handleSave}
+                  onClick={handleAddList}
                 >
                   Save List
                 </Button>
@@ -209,8 +370,8 @@ export default function List() {
             spacing={2}
             style={{ marginTop: 50 }}
           >
-            {[0, 1, 2].map((value) => (
-              <Grid key={value} item>
+            {lists.map((list) => (
+              <Grid key={list.id} item>
                 <Paper
                   sx={{
                     width: 250,
@@ -218,11 +379,13 @@ export default function List() {
                     padding: "10px",
                   }}
                 >
-                  <h2 className="listTitle">List {value}</h2>
+                  <h2 className="listTitle">
+                    {list.name}
+                  </h2>
                   <Box>
-                    {[1, 2, 3].map((value) => (
+                    {list.listItem?.map((value) => (
                       <>
-                        <p className="taskName">Task {value}</p>
+                        <p className="taskName">{value.name}</p>
                         <p className="taskDots">...</p>
                       </>
                     ))}
@@ -234,7 +397,7 @@ export default function List() {
                       fontSize: "14px",
                     }}
                     variant="text"
-                    onClick={handleOpenTask}
+                    onClick={() => handleOpenTask(list.id)}
                   >
                     + Add a Task
                   </Button>
@@ -255,7 +418,7 @@ export default function List() {
                           }}
                           variant="text"
                           disableElevation
-                          onClick={handleClose}
+                          onClick={handleCloseTask}
                         >
                           Discard
                         </Button>
@@ -275,8 +438,11 @@ export default function List() {
                               InputLabelProps={{
                                 style: { color: "#B8A590" },
                               }}
-                              InputProps={{ disableUnderline: true }}
                               fullWidth
+                              onChange={handleTaskNameChange}
+                              value={listItemName}
+                              error={listItemErrors.name != ""}
+                              helperText={listItemErrors.name}
                             />
                           </div>
                           <div>
@@ -285,10 +451,11 @@ export default function List() {
                               label="Task Description"
                               variant="standard"
                               InputLabelProps={{
-                                style: { color: "#675443" },
+                                style: { color: "#B8A590" },
                               }}
-                              InputProps={{ disableUnderline: true }}
                               fullWidth
+                              value={listItemDescription}
+                              onChange={handleTaskDescriptionChange}
                             />
                           </div>
                           <div>
@@ -298,11 +465,11 @@ export default function List() {
                                 backgroundColor: "#AA896B",
                                 fontSize: "14px",
                                 left: "600px",
-                                top: "110px",
+                                top: "50px",
                               }}
                               variant="text"
                               disableElevation
-                              onClick={handleSave}
+                              onClick={() => handleAddListItem()}
                             >
                               Save Task
                             </Button>

@@ -11,6 +11,7 @@ export interface Note {
 
 export interface List {
   name: string;
+  listItem: Array<ListItem>;
 }
 
 export interface ListItem {
