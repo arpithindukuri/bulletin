@@ -123,8 +123,7 @@ export default function CreateNewBoard() {
     axiosInstance
           .post("/addBoard", {
             name: values.name,
-            description: values.description,
-            users: usersID
+            description: values.description
           })
           .then((res) => {
             if (success) {
@@ -147,12 +146,29 @@ export default function CreateNewBoard() {
                   setMessage("Information failed to be Added.");
                   setMessageSeverity("error");
                 }
-                setMessageOpen(true);
-                navigate("/boardsView");
-                
-              })
-              .catch((err) => {
+              }).catch((err) => {
                 console.log("error editing user data: ", err);
+                success = false;
+              });
+              axiosInstance
+              .put("./addUserToBoard", {
+                name: userData.name,
+                email: userData.email,
+                id: userData.id,
+                role: "Admin"}, { params: {board_id: newBoard}})
+              .then(() => {
+                dispatch(userLoggedIn(newUserData));
+                if (success) {
+                  setMessageSeverity("success");
+                } else {
+                  setMessage("Information failed to be Added.");
+                  setMessageSeverity("error");
+                }
+                setMessageOpen(true);
+                
+                
+              }).catch((err) => {
+                console.log("error adding user to board: ", err);
                 success = false;
               });
               
@@ -161,6 +177,7 @@ export default function CreateNewBoard() {
             console.log("error adding board: ", err);
             success = false;
           });
+      navigate("/boardsView");
   };
   return (
     <Box sx={{ flexGrow: 1 }}>

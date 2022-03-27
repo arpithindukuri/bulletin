@@ -1,5 +1,6 @@
 import React from "react";
 import { Box } from "@mui/system";
+import axiosInstance from "../../axios";
 import {
   Typography,
   Button,
@@ -9,19 +10,26 @@ import {
 } from "@mui/material";
 
 interface Props {
+  userBoardid: string;
+  id: string;
   name: string;
   email: string;
   role: string;
+  onDelete: (arg0: string, arg1: string)=>void;
+  onEdit: (arg0: string, arg1: string, arg2: string, arg3: string, arg4: string)=>void;
 }
 
 //Member status display on manage board - name, email, role and remove
-export default function MemberStatus({ name, email, role }: Props) {
-  const [newRole, setNewRole] = React.useState("");
+export default function MemberStatus({ userBoardid, id, name, email, role, onDelete, onEdit }: Props) {
+  const [newRole, setNewRole] = React.useState(role);
 
   const handleChange = (event: SelectChangeEvent) => {
     setNewRole(event.target.value as string);
+    
+    onEdit(id, name, email, newRole, userBoardid);
   };
-
+  console.log(newRole)
+  
   return (
     <Box display={"flex"} flexDirection={"row"} justifyContent="space-evenly">
       <Box
@@ -59,7 +67,7 @@ export default function MemberStatus({ name, email, role }: Props) {
           variant="outlined"
           // value={role}
           color="primary"
-          defaultValue={role}
+          defaultValue={newRole}
           onChange={handleChange}
         >
           <MenuItem color="primary" value={"Admin"}>
@@ -77,7 +85,7 @@ export default function MemberStatus({ name, email, role }: Props) {
         flexDirection="row"
         alignItems={"center"}
       >
-        <Button>
+        <Button onClick={()=>onDelete(userBoardid, id)}>
           <Typography fontWeight={"bold"} color="primary" variant="h6">
             X
           </Typography>

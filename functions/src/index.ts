@@ -30,9 +30,11 @@ import {
   deleteBoard,
   addUserToBoard,
   deleteUserFromBoard,
+  getBoardUsers,
+  editUserFromBoard
 } from "./board";
 import { addEvent, getEvents, getEvent, editEvent, deleteEvent } from "./event";
-import { addUser, getUser, editUser } from "./user";
+import { addUser, getUser, editUser, getUserByEmail } from "./user";
 
 export const helloWorld = functions.https.onRequest((request, response) => {
   functions.logger.info("Hello logs!", { structuredData: true });
@@ -83,4 +85,7 @@ export {
   addUser,
   getUser,
   editUser,
+  getBoardUsers,
+  editUserFromBoard,
+  getUserByEmail
 };

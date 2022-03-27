@@ -48,6 +48,12 @@ export interface User {
   boards: Array<string>;
   idToken: string;
 }
+export interface BoardUser {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+}
 
 /** Number of milliseconds from UNIX Epoch */
 export type Timestamp = Number;

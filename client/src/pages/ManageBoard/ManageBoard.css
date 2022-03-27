@@ -3,10 +3,13 @@ a {
 }
 
 .manageHeaderBox{
-    justify-items: left;
-    text-align: left;
+
     display: flex;
-    justify-content: start;
+    margin: auto;
+    padding: 10px;
+    margin: auto;
+    justify-content: center;
+
 }
 
 .managePhotoBox {
@@ -14,11 +17,9 @@ a {
     justify-content: center;
     text-align: center;
     align-items: center;
-    padding-right: 10%;
 }
 
-.profilePicture {
-    border-radius: 100%;
+.profileCircle {
     min-width: 100px;
     width: 25%;
 }
@@ -31,7 +32,7 @@ a {
 .boardNameBox {
     display: flex;
     flex-direction: column;
-    width: 45%;
+    max-width: fit-content;
     justify-content: center;
     padding-top: 2%;
 }
@@ -46,7 +47,6 @@ a {
 
 .newMemberInvitationBox {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
     padding-top: 5px;
@@ -78,4 +78,17 @@ a {
     padding-right: 20px;
     padding-bottom: 30px;
     padding-top: 20px;
+}
+.overlay{
+    z-index: 2;
+}
+.InputText{
+    width: 50%;
+}
+.boardDescription textarea {
+    margin-top: 10px;
+    height: 250px;
+    width: 100%;
+    min-height: 100%;
+    resize: none;
 }
