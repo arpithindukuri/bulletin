@@ -17,35 +17,47 @@ interface BoardIconsProps {
 
 export default function BoardsView() {
   const userData = useTypedSelector(selectUserData);
+  const dispatch = useTypedDispatch();
 
   const [currentBoards, setCurrentBoards] = useState<Array<BoardIconsProps>>(
     []
   );
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  console.log("current boards is: ", currentBoards);
 
   useEffect(() => {
-    setCurrentBoards([]);
-    userData.boards.map((boardData: string) => {
-      const boardExists = currentBoards.find((obj) => (obj.id = boardData));
-      if (!boardExists) {
-        let success = true;
-        axiosInstance
-          .get("/getBoard", { params: { id: boardData } })
-          .then((res) => {
-            const newBoard: BoardIconsProps = {
-              id: boardData,
-              name: res.data.board.data.name,
-            };
-            currentBoards.push(newBoard);
-            setCurrentBoards([...currentBoards]);
-            console.log("Information recieved Successfully");
-          })
-          .catch((err) => {
-            console.log("error getting user boards: ", err);
-            success = false;
-          });
-      }
-    });
-  }, [userData]);
+    axiosInstance
+      .get("/getUser", { params: { user_id: userData.id } })
+      .then((uData) => {
+        dispatch(userLoggedIn({ ...uData.data.user }));
+        setDataLoaded(true);
+      })
+      .catch((userError) => {
+        console.log("error while getting user info: ", userError);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (dataLoaded) {
+      const allBoards: any = [];
+      userData.boards.map(async (boardData: string) => {
+        const res = await axiosInstance.get("/getBoard", {
+          params: { id: boardData },
+        });
+
+        const newBoard: BoardIconsProps = {
+          id: boardData,
+          name: res.data.board.data.name,
+        };
+        allBoards.push(newBoard);
+        if (allBoards.length == userData.boards.length) {
+          setCurrentBoards([...allBoards]);
+          console.log("setting boards");
+        }
+      });
+    }
+  }, [userData.boards, dataLoaded]);
 
   return (
     <Container sx={{ width: "100%", height: "100%" }} maxWidth={false}>
