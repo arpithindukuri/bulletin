@@ -1,7 +1,7 @@
 
 import corsHandler from "./cors";
 import { admin, functions } from "./firebase";
-import { isBoard } from "./typeguards/board";
+import { isBoard } from "./typeguards/isBoard";
 // import { isUserAuthorized } from "./auth";
 
 /**

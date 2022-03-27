@@ -1,6 +1,6 @@
 import corsHandler from "./cors";
 import { admin, functions } from "./firebase";
-import { isListItem } from "./typeguards/listItem";
+import { isListItem } from "./typeguards/isListItem";
 
 /**
  * Gets all listItems from firestore, under the path /listItems, and returns it as a json

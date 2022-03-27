@@ -1,6 +1,6 @@
 import corsHandler from "./cors";
 import { admin, functions } from "./firebase";
-import { isNote } from "./typeguards/notes";
+import { isNote } from "./typeguards/isNote";
 
 /**
  * Gets all notes from firestore, under the path /notes, and returns it as a json

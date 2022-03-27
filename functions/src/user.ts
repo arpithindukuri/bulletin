@@ -1,6 +1,6 @@
 import corsHandler from "./cors";
 import { admin, functions } from "./firebase";
-import { isUser } from "./typeguards/user";
+import { isUser } from "./typeguards/isUser";
 
 /**
  * Take the event object send in the request body and insert it into Firestore

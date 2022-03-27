@@ -1,6 +1,6 @@
 import corsHandler from "./cors";
 import { admin, functions } from "./firebase";
-import { isExpense } from "./typeguards/expense";
+import { isExpense } from "./typeguards/isExpense";
 
 /**
  * Gets all expenses from firestore, under the path /expenses, and returns it as a json

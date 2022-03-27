@@ -1,6 +1,6 @@
 import corsHandler from "./cors";
 import { admin, functions } from "./firebase";
-import { isBudget } from "./typeguards/budget";
+import { isBudget } from "./typeguards/isBudget";
 
 /**
  * Gets all budgets from firestore, under the path /budgets, and returns it as a json

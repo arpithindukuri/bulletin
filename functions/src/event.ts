@@ -1,6 +1,6 @@
 import corsHandler from "./cors";
 import { admin, functions } from "./firebase";
-import { isEvent } from "./typeguards/event";
+import { isEvent } from "./typeguards/isEvent";
 
 /**
  * Gets all events from firestore, under the path /events, and returns it as a json
