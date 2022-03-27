@@ -224,9 +224,6 @@ export default function ManageBoard() {
   }
   return (
     <Container maxWidth={false}>
-<<<<<<< Updated upstream
-      <a href={"/board/" + params.board_id}>
-=======
       {popupState ? (
         <div className="overlay">
           <div className="overlayBox">
@@ -291,18 +288,15 @@ export default function ManageBoard() {
         </div>
       ) : null}
       <a href={"/board/"+ params.board_id}>
->>>>>>> Stashed changes
+
         <Typography
           variant="subtitle1"
           color="primary.light"
           align="left"
           sx={{ pt: "1vh" }}
         >
-<<<<<<< Updated upstream
-          Back to '{boardName}' Board - Main
-=======
+
           Back to {board.name} Board - Main
->>>>>>> Stashed changes
         </Typography>
       </a>
 
