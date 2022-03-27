@@ -57,7 +57,8 @@ const style = {
     }}>
          <Button style={{
              backgroundColor: "#AA896B",
-             fontSize: "14px"
+             fontSize: "14px",
+             left: "50px"
         }}variant="contained" onClick={handleOpen}>+ Add Event</Button>
       <Modal
         open={open}
