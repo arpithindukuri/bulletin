@@ -12,10 +12,10 @@ export interface Board {
 
 export interface BoardMember {
   userID: string;
-  role: BoardRole;
+  role: BoardMemberRole;
 }
 
-type BoardRole = "admin" | "member";
+export type BoardMemberRole = "admin" | "member";
 
 export interface MemberPermissions {
   viewNotes: boolean;
