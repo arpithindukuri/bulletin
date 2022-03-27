@@ -5,6 +5,7 @@ import { Grid, Button, TextField } from "@material-ui/core";
 import Logo from "../../assets/logo.svg";
 import { signUpEndPoint } from "../../authEndPoints";
 import { useNavigate } from "react-router-dom";
+import SpinnerButton from "../../components/SpinnerButton";
 import "./SignUp.scss";
 
 interface SignUpErrors {
@@ -20,6 +21,7 @@ const SignUp: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfrimPassword] = useState("");
+  const [signupLoading, setSignupLoading] = useState(false);
   const [errors, setErrors] = useState<SignUpErrors>({
     name: "",
     email: "",
@@ -77,6 +79,8 @@ const SignUp: React.FC = () => {
       return;
     }
 
+    setSignupLoading(true);
+
     axios
       .post(
         signUpEndPoint,
@@ -105,10 +109,12 @@ const SignUp: React.FC = () => {
           .then((res) => {
             console.log("user added to data base.");
             console.log("response is: ", res);
+            setSignupLoading(false);
             navigate("/login");
           })
           .catch((err) => {
             console.log("failed to add user to database", err);
+            setSignupLoading(false);
           });
       })
       .catch((err) => {
@@ -119,6 +125,7 @@ const SignUp: React.FC = () => {
         setErrors({ ...errors });
 
         console.log("Failed to sign up user: ", err);
+        setSignupLoading(false);
       });
   };
 
@@ -277,13 +284,19 @@ const SignUp: React.FC = () => {
             />
           </Grid>
           <Grid item>
-            <Button
+            <SpinnerButton
+              onClick={handleSignup}
+              className="signup-button"
+              loading={signupLoading}
+              title="Sign Up"
+            />
+            {/* <Button
               onClick={handleSignup}
               className="signup-button"
               variant="contained"
             >
               Sign Up
-            </Button>
+            </Button> */}
           </Grid>
         </Grid>
       </Grid>

@@ -7,6 +7,7 @@ import { signInEndPoint } from "../../authEndPoints";
 import { useTypedDispatch } from "../../hooks/ReduxHooks";
 import { userLoggedIn } from "../../actions/UserActions/UserActionCreator";
 import { useNavigate } from "react-router-dom";
+import SpinnerButton from "../../components/SpinnerButton";
 import "./LogIn.scss";
 
 interface LogInErrors {
@@ -17,23 +18,13 @@ interface LogInErrors {
 const LogIn: React.FC = () => {
   const dispatch = useTypedDispatch();
   const navigate = useNavigate();
+  const [loginLoading, setLoginLoading] = useState(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errors, setErrors] = useState<LogInErrors>({
     email: "",
     password: "",
   });
-
-  // const mockGetBoards = () => {
-  //   axiosInstance
-  //     .get("/getBoards")
-  //     .then((res) => {
-  //       console.log("get boards response is: ", res);
-  //     })
-  //     .catch((err) => {
-  //       console.log("get boards error is: ", err);
-  //     });
-  // };
 
   const validateData = () => {
     errors.email = "";
@@ -76,6 +67,7 @@ const LogIn: React.FC = () => {
     if (!validateData()) {
       return;
     }
+    setLoginLoading(true);
     axios
       .post(
         signInEndPoint,
@@ -92,6 +84,7 @@ const LogIn: React.FC = () => {
         axiosInstance
           .get("/getUser", { params: { user_id: res.data.localId } })
           .then((uData) => {
+            setLoginLoading(false);
             dispatch(
               userLoggedIn({ ...uData.data.user, idToken: res.data.idToken })
             );
@@ -99,6 +92,7 @@ const LogIn: React.FC = () => {
           })
           .catch((userError) => {
             console.log("error while getting user info: ", userError);
+            setLoginLoading(false);
           });
       })
       .catch((err) => {
@@ -107,6 +101,7 @@ const LogIn: React.FC = () => {
         } else if (err.response.data.error.message == "INVALID_PASSWORD") {
           errors.password = "Password incorrect.";
         }
+        setLoginLoading(false);
 
         setErrors({ ...errors });
         console.log("Failed to sign user in: ", err);
@@ -219,21 +214,12 @@ const LogIn: React.FC = () => {
             />
           </Grid>
           <Grid item>
-            <Button
+            <SpinnerButton
               onClick={handleLogIn}
               className="login-button"
-              variant="contained"
-            >
-              Log In
-            </Button>
-
-            {/* <Button
-              onClick={mockGetBoards}
-              className="login-button"
-              variant="contained"
-            >
-              Get Boards
-            </Button> */}
+              title="Log In"
+              loading={loginLoading}
+            />
           </Grid>
         </Grid>
       </Grid>
