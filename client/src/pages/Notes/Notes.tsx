@@ -187,14 +187,29 @@ const Notes: React.FC = () => {
                 variant="standard"
                 defaultValue={"Note Name..."}
                 onChange={handleChange("name")}
-              ></TextField>
+                helperText={`${errors.name}`}
+                error={errors.name != ""}
+              />
               <Button onClick={() => setPopupState(false)}>
                 <Typography variant="h5">X</Typography>
               </Button>
             </div>
-            <div className="noteContent">
-              <textarea onChange={handleChange("content")}></textarea>
-            </div>
+           
+            <TextField 
+            className="InputText"
+            variant="outlined"
+            value={values.content}
+            onChange={handleChange("content")}
+            focused
+            align-items="left"
+            id="description-text"
+            rows="8"
+            helperText={`${errors.content}`}
+            multiline
+            style={{ fontWeight: "bold", marginTop:"10px" }}
+            error={errors.content !== ""}
+            />
+
             <div className="saveDiv">
               <Button className="saveButton" onClick={handleSaveNote}>
                 Save Note
