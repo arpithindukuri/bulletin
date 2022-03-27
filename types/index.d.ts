@@ -1,87 +1,87 @@
 export interface Board {
-  id: string | null;
-  name: string;
   description: string;
-  members: BoardMember[];
-  memberPermissions: MemberPermissions;
-  notes: Note[];
-  lists: List[];
-  expenses: Expense[];
   events: Event[];
+  expenses: Expense[];
+  id: string | null;
+  lists: List[];
+  memberPermissions: MemberPermissions;
+  members: BoardMember[];
+  name: string;
+  notes: Note[];
 }
 
 export interface BoardMember {
-  userID: string;
   role: BoardMemberRole;
+  userID: string;
 }
 
 export type BoardMemberRole = "admin" | "member";
 
 export interface MemberPermissions {
-  viewNotes: boolean;
-  viewLists: boolean;
-  viewExpenses: boolean;
-  viewCalendar: boolean;
-  viewPersonalReminders: boolean;
-  editNotes: boolean;
-  editLists: boolean;
-  editExpenses: boolean;
   editCalendar: boolean;
+  editExpenses: boolean;
+  editLists: boolean;
+  editNotes: boolean;
   editPersonalReminders: boolean;
+  viewCalendar: boolean;
+  viewExpenses: boolean;
+  viewLists: boolean;
+  viewNotes: boolean;
+  viewPersonalReminders: boolean;
 }
 
 export interface Note {
-  id: string | null;
-  content: string;
-  author: string;
-  timestamp: Timestamp;
   attachmentURL?: string;
+  author: string;
+  content: string;
+  id: string | null;
+  timestamp: Timestamp;
 }
 
 export interface List {
   id: string | null;
-  name: string;
   items: ListItem[];
+  name: string;
 }
 
 export interface ListItem {
   id: string | null;
-  name: string;
   isDone: boolean;
+  name: string;
 }
 
 export interface Expense {
-  id: string | null;
-  name: string;
-  dueDate: Timestamp;
   amount: Money;
   assignedUserID: string;
   balance: Money;
+  dueDate: Timestamp;
+  id: string | null;
+  name: string;
 }
 
 export interface Budget {
-  id: string | null;
-  name: string;
-  endDate: Timestamp;
   amount: Money;
   assignedUserID: string;
   balance: Money;
+  endDate: Timestamp;
+  id: string | null;
+  name: string;
 }
 
 export interface Event {
+  description: string;
+  endTime: Timestamp;
   id: string | null;
   name: string;
   startTime: Timestamp;
-  endTime: Timestamp;
-  description: string;
   tags: Tag[];
 }
 
 export interface Tag {
-  id: string | null;
-  name: string;
   /** Hex value of the tag's color */
   color: string;
+  id: string | null;
+  name: string;
 }
 
 export interface PersonalReminder {
@@ -91,21 +91,21 @@ export interface PersonalReminder {
 }
 
 export interface PersonalNote {
+  content: string;
   id: string;
   name: string;
-  content: string;
 }
 
 export interface User {
+  alternativeEmail?: string;
+  dateOfBirth: string;
+  email: string;
   id: string | null;
   name: string;
-  email: string;
-  dateOfBirth: string;
-  alternativeEmail?: string;
-  phoneNumber: string;
-  overview: string;
-  reminders: PersonalReminder[];
   notes: PersonalNote[];
+  overview: string;
+  phoneNumber: string;
+  reminders: PersonalReminder[];
 }
 
 /** Number of **milliseconds** from UNIX Epoch */
