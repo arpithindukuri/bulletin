@@ -7,11 +7,9 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from "@material-ui/core/TextField";
 import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select, {SelectChangeEvent } from '@mui/material/Select';
-
 import "./Calendar.css";
 
 const style = {
@@ -20,8 +18,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 700,
-    height: 500,
-    overflow:'scroll',
+    height: 600,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -91,6 +88,16 @@ const style = {
   </div>
      <div>
      <TextField id="standard-basic" label="Date (Month, Day, Year)" variant="standard" InputLabelProps={{
+    style: { color: "#675443"},
+  }} InputProps={{ disableUnderline: true }} fullWidth/>
+      </div>
+      <div>
+     <TextField id="standard-basic" label="Start Time(24 Hour Format)" variant="standard" InputLabelProps={{
+    style: { color: "#675443"},
+  }} InputProps={{ disableUnderline: true }} fullWidth/>
+      </div>
+      <div>
+     <TextField id="standard-basic" label="End Time(24 Hour Format)" variant="standard" InputLabelProps={{
     style: { color: "#675443"},
   }} InputProps={{ disableUnderline: true }} fullWidth/>
       </div>
