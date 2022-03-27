@@ -10,8 +10,14 @@ export function isEvent(arg: any): arg is Event {
     // Check that the event's fields are defined
     obj.name !== undefined &&
     obj.date !== undefined &&
+    obj.startTime !== undefined &&
+    obj.endTime !== undefined &&
+    obj.description !== undefined &&
     // Check each event has the correct type
     typeof obj.name === "string" &&
-    typeof obj.date === "string"
+    typeof obj.date === "string" &&
+    typeof obj.startTime === "string" &&
+    typeof obj.endTime === "string" &&
+    typeof obj.description === "string"
   );
 }

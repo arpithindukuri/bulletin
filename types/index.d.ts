@@ -34,7 +34,10 @@ export interface Budget {
 
 export interface Event {
   name: string;
-  date: String;
+  date: string;
+  startTime: string;
+  endTime: string;
+  description: string;
 }
 
 export interface User {

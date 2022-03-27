@@ -10,11 +10,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-
-import "./Calendar.css";
+import Event from "../../models/Event";
 import { Container } from "@material-ui/core";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../axios";
+import "./Calendar.css";
 
 const style = {
   position: "absolute",
@@ -22,27 +22,183 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 700,
-  height: 500,
-  overflow: "scroll",
+  height: 600,
+  overflowY: "scroll",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
 
+interface EventErrors {
+  name: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  description: string;
+}
+
+interface DatabaseEvent {
+  id: string;
+  name: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  description: string;
+}
+
 export default function Calendar() {
   const params = useParams();
   const [open, setOpen] = useState(false);
-  const [textValue, setTextValue] = useState<string>("");
+  const [eventName, setEventName] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [eventStartTime, setEventStartTime] = useState("");
+  const [eventEndTime, setEventEndTime] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
   const [tags, setTag] = useState("");
   const [boardName, setBoardName] = useState("");
+  const [allEvents, setAllEvents] = useState<Array<Event>>([]);
+  const [errors, setErrors] = useState<EventErrors>({
+    name: "",
+    date: "",
+    startTime: "",
+    endTime: "",
+    description: "",
+  });
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleSave = () => setOpen(false);
 
   const handleChange = (event: SelectChangeEvent) => {
     setTag(event.target.value as string);
+  };
+
+  const handleEventNameChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setEventName(event.target.value);
+  };
+
+  const handleEventDateChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setEventDate(event.target.value);
+  };
+
+  const handleEventStartChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setEventStartTime(event.target.value);
+  };
+
+  const handleEventEndChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setEventEndTime(event.target.value);
+  };
+
+  const handleEventDescriptionChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setEventDescription(event.target.value);
+  };
+
+  const formatEvents = (events: Array<DatabaseEvent>) => {
+    const newEvents: Array<Event> = [];
+    events.map((e) => {
+      const newEvent: any = {};
+      newEvent.id = e.id;
+      newEvent.title = e.name;
+      const dateArray = e.date.split(",");
+      const newDate = new Date(
+        parseInt(dateArray[2].trim()),
+        parseInt(dateArray[0].trim()) - 1,
+        parseInt(dateArray[1].trim())
+      )
+        .toISOString()
+        .replace(/T.*$/, "");
+      newEvent.start = newDate + "T" + e.startTime;
+      newEvent.end = newDate + "T" + e.endTime;
+
+      newEvents.push(newEvent);
+    });
+
+    return newEvents;
+  };
+
+  const validateData = () => {
+    errors.name = "";
+    errors.date = "";
+    errors.startTime = "";
+    errors.endTime = "";
+    errors.description = "";
+
+    let errorsExits = false;
+
+    if (!eventName) {
+      errors.name = "Enter an event name.";
+      errorsExits = true;
+    }
+
+    if (!eventDate) {
+      errors.date = "Enter a date.";
+      errorsExits = true;
+    } else if (!eventDate.match(/^\d{2},\d{2},\d{4}$/)) {
+      errors.date = "Enter date in the format MM,DD,YYYY";
+      errorsExits = true;
+    }
+
+    if (!eventStartTime) {
+      errors.startTime = "Enter a start time.";
+      errorsExits = true;
+    } else if (
+      !eventStartTime.match(/^([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/)
+    ) {
+      errors.startTime = "Enter time in the format HH:MM:SS";
+      errorsExits = true;
+    }
+
+    if (!eventEndTime) {
+      errors.endTime = "Enter an end time.";
+      errorsExits = true;
+    } else if (
+      !eventEndTime.match(/^([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/)
+    ) {
+      errors.endTime = "Enter time in the format HH:MM:SS";
+      errorsExits = true;
+    }
+
+    setErrors({ ...errors });
+    return !errorsExits;
+  };
+
+  const handleSave = () => {
+    if (!validateData()) {
+      return;
+    }
+
+    const values = {
+      name: eventName,
+      date: eventDate,
+      startTime: eventStartTime,
+      endTime: eventEndTime,
+      description: eventDescription,
+    };
+
+    axiosInstance
+      .post("/addEvent", values, { params: { id: params.board_id } })
+      .then((res) => {
+        console.log("add event response is: ", res);
+        const newEvent = {
+          id: res.data.id,
+          ...values,
+        };
+        setAllEvents([...allEvents, ...formatEvents([newEvent])]);
+      })
+      .catch((err) => {
+        console.log("add event error: ", err);
+      });
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -56,6 +212,18 @@ export default function Calendar() {
         console.log("error getting user boards: ", err);
       });
   }, [params.board_id]);
+
+  useEffect(() => {
+    axiosInstance
+      .get("/getEvents", { params: { id: params.board_id } })
+      .then((res) => {
+        console.log("get events response is: ", res);
+        setAllEvents(formatEvents([...res.data.events]));
+      })
+      .catch((err) => {
+        console.log("get events error is: ", err);
+      });
+  }, []);
 
   return (
     <Container>
@@ -84,6 +252,7 @@ export default function Calendar() {
             style={{
               backgroundColor: "#AA896B",
               fontSize: "14px",
+              left: "50px",
             }}
             variant="contained"
             onClick={handleOpen}
@@ -125,13 +294,17 @@ export default function Calendar() {
                 <div>
                   <TextField
                     id="standard-basic"
-                    label="Untitled"
+                    label="Event Name"
                     variant="standard"
                     InputLabelProps={{
                       style: { color: "#B8A590" },
                     }}
                     InputProps={{ disableUnderline: true }}
                     fullWidth
+                    value={eventName}
+                    onChange={handleEventNameChange}
+                    error={errors.name != ""}
+                    helperText={errors.name}
                   />
                 </div>
                 <div>
@@ -144,6 +317,42 @@ export default function Calendar() {
                     }}
                     InputProps={{ disableUnderline: true }}
                     fullWidth
+                    value={eventDate}
+                    onChange={handleEventDateChange}
+                    error={errors.date != ""}
+                    helperText={errors.date}
+                  />
+                </div>
+                <div>
+                  <TextField
+                    id="standard-basic"
+                    label="Start Time(24 Hour Format)"
+                    variant="standard"
+                    InputLabelProps={{
+                      style: { color: "#675443" },
+                    }}
+                    InputProps={{ disableUnderline: true }}
+                    fullWidth
+                    value={eventStartTime}
+                    onChange={handleEventStartChange}
+                    error={errors.startTime != ""}
+                    helperText={errors.startTime}
+                  />
+                </div>
+                <div>
+                  <TextField
+                    id="standard-basic"
+                    label="End Time(24 Hour Format)"
+                    variant="standard"
+                    InputLabelProps={{
+                      style: { color: "#675443" },
+                    }}
+                    InputProps={{ disableUnderline: true }}
+                    fullWidth
+                    value={eventEndTime}
+                    onChange={handleEventEndChange}
+                    error={errors.endTime != ""}
+                    helperText={errors.endTime}
                   />
                 </div>
                 <div>
@@ -156,6 +365,10 @@ export default function Calendar() {
                     }}
                     InputProps={{ disableUnderline: true }}
                     fullWidth
+                    value={eventDescription}
+                    onChange={handleEventDescriptionChange}
+                    error={errors.description != ""}
+                    helperText={errors.description}
                   />
                 </div>
                 <div>
@@ -198,7 +411,7 @@ export default function Calendar() {
           </Box>
         </Modal>
       </div>
-      <ShowCalendar />
+      <ShowCalendar events={allEvents} setEvents={setAllEvents} />
     </Container>
   );
 }

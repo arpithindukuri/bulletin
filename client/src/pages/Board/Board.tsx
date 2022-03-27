@@ -139,12 +139,12 @@ export default function Board() {
 
   useEffect(() => {
     let newDate = new Date();
-    let day = newDate.getDate();
-    let month = newDate.getMonth() + 1;
+    let day = ('0' + newDate.getDate()).slice(-2);
+    let month = ('0' + (newDate.getMonth() + 1)).slice(-2);
     let year = newDate.getFullYear();
 
-    let currDate = `${day}/${month}/${year}`;
-
+    let currDate = `${month},${day},${year}`;
+    console.log(currDate)
     let success = true;
     axiosInstance
       .get("/getEvents", { params: { id: params.board_id } })
