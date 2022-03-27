@@ -112,7 +112,10 @@ const SignUp: React.FC = () => {
           });
       })
       .catch((err) => {
-        errors.email = "Email already exists.";
+        if (err.response.data.error.message == "EMAIL_EXISTS") {
+          errors.email = "Email already exists.";
+        }
+
         setErrors({ ...errors });
 
         console.log("Failed to sign up user: ", err);

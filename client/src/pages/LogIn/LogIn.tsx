@@ -102,6 +102,13 @@ const LogIn: React.FC = () => {
           });
       })
       .catch((err) => {
+        if (err.response.data.error.message == "EMAIL_NOT_FOUND") {
+          errors.email = "Email not found.";
+        } else if (err.response.data.error.message == "INVALID_PASSWORD") {
+          errors.password = "Password incorrect.";
+        }
+
+        setErrors({ ...errors });
         console.log("Failed to sign user in: ", err);
       });
   };
