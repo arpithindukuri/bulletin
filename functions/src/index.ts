@@ -1,6 +1,6 @@
 import corsHandler from "./cors";
 import { functions } from "./firebase";
-import { addList, getLists, editList, deleteList } from "./lists";
+import { addList, getLists, editList, deleteList } from "./list";
 import {
   addListItem,
   getListItems,
