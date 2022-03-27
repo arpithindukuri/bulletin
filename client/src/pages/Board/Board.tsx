@@ -11,6 +11,8 @@ import ViewNote from "./ViewNote";
 import LoadNote from "./LoadNotes";
 import axiosInstance from "../../axios";
 import { useEffect, useState } from "react";
+import { selectUserData } from "../../actions/UserActions/UserSelector";
+import { useTypedSelector } from "../../hooks/ReduxHooks";
 
 interface ReminderState {
   reminderType: string;
@@ -56,6 +58,8 @@ export default function Board() {
   const [board, setBoard] = useState<BoardProp>({ name: "", description: "" });
   const [lists, setLists] = useState<Array<ListsProp>>([]);
   const [eventsToday, setEventsToday] = useState<Array<ListsProp>>([]);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const userData = useTypedSelector(selectUserData);
 
   useEffect(() => {
     let success = true;
@@ -81,6 +85,26 @@ export default function Board() {
         console.log(res);
         if (success) {
           setExpenses(res.data.expenses);
+        }
+      })
+      .catch((err) => {
+        console.log("error getting expenses: ", err);
+        success = false;
+      });
+  }, []);
+  useEffect(() => {
+    let success = true;
+    axiosInstance
+      .get("/getBoardUsers", { params: { board_id: params.board_id } })
+      .then((res) => {
+        console.log(res);
+        if (success) {
+          res.data.users.filter((member: any) => {
+            if (member.role === "Admin" && member.id === userData.id) {
+              setIsAdmin(true)
+            }
+          });
+          
         }
       })
       .catch((err) => {
@@ -256,6 +280,7 @@ export default function Board() {
             container
             direction="row"
           >
+            {isAdmin?
             <Grid
               className="link-container"
               justifyContent="flex-end"
@@ -272,7 +297,11 @@ export default function Board() {
               >
                 Manage Board
               </Link>
-            </Grid>
+            
+              
+              </Grid>
+              :null
+            }
           </Grid>
         </Grid>
         <Grid
