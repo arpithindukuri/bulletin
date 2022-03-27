@@ -1,3 +1,11 @@
+export type BoardMemberRole = "admin" | "member";
+
+/** Number of CAD cents */
+export type Money = number;
+
+/** Number of **milliseconds** from UNIX Epoch */
+export type Timestamp = number;
+
 export interface Board {
   description: string;
   events: Event[];
@@ -15,7 +23,44 @@ export interface BoardMember {
   userID: string;
 }
 
-export type BoardMemberRole = "admin" | "member";
+export interface Budget {
+  amount: Money;
+  assignedUserID: string;
+  balance: Money;
+  endDate: Timestamp;
+  id: string | null;
+  name: string;
+}
+
+export interface Event {
+  description: string;
+  endTime: Timestamp;
+  id: string | null;
+  name: string;
+  startTime: Timestamp;
+  tags: Tag[];
+}
+
+export interface Expense {
+  amount: Money;
+  assignedUserID: string;
+  balance: Money;
+  dueDate: Timestamp;
+  id: string | null;
+  name: string;
+}
+
+export interface List {
+  id: string | null;
+  items: ListItem[];
+  name: string;
+}
+
+export interface ListItem {
+  id: string | null;
+  isDone: boolean;
+  name: string;
+}
 
 export interface MemberPermissions {
   editCalendar: boolean;
@@ -38,49 +83,9 @@ export interface Note {
   timestamp: Timestamp;
 }
 
-export interface List {
-  id: string | null;
-  items: ListItem[];
-  name: string;
-}
-
-export interface ListItem {
-  id: string | null;
-  isDone: boolean;
-  name: string;
-}
-
-export interface Expense {
-  amount: Money;
-  assignedUserID: string;
-  balance: Money;
-  dueDate: Timestamp;
-  id: string | null;
-  name: string;
-}
-
-export interface Budget {
-  amount: Money;
-  assignedUserID: string;
-  balance: Money;
-  endDate: Timestamp;
-  id: string | null;
-  name: string;
-}
-
-export interface Event {
-  description: string;
-  endTime: Timestamp;
-  id: string | null;
-  name: string;
-  startTime: Timestamp;
-  tags: Tag[];
-}
-
-export interface Tag {
-  /** Hex value of the tag's color */
-  color: string;
-  id: string | null;
+export interface PersonalNote {
+  content: string;
+  id: string;
   name: string;
 }
 
@@ -90,9 +95,10 @@ export interface PersonalReminder {
   time: Timestamp;
 }
 
-export interface PersonalNote {
-  content: string;
-  id: string;
+export interface Tag {
+  /** Hex value of the tag's color */
+  color: string;
+  id: string | null;
   name: string;
 }
 
@@ -107,9 +113,3 @@ export interface User {
   phoneNumber: string;
   reminders: PersonalReminder[];
 }
-
-/** Number of **milliseconds** from UNIX Epoch */
-export type Timestamp = number;
-
-/** Number of CAD cents */
-export type Money = number;
