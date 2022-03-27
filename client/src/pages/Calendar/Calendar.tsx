@@ -143,7 +143,7 @@ export default function Calendar() {
     if (!eventDate) {
       errors.date = "Enter a date.";
       errorsExits = true;
-    } else if (!eventDate.match(/^\d{2},\s*\d{2},\s*\d{4}$/)) {
+    } else if (!eventDate.match(/^\d{2},\d{2},\d{4}$/)) {
       errors.date = "Enter date in the format MM,DD,YYYY";
       errorsExits = true;
     }
