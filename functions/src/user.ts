@@ -110,7 +110,7 @@ export const getUserByEmail = functions.https.onRequest(async (request, response
       .firestore()
       .collection("users")
       .where('email', '==', email);
-    if (!databaseUser) {
+    if ((await databaseUser.get()).docs.length === 0) {
       response.status(400).send("User Not Found");
     } else {
       response.json({ user: (await databaseUser.get()).docs.map((doc)=>doc.data()) });
