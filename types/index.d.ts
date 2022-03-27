@@ -62,7 +62,7 @@ export interface Expense {
 export interface Budget {
   id: string | null;
   name: string;
-  endDate: string;
+  endDate: Timestamp;
   amount: Money;
   assignedUserID: string;
   balance: Money;
