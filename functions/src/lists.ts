@@ -14,18 +14,25 @@ export const getLists = functions.https.onRequest(async (request, response) => {
       response.status(400).send("Bad method. Use GET");
 
     // TODO: Check auth
-    var board_id = request.query.board_id
-    if(!board_id){
+    var board_id = request.query.board_id;
+    if (!board_id) {
       response.status(400).send("Specify a board id");
     }
     // TODO: Check auth
- 
+
     // Push the new message into Firestore using the Firebase Admin SDK.
-    const snapshot = await admin.firestore().collection('boards').doc(String(board_id)).collection('lists').get();
+    const snapshot = await admin
+      .firestore()
+      .collection("boards")
+      .doc(String(board_id))
+      .collection("lists")
+      .get();
 
     // Send back a message that we've successfully written the message
     if (snapshot)
-      response.json({ lists: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))});
+      response.json({
+        lists: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })),
+      });
   });
 });
 
@@ -41,11 +48,11 @@ export const addList = functions.https.onRequest(async (request, response) => {
     if (request.method !== "POST")
       response.status(400).send("Bad method. Use POST");
 
-      var board_id = request.query.id
-      if(!board_id){
-        response.status(400).send("Specify an id");
-      }
-      // TODO: Check auth
+    var board_id = request.query.id;
+    if (!board_id) {
+      response.status(400).send("Specify an id");
+    }
+    // TODO: Check auth
     // Read the body from the request.
     const body = request.body;
 
@@ -55,47 +62,64 @@ export const addList = functions.https.onRequest(async (request, response) => {
       response.status(400).send("Bad body in request.");
       return;
     }
-    const checkName = await admin.firestore().collection('boards').doc(String(board_id)).collection('lists');
-    if((await checkName.get()).docs.filter((doc)=>doc.data().name == body.name).length!=0){
+    const checkName = await admin
+      .firestore()
+      .collection("boards")
+      .doc(String(board_id))
+      .collection("lists");
+    if (
+      (await checkName.get()).docs.filter((doc) => doc.data().name == body.name)
+        .length != 0
+    ) {
       response.send(`list already exists`);
       return;
     }
     //add list at board with board_id
-    const snapshot = await admin.firestore().collection('boards').doc(String(board_id)).collection('lists').add(body);
-    
+    const snapshot = await admin
+      .firestore()
+      .collection("boards")
+      .doc(String(board_id))
+      .collection("lists")
+      .add(body);
+
     // Send back a message that we've successfully written the message
-    if (snapshot)
-      response.send(`Messageasdfg with ID: ${snapshot.id} added.`);
+    if (snapshot) response.status(201).json({ id: snapshot.id });
   });
 });
-export const deleteList = functions.https.onRequest(async (request, response) => {
-  // you need corsHandler to allow requests from localhost and the deployed website,
-  // so you don't get a CORS error.
-  corsHandler(request, response, async () => {
-    if (request.method !== "DELETE")
-      response.status(400).send("Bad method. Use DELETE");
+export const deleteList = functions.https.onRequest(
+  async (request, response) => {
+    // you need corsHandler to allow requests from localhost and the deployed website,
+    // so you don't get a CORS error.
+    corsHandler(request, response, async () => {
+      if (request.method !== "DELETE")
+        response.status(400).send("Bad method. Use DELETE");
 
-    const list_id = request.query.list_id
-    if(!list_id){
-      response.status(400).send("Specify a list id");
-    }
-    const board_id = request.query.board_id
-    if(!board_id){
-      response.status(400).send("Specify a board id");
-    }
-    // TODO: Check auth
+      const list_id = request.query.list_id;
+      if (!list_id) {
+        response.status(400).send("Specify a list id");
+      }
+      const board_id = request.query.board_id;
+      if (!board_id) {
+        response.status(400).send("Specify a board id");
+      }
+      // TODO: Check auth
 
-    // Get the list based on the request parameters
-    const snapshot = await admin.firestore().collection('boards').doc(String(board_id)).collection('lists').doc(String(list_id));
-    
-    //delete the list (if found) and send a response message
-    if ((await snapshot.get()).exists){
-      snapshot.delete();
-      response.status(400).send(`List with ID: ${list_id} is deleted.`);
-    }else 
-      response.status(400).send("List Not Found");
-  });
-});
+      // Get the list based on the request parameters
+      const snapshot = await admin
+        .firestore()
+        .collection("boards")
+        .doc(String(board_id))
+        .collection("lists")
+        .doc(String(list_id));
+
+      //delete the list (if found) and send a response message
+      if ((await snapshot.get()).exists) {
+        snapshot.delete();
+        response.status(400).send(`List with ID: ${list_id} is deleted.`);
+      } else response.status(400).send("List Not Found");
+    });
+  }
+);
 export const editList = functions.https.onRequest(async (request, response) => {
   // you need corsHandler to allow requests from localhost and the deployed website,
   // so you don't get a CORS error.
@@ -103,12 +127,12 @@ export const editList = functions.https.onRequest(async (request, response) => {
     if (request.method !== "PUT")
       response.status(400).send("Bad method. Use PUT");
 
-    const list_id = request.query.list_id
-    if(!list_id){
+    const list_id = request.query.list_id;
+    if (!list_id) {
       response.status(400).send("Specify a note id");
     }
-    const board_id = request.query.board_id
-    if(!board_id){
+    const board_id = request.query.board_id;
+    if (!board_id) {
       response.status(400).send("Specify a board id");
     }
 
@@ -123,13 +147,17 @@ export const editList = functions.https.onRequest(async (request, response) => {
     // TODO: Check auth
 
     // Get the list based on the request parameters
-    const snapshot = await admin.firestore().collection('boards').doc(String(board_id)).collection('lists').doc(String(list_id));
-    
+    const snapshot = await admin
+      .firestore()
+      .collection("boards")
+      .doc(String(board_id))
+      .collection("lists")
+      .doc(String(list_id));
+
     //edit the list (if found) and send a response message
-    if ((await snapshot.get()).exists){
+    if ((await snapshot.get()).exists) {
       snapshot.set(body);
       response.status(400).send(`List with ID: ${list_id} is updated.`);
-    }else 
-      response.status(400).send("List Not Found");
+    } else response.status(400).send("List Not Found");
   });
 });
