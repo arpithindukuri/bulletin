@@ -88,7 +88,7 @@ const LogIn: React.FC = () => {
             dispatch(
               userLoggedIn({ ...uData.data.user, idToken: res.data.idToken })
             );
-            navigate("/home");
+            navigate("/boardsView");
           })
           .catch((userError) => {
             console.log("error while getting user info: ", userError);

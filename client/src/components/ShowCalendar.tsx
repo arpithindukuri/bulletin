@@ -8,7 +8,6 @@ import FullCalendar, {
 import dayGridPlugin from "@fullcalendar/daygrid";
 import allLocales from "@fullcalendar/core/locales-all";
 import interactionPlugin from "@fullcalendar/interaction";
-import { INITIAL_EVENTS, createEventId } from "./event-utils";
 import Event from "../models/Event";
 import "./ShowCalendar.css";
 import axiosInstance from "../axios";

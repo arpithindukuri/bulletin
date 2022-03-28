@@ -1,0 +1,257 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing <NotesRow /> Component should render NotesRow properly 1`] = `
+Array [
+  <div
+    className="notesTableRow tableCellsFormatting noteNameCell MuiBox-root css-6gs9hh"
+  >
+    <div
+      className="MuiBox-root css-0"
+    >
+      Test Note
+    </div>
+    <div
+      className="MuiBox-root css-0"
+    >
+      <button
+        className="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+        disabled={false}
+        id="view-note-dialog-button"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onContextMenu={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="button"
+      >
+        Open
+      </button>
+    </div>
+  </div>,
+  <div
+    className="notesTableRow tableCellsFormatting MuiBox-root css-ufscxh"
+  >
+    2022-03-28
+  </div>,
+  <div
+    className="notesTableRow MuiBox-root css-ndbrsi"
+  >
+    <button
+      className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      X
+    </button>
+  </div>,
+  <div
+    className="notesTableRow MuiBox-root css-ndbrsi"
+  >
+    <button
+      className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-taz78y-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      id="edit-note-dialog-button"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      edit
+    </button>
+  </div>,
+]
+`;
+
+exports[`Testing <NotesRow /> Component should render NotesRow properly with open modal 1`] = `
+Array [
+  <div
+    className="overlay"
+    style={
+      Object {
+        "paddingTop": "20%",
+      }
+    }
+  >
+    <div
+      className="overlayBox"
+    >
+      <div
+        className="noteHeader"
+      >
+        <h4
+          className="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+        >
+          Test Note
+        </h4>
+        <button
+          className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <h5
+            className="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
+          >
+            X
+          </h5>
+          <span
+            className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+      <div
+        className="noteContent"
+      >
+        test not content
+      </div>
+    </div>
+  </div>,
+  <div
+    className="notesTableRow tableCellsFormatting noteNameCell MuiBox-root css-6gs9hh"
+  >
+    <div
+      className="MuiBox-root css-0"
+    >
+      Test Note
+    </div>
+    <div
+      className="MuiBox-root css-0"
+    >
+      <button
+        className="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+        disabled={false}
+        id="view-note-dialog-button"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onContextMenu={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="button"
+      >
+        Open
+        <span
+          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+  </div>,
+  <div
+    className="notesTableRow tableCellsFormatting MuiBox-root css-ufscxh"
+  >
+    2022-03-28
+  </div>,
+  <div
+    className="notesTableRow MuiBox-root css-ndbrsi"
+  >
+    <button
+      className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      X
+      <span
+        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>,
+  <div
+    className="notesTableRow MuiBox-root css-ndbrsi"
+  >
+    <button
+      className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-taz78y-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      id="edit-note-dialog-button"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      edit
+      <span
+        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>,
+]
+`;

@@ -96,10 +96,10 @@ export default function ExpensesOverlay({
     }
 
     if (!popupDate) {
-      errors.date = "Please enter a date";
+      errors.date = "Please enter a date.";
       errorsExits = true;
     } else if (!isValidDate(popupDate)) {
-      errors.date = "Please enter a valid date";
+      errors.date = "Please enter a valid date.";
       errorsExits = true;
     }
 
@@ -233,26 +233,28 @@ export default function ExpensesOverlay({
 
   const handleEditBudget = () => {
     if (!validateData()) {
-        return;
-      }
-  
-      const values = {
-        name: popupName,
-        date: popupDate,
-        balance: parseFloat(popupBalance),
-        assigned: popupAssignee,
-      };
-  
-      axiosInstance
-        .put("/editBudget", values, { params: { board_id: boardId, budget_id: expenseId  } })
-        .then((res) => {
-          console.log(res);
-          getBudgets();
-          setPopupState(false);
-        })
-        .catch((err) => {
-          console.log("error editing budget: ", err);
-        });
+      return;
+    }
+
+    const values = {
+      name: popupName,
+      date: popupDate,
+      balance: parseFloat(popupBalance),
+      assigned: popupAssignee,
+    };
+
+    axiosInstance
+      .put("/editBudget", values, {
+        params: { board_id: boardId, budget_id: expenseId },
+      })
+      .then((res) => {
+        console.log(res);
+        getBudgets();
+        setPopupState(false);
+      })
+      .catch((err) => {
+        console.log("error editing budget: ", err);
+      });
   };
 
   return (
@@ -266,7 +268,10 @@ export default function ExpensesOverlay({
         <div className="overlayHeader">
           <Typography variant="h3">{header}</Typography>
 
-          <Button onClick={() => setPopupState(false)}>
+          <Button
+            id="expense-modal-close-button"
+            onClick={() => setPopupState(false)}
+          >
             <Typography variant="h5">X</Typography>
           </Button>
         </div>
@@ -275,6 +280,7 @@ export default function ExpensesOverlay({
           <div className="overlayFieldRow">
             <Typography variant="h6">{type} Name</Typography>
             <TextField
+              id="expenses-overlay-name-field"
               variant="standard"
               label={popupName ? "" : `Add ${type} Name`}
               value={popupName}
@@ -287,6 +293,7 @@ export default function ExpensesOverlay({
           <div className="overlayFieldRow">
             <Typography variant="h6">{dateType} Date</Typography>
             <TextField
+              id="expenses-overlay-date-field"
               variant="standard"
               label={popupDate ? "" : "Add Date (YYYY-MM-DD)"}
               value={popupDate}
@@ -298,6 +305,7 @@ export default function ExpensesOverlay({
           <div className="overlayFieldRow">
             <Typography variant="h6">Assigned To</Typography>
             <TextField
+              id="expenses-overlay-assigned-field"
               variant="standard"
               label={popupAssignee ? "" : "Assign To"}
               value={popupAssignee}
@@ -309,6 +317,7 @@ export default function ExpensesOverlay({
           <div className="overlayFieldRow">
             <Typography variant="h6">Balance($)</Typography>
             <TextField
+              id="expenses-overlay-balance-field"
               variant="standard"
               label={popupBalance ? "" : "Add Balance ($)"}
               value={popupBalance}
@@ -319,6 +328,7 @@ export default function ExpensesOverlay({
           </div>
           <div className="saveDiv">
             <Button
+              id="expense-overlay-save-button"
               className="saveButton"
               onClick={
                 type == "Expense"

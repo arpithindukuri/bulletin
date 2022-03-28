@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing <ExpensesOverlay /> Component should render overlay properly in edit 1`] = `
+Array [
+  <Provider
+    store={
+      Object {
+        "@@observable": [Function],
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      }
+    }
+  >
+    <BrowserRouter>
+      <ExpensesOverlay
+        boardId=""
+        dateType=""
+        header=""
+        isEdit={false}
+        setBudgets={[Function]}
+        setExpenses={[Function]}
+        setPopupState={[Function]}
+        type=""
+      />
+    </BrowserRouter>
+  </Provider>,
+]
+`;
+
+exports[`Testing <ExpensesOverlay /> Component should render overlay properly in non-edit 1`] = `
+Array [
+  <Provider
+    store={
+      Object {
+        "@@observable": [Function],
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      }
+    }
+  >
+    <BrowserRouter>
+      <ExpensesOverlay
+        boardId=""
+        dateType=""
+        header=""
+        isEdit={false}
+        setBudgets={[Function]}
+        setExpenses={[Function]}
+        setPopupState={[Function]}
+        type=""
+      />
+    </BrowserRouter>
+  </Provider>,
+]
+`;
