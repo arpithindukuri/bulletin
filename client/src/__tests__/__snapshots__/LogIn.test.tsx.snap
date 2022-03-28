@@ -1,0 +1,212 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing <LogIn /> Component should render properly 1`] = `
+<div
+  className="login-container"
+>
+  <div
+    className="MuiGrid-root login MuiGrid-container MuiGrid-spacing-xs-2"
+  >
+    <div
+      className="MuiGrid-root login-left-container MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center MuiGrid-grid-md-5 MuiGrid-grid-lg-5 MuiGrid-grid-xl-5"
+    >
+      <div
+        className="MuiGrid-root login-inner-grid MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+      >
+        <div
+          className="MuiGrid-root login-inner-grid MuiGrid-container MuiGrid-item MuiGrid-direction-xs-column MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+        >
+          <img
+            className="login-logo-image"
+            src="logo.svg"
+          />
+          <h1
+            className="login-app-name"
+          >
+            Bulletin
+          </h1>
+          <h3
+            className="login-app-description"
+          >
+            Organize your household in a smart way
+             
+          </h3>
+        </div>
+        <div
+          className="MuiGrid-root login-inner-grid MuiGrid-container MuiGrid-item MuiGrid-direction-xs-column MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+        >
+          <h4
+            className="login-signup-redirect-text"
+          >
+            New Here ?
+          </h4>
+          <button
+            className="MuiButtonBase-root MuiButton-root MuiButton-contained login-signup-redirect-button"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            <span
+              className="MuiButton-label"
+            >
+              Sign up now!
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      className="MuiGrid-root login-inner-grid MuiGrid-container MuiGrid-spacing-xs-4 MuiGrid-item MuiGrid-direction-xs-column MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12 MuiGrid-grid-md-7 MuiGrid-grid-lg-7 MuiGrid-grid-xl-7"
+    >
+      <div
+        className="MuiGrid-root MuiGrid-item"
+      >
+        <h1
+          className="login-title"
+        >
+          Log In
+        </h1>
+      </div>
+      <div
+        className="MuiGrid-root login-inner-grid-item MuiGrid-item"
+      >
+        <p>
+          Email
+        </p>
+        <div
+          className="MuiFormControl-root MuiTextField-root login-text-field"
+        >
+          <label
+            className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+            data-shrink={false}
+            htmlFor="login-username-email-field"
+            id="login-username-email-field-label"
+          >
+            Email
+          </label>
+          <div
+            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+            onClick={[Function]}
+          >
+            <input
+              aria-invalid={false}
+              autoFocus={false}
+              className="MuiInputBase-input MuiOutlinedInput-input"
+              disabled={false}
+              id="login-username-email-field"
+              onAnimationStart={[Function]}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              required={false}
+              type="text"
+              value=""
+            />
+            <fieldset
+              aria-hidden={true}
+              className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                className="PrivateNotchedOutline-legendLabelled-3"
+              >
+                <span>
+                  Email
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+          
+        </div>
+      </div>
+      <div
+        className="MuiGrid-root login-inner-grid-item MuiGrid-item"
+      >
+        <p>
+          Password
+        </p>
+        <div
+          className="MuiFormControl-root MuiTextField-root login-text-field"
+        >
+          <label
+            className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+            data-shrink={false}
+            htmlFor="login-password-field"
+            id="login-password-field-label"
+          >
+            Password
+          </label>
+          <div
+            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+            onClick={[Function]}
+          >
+            <input
+              aria-invalid={false}
+              autoFocus={false}
+              className="MuiInputBase-input MuiOutlinedInput-input"
+              disabled={false}
+              id="login-password-field"
+              onAnimationStart={[Function]}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              required={false}
+              type="password"
+              value=""
+            />
+            <fieldset
+              aria-hidden={true}
+              className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                className="PrivateNotchedOutline-legendLabelled-3"
+              >
+                <span>
+                  Password
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+          
+        </div>
+      </div>
+      <div
+        className="MuiGrid-root MuiGrid-item"
+      >
+        <button
+          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root login-button css-sghohy-MuiButtonBase-root-MuiButton-root"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          Log In
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
