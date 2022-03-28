@@ -1,11 +1,11 @@
-import { BoardMember } from "../../../types";
-import { isBoardMemberRole } from "./isBoardMemberRole";
+import { Member } from "../../../types";
+import { isRole } from "./isRole";
 
-export function isBoardMember(arg: any): arg is BoardMember {
+export function isMember(arg: any): arg is Member {
   /**
-   * Cast arg into type BoardMember.
+   * Cast arg into type Member.
    */
-  const obj: BoardMember = arg;
+  const obj: Member = arg;
 
   return (
     /**
@@ -25,6 +25,6 @@ export function isBoardMember(arg: any): arg is BoardMember {
      * Note that we must iterate through all arrays to ensure all values are of the required type.
      */
     typeof obj.userID === "string" &&
-    isBoardMemberRole(obj.role)
+    isRole(obj.role)
   );
 }

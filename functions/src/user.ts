@@ -1,119 +1,113 @@
+import { User } from "../../types";
 import corsHandler from "./cors";
-import { admin, functions } from "./firebase";
-import { isUser } from "./typeguards/isUser";
+import { functions } from "./firebase";
+import { createDoc, readDoc, updateDoc } from "./util/firestore/interactors";
+import { getUserColPath, getUserDocPath } from "./util/firestore/paths";
+import { checkHTTPMethod, parseBodyAsType, parseParam } from "./util/request";
+import { sendJSON } from "./util/response";
 
 /**
  * Take the event object send in the request body and insert it into Firestore
  * under the path
  */
-export const addUser = functions.https.onRequest(async (request, response) => {
+export const createUser = functions.https.onRequest(
+  async (request, response) => {
+    // you need corsHandler to allow requests from localhost and the deployed website,
+    corsHandler(request, response, async () => {
+      // Check HTTP method
+      checkHTTPMethod(request, "POST", response);
+
+      // Read the body from the request.
+      const body = parseBodyAsType(request, "User", response) as User;
+      if (!body) return;
+
+      // get collection path to add to.
+      const userColPath = getUserColPath();
+
+      // add body to path
+      const newUserDocRef = await createDoc(userColPath, body, response);
+
+      // send the response, that we have added the doc
+      const responseData = await readDoc(newUserDocRef.path, response);
+
+      sendJSON(response, responseData);
+    });
+  }
+);
+
+export const readUser = functions.https.onRequest(async (request, response) => {
   // you need corsHandler to allow requests from localhost and the deployed website,
+  // so you don't get a CORS error.
   corsHandler(request, response, async () => {
-    // Check HTTP method
-    if (request.method !== "POST")
-      response.status(400).send("Bad method. Use POST");
+    // check HTTP method
+    checkHTTPMethod(request, "GET", response);
 
-    // Read the body from the request.
-    const body = request.body;
+    // get query params
+    const userID = parseParam(request, "userID", response);
 
-    // Ensure the body has the necessary information
-    // In this case, we check if the body is of type user
-    if (!isUser(body)) {
-      response.status(400).send("Bad body in request.");
-      return;
-    }
+    // get firestore path
+    const userDocPath = getUserDocPath(userID);
 
-    const snapshot = await admin
-      .firestore()
-      .collection("users")
-      .doc(body.id)
-      .set(body);
+    // get the document
+    const responseData = await readDoc(userDocPath, response);
 
     // Send back a message that we've successfully written the message
-    if (snapshot) response.send(`User with ID: ${body.id} added.`);
+    sendJSON(response, responseData);
   });
 });
 
-export const getUser = functions.https.onRequest(async (request, response) => {
-  // you need corsHandler to allow requests from localhost and the deployed website,
-  // so you don't get a CORS error.
-  corsHandler(request, response, async () => {
-    if (request.method !== "GET")
-      response.status(400).send("Bad method. Use GET");
+// export const readUserByEmail = functions.https.onRequest(
+//   async (request, response) => {
+//     // you need corsHandler to allow requests from localhost and the deployed website,
+//     // so you don't get a CORS error.
+//     corsHandler(request, response, async () => {
+//       // check HTTP method
+//       checkHTTPMethod(request, "GET", response);
 
-    const user_id = request.query.user_id;
-    if (!user_id) {
-      response.status(400).send("Specify a user id");
-    }
+//       const email = parseParam(request, "email", response);
 
-    // Get User from Firestore using the Firebase Admin SDK.
-    const databaseUser = await admin
-      .firestore()
-      .collection("users")
-      .doc(String(user_id))
-      .get();
-    if (!databaseUser.exists) {
-      response.status(400).send("User Not Found");
-    } else {
-      response.json({ user: databaseUser.data() });
-    }
-  });
-});
+//       // get firestore path
+//       const userColPath = getUserColPath();
 
-export const editUser = functions.https.onRequest(async (request, response) => {
-  // you need corsHandler to allow requests from localhost and the deployed website,
-  // so you don't get a CORS error.
-  corsHandler(request, response, async () => {
-    if (request.method !== "PUT")
-      response.status(400).send("Bad method. Use PUT");
+//       // Get User from Firestore using the Firebase Admin SDK.
+//       const databaseUser = await admin
+//         .firestore()
+//         .collection(userColPath)
+//         .where("email", "==", email);
 
-    const body = request.body;
-    if (!body.id) {
-      response.status(400).send("Specify a user id");
-    }
+//       if (!databaseUser) {
+//         sendUserFailure(response, "User Not Found");
+//       } else {
+//         sendJSON(response, databaseUser);
+//       }
+//     });
+//   }
+// );
 
-    // Ensure the body has the necessary information
-    // In this case, we check if the body is of type Note
-    if (!isUser(body)) {
-      response.status(400).send("Bad body in request.");
-      return;
-    }
-    // TODO: Check auth
+export const updateUser = functions.https.onRequest(
+  async (request, response) => {
+    // you need corsHandler to allow requests from localhost and the deployed website,
+    // so you don't get a CORS error.
+    corsHandler(request, response, async () => {
+      // check HTTP method
+      checkHTTPMethod(request, "PUT", response);
 
-    // Get the note based on the request parameters
-    const snapshot = await admin
-      .firestore()
-      .collection("users")
-      .doc(String(body.id));
+      // get query params
+      const userID = parseParam(request, "userID", response);
 
-    // Edit the note (if found) and send back a response
-    if ((await snapshot.get()).exists) {
-      snapshot.set(body);
-      response.status(200).send(`User with ID: ${body.id} is updated.`);
-    } else response.status(400).send("User Not Found");
-  });
-});
-export const getUserByEmail = functions.https.onRequest(async (request, response) => {
-  // you need corsHandler to allow requests from localhost and the deployed website,
-  // so you don't get a CORS error.
-  corsHandler(request, response, async () => {
-    if (request.method !== "GET")
-      response.status(400).send("Bad method. Use GET");
+      // get body
+      const body = parseBodyAsType(request, "User", response) as User;
+      if (!body) return;
 
-    const email = request.query.email;
-    if (!email) {
-      response.status(400).send("Specify a user email");
-    }
+      // TODO: Check auth
 
-    // Get User from Firestore using the Firebase Admin SDK.
-    const databaseUser = await admin
-      .firestore()
-      .collection("users")
-      .where('email', '==', email);
-    if (!databaseUser) {
-      response.status(400).send("User Not Found");
-    } else {
-      response.json({ user: (await databaseUser.get()).docs.map((doc)=>doc.data()) });
-    }
-  });
-});
+      // get path
+      const userPath = getUserDocPath(userID);
+
+      //edit the list (if found) and send a response message
+      await updateDoc(userPath, body, response);
+
+      sendJSON(response, null);
+    });
+  }
+);

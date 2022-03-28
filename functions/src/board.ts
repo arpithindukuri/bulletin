@@ -1,19 +1,67 @@
-
+import { Board, Member } from "../../types";
 import corsHandler from "./cors";
 import { admin, functions } from "./firebase";
-import { isBoard } from "./typeguards/isBoard";
+import {
+  createDoc,
+  deleteDoc,
+  readDoc,
+  updateDoc,
+} from "./util/firestore/interactors";
+import {
+  getBoardColPath,
+  getBoardDocPath,
+  getMemberColPath,
+  getMemberDocPath,
+} from "./util/firestore/paths";
+import { checkHTTPMethod, parseBodyAsType, parseParam } from "./util/request";
+import { sendJSON, sendUserFailure } from "./util/response";
 // import { isUserAuthorized } from "./auth";
+
+/**
+ * Take the boards object send in the request body and insert it into Firestore
+ * under the path /boards/writeResult.id
+ */
+export const createBoard = functions.https.onRequest(
+  async (request, response) => {
+    // you need corsHandler to allow requests from localhost and the deployed website,
+    corsHandler(request, response, async () => {
+      // Check HTTP method
+      checkHTTPMethod(request, "POST", response);
+
+      // TODO: Check auth
+
+      // Read the body from the request.
+      const body = parseBodyAsType(request, "Board", response) as Board;
+      if (!body) return;
+
+      // get collection path to add to.
+      const boardColPath = getBoardColPath();
+
+      // add body to path
+      const newBoardDocRef = await createDoc(boardColPath, body, response);
+
+      // send the response, that we have added the doc
+      const responseData = await readDoc(newBoardDocRef.path, response);
+
+      sendJSON(response, responseData);
+    });
+  }
+);
 
 /**
  * Gets all boards from firestore, under the path /boards, and returns it as a json
  * object in the response's body
  */
-export const getBoards = functions.https.onRequest(async (request, response) => {
-  // you need corsHandler to allow requests from localhost and the deployed website,
-  // so you don't get a CORS error.
-  corsHandler(request, response, async () => {
-    if (request.method !== "GET")
-      response.status(400).send("Bad method. Use GET");
+export const readBoardsByUserID = functions.https.onRequest(
+  async (request, response) => {
+    // you need corsHandler to allow requests from localhost and the deployed website,
+    // so you don't get a CORS error.
+    corsHandler(request, response, async () => {
+      // check HTTP method
+      checkHTTPMethod(request, "GET", response);
+
+      // get userID from request query parameters
+      const userID = parseParam(request, "userID", response);
 
       // const accessToken = request.get("Authorization")?.split(" ")[1];
 
@@ -24,239 +72,166 @@ export const getBoards = functions.https.onRequest(async (request, response) => 
       // }).catch(err => {
       //   response.status(401).send("User is unauthorized");
       // })
-    // TODO: Check auth
+      // TODO: Check auth
 
-    // Push the new message into Firestore using the Firebase Admin SDK.
-    const snapshot = await admin.firestore().collection("boards").get();
-    
-    // Send back a message that we've successfully written the message
-    if (snapshot)
-      response.json({ board: snapshot.docs.map((doc) => doc.data()) });
-    else 
-      response.status(400).send("Board Not Found");
-  });
-})
-export const getBoard = functions.https.onRequest(async (request, response) => {
-  // you need corsHandler to allow requests from localhost and the deployed website,
-  // so you don't get a CORS error.
-  corsHandler(request, response, async () => {
-    if (request.method !== "GET")
-      response.status(400).send("Bad method. Use GET");
+      // get firestore path
+      // const boardColPath = getBoardColPath();
 
-    const id = request.query.id
-    if(!id){
-      response.status(400).send("Specify an id");
-    }
-    // TODO: Check auth
+      // make the query
+      const query = await admin
+        .firestore()
+        .collectionGroup("members")
+        .where("userID", "==", userID);
 
-    // Push the new message into Firestore using the Firebase Admin SDK.
-    const snapshot = await admin.firestore().collection("boards").doc(String(id));
-   
-    
-    // Send back a message that we've successfully written the message
-    if ((await snapshot.get()).exists)
-      response.json({ board: {
-        data: (await snapshot.get()).data(),
-        event: (await snapshot.collection('events').get()).docs.map((doc)=>doc.data()),
-        expenses: (await snapshot.collection('expenses').get()).docs.map((doc)=>doc.data()),
-        budget: (await snapshot.collection('budgets').get()).docs.map((doc)=>doc.data()),
-        lists: (await snapshot.collection('lists').get()).docs.map((doc)=>doc.data()),
-        notes: (await snapshot.collection('notes').get()).docs.map((doc)=>doc.data())
-        
-      }
+      const snapshot = await query.get();
+
+      // Send back a message that we've successfully written the message
+      if (snapshot) {
+        const result = await Promise.all(
+          snapshot.docs.map(async (doc) => {
+            const boardData = await readDoc(doc.ref.path, response);
+            return boardData;
+          })
+        );
+        sendJSON(response, { boards: result });
+      } else sendUserFailure(response, "Board Not Found");
     });
-    else 
-      response.status(400).send("Board Not Found");
-  });
-});
+  }
+);
 
-/**
- * Take the boards object send in the request body and insert it into Firestore
- * under the path /boards/writeResult.id
- */
-export const addBoard = functions.https.onRequest(async (request, response) => {
-  // you need corsHandler to allow requests from localhost and the deployed website,
-  corsHandler(request, response, async () => {
-    // Check HTTP method
-    if (request.method !== "POST")
-      response.status(400).send("Bad method. Use POST");
+export const readBoard = functions.https.onRequest(
+  async (request, response) => {
+    // you need corsHandler to allow requests from localhost and the deployed website,
+    // so you don't get a CORS error.
+    corsHandler(request, response, async () => {
+      // check HTTP method
+      checkHTTPMethod(request, "GET", response);
 
-    // TODO: Check auth
+      // get query params
+      const boardID = parseParam(request, "boardID", response);
 
-    // Read the body from the request.
-    const body = request.body;
+      // get firestore path
+      const boardColPath = getBoardDocPath(boardID);
 
-    // Ensure the body has the necessary information
-    // In this case, we check if the body is of type
-    if (!isBoard(body)) {
-      response.status(400).send("Bad body in request.");
-      return;
-    }
+      // get the document
+      const responseData = await readDoc(boardColPath, response);
 
-    // Get the board based on the request parameters
-    const writeResult = await admin.firestore().collection("boards").add(body);
+      // Send back a message that we've successfully written the message
+      sendJSON(response, responseData);
+    });
+  }
+);
 
-    // Send back a message that we've successfully written the message
-    if (writeResult) {
-      response.json({board: {
-        id: writeResult.id,
-      }});
-    }
-  });
-});
-export const deleteBoard = functions.https.onRequest(async (request, response) => {
-  // you need corsHandler to allow requests from localhost and the deployed website,
-  // so you don't get a CORS error.
-  corsHandler(request, response, async () => {
-    if (request.method !== "DELETE")
-      response.status(400).send("Bad method. Use DELETE");
+export const updateBoard = functions.https.onRequest(
+  async (request, response) => {
+    // you need corsHandler to allow requests from localhost and the deployed website,
+    // so you don't get a CORS error.
+    corsHandler(request, response, async () => {
+      // check HTTP method
+      checkHTTPMethod(request, "PUT", response);
 
-    const board_id = request.query.board_id
-    if(!board_id){
-      response.status(400).send("Specify a board id");
-    }
-    // TODO: Check auth
+      // get query params
+      const boardID = parseParam(request, "boardID", response);
 
-    // Get the board based on the request parameters
-    const snapshot = await admin.firestore().collection('boards').doc(String(board_id));
-    
-    //delete the event (if found) and send a response message
-    if ((await snapshot.get()).exists){
-      snapshot.delete();
-      response.status(400).send(`Board with ID: ${board_id} is deleted.`);
-    }else 
-      response.status(400).send("Board Not Found");
-  });
-});
-export const editBoard = functions.https.onRequest(async (request, response) => {
-  // you need corsHandler to allow requests from localhost and the deployed website,
-  // so you don't get a CORS error.
-  corsHandler(request, response, async () => {
-    if (request.method !== "PUT")
-      response.status(400).send("Bad method. Use PUT");
+      // get body
+      const body = parseBodyAsType(request, "Board", response) as Board;
+      if (!body) return;
 
-    const board_id = request.query.board_id
-    if(!board_id){
-      response.status(400).send("Specify a board id");
-    }
+      // get path
+      const boardPath = getBoardDocPath(boardID);
 
-    const body = request.body;
+      //edit the board (if found) and send a response message
+      await updateDoc(boardPath, body, response);
 
-    // Ensure the body has the necessary information
-    // In this case, we check if the body is of type
-    if (!isBoard(body)) {
-      response.status(400).send("Bad body in request.");
-      return;
-    }
-    // TODO: Check auth
+      sendJSON(response, null);
+    });
+  }
+);
 
-    // Push the new message into Firestore using the Firebase Admin SDK.
-    const snapshot = await admin.firestore().collection('boards').doc(String(board_id));
-    
-    //edit the board (if found) and send a response message
-    if ((await snapshot.get()).exists){
-      snapshot.set(body);
-      response.status(400).send(`Board with ID: ${board_id} is updated.`);
-    }else 
-      response.status(400).send("Board Not Found");
-  });
-});
+export const addUserToBoard = functions.https.onRequest(
+  async (request, response) => {
+    // you need corsHandler to allow requests from localhost and the deployed website,
+    // so you don't get a CORS error.
+    corsHandler(request, response, async () => {
+      // check HTTP method
+      checkHTTPMethod(request, "POST", response);
 
-export const addUserToBoard = functions.https.onRequest(async (request, response) => {
-  // you need corsHandler to allow requests from localhost and the deployed website,
-  // so you don't get a CORS error.
-  corsHandler(request, response, async () => {
-    if (request.method !== "PUT")
-      response.status(400).send("Bad method. Use PUT");
+      // get query params
+      const boardID = parseParam(request, "boardID", response);
 
-    const board_id = request.query.board_id
-    if(!board_id){
-      response.status(400).send("Specify a board id");
-    }
-    const user_id = request.query.user_id
-    if(!user_id){
-      response.status(400).send("Specify a user id");
-    }
-    const user_role = request.query.user_role
-    if(!user_role){
-      response.status(400).send("Specify a user role");
-    }
-    // TODO: Check auth
+      // TODO: Check auth
 
-    // Push the new message into Firestore using the Firebase Admin SDK.
-    const snapshot = await admin.firestore().collection('boards').doc(String(board_id));
-    const board_name_snaphot = (await admin.firestore().collection('boards').get()).docs.filter((doc)=>doc.id == board_id);
-    const board_name = board_name_snaphot.map((doc)=>doc.data().name);
+      // Read the body from the request.
+      const body = parseBodyAsType(request, "Member", response) as Member;
+      if (!body) return;
 
-    //edit the board (if found) and send a response message
-    if ((await snapshot.get()).exists){
-      if(user_role === 'Admin'){
-        snapshot.update({
-          users: admin.firestore.FieldValue.arrayRemove({id: user_id, role: 'Member'})
-        });
-      }else{
-        snapshot.update({
-          users: admin.firestore.FieldValue.arrayRemove({id: user_id, role: 'Admin'})
-        });
-      }
-      
-      snapshot.update({
-        users: admin.firestore.FieldValue.arrayUnion({id: user_id, role: user_role})
-      });
-      response.status(400).send(`User has been added to board with ID: ${board_id} and a name of ${board_name}.`);
-    }else 
-      response.status(400).send("Board Not Found");
-  });
-});
-export const deleteUserFromBoard = functions.https.onRequest(async (request, response) => {
-  // you need corsHandler to allow requests from localhost and the deployed website,
-  // so you don't get a CORS error.
-  corsHandler(request, response, async () => {
-    if (request.method !== "DELETE")
-      response.status(400).send("Bad method. Use DELETE");
+      // get collection path to add to.
+      const memberColPath = getMemberColPath(boardID);
 
-    const board_id = request.query.board_id
-    if(!board_id){
-      response.status(400).send("Specify a board id");
-    }
-    const user_id = request.query.user_id
-    if(!user_id){
-      response.status(400).send("Specify a user id");
-    }
-    const user_role = request.query.user_role
-    if(!user_role){
-      response.status(400).send("Specify a user role");
-    }
-    // TODO: Check auth
+      // add body to path
+      const newMemberDocRef = await createDoc(memberColPath, body, response);
 
-    // Push the new message into Firestore using the Firebase Admin SDK.
-    const snapshot = await admin.firestore().collection('boards').doc(String(board_id));
+      // send the response, that we have added the doc
+      const responseData = await readDoc(newMemberDocRef.path, response);
 
-    //edit the board (if found) and send a response message
-    if ((await snapshot.get()).exists){
-      if(user_role === 'Admin'){
-        snapshot.update({
-          users: admin.firestore.FieldValue.arrayRemove({id: user_id, role: 'Admin'})
-        });
-      }else{
-        snapshot.update({
-          users: admin.firestore.FieldValue.arrayRemove({id: user_id, role: 'Member'})
-        });
-      }
-      response.status(400).send(`User has been removed to board with ID: ${board_id}.`);
-    }else 
-      response.status(400).send("Board Not Found");
-  });
-});
+      sendJSON(response, responseData);
+    });
+  }
+);
 
+export const deleteUserFromBoard = functions.https.onRequest(
+  async (request, response) => {
+    // you need corsHandler to allow requests from localhost and the deployed website,
+    // so you don't get a CORS error.
+    corsHandler(request, response, async () => {
+      // check HTTP method
+      checkHTTPMethod(request, "DELETE", response);
+
+      // get query params
+      const boardID = parseParam(request, "boardID", response);
+      const memberID = parseParam(request, "memberID", response);
+
+      // get path
+      const memberPath = getMemberDocPath(boardID, memberID);
+
+      //edit the list (if found) and send a response message
+      await deleteDoc(memberPath, response);
+
+      // send success message
+      sendJSON(response, null);
+    });
+  }
+);
+
+export const deleteBoard = functions.https.onRequest(
+  async (request, response) => {
+    // you need corsHandler to allow requests from localhost and the deployed website,
+    // so you don't get a CORS error.
+    corsHandler(request, response, async () => {
+      // check HTTP method
+      checkHTTPMethod(request, "DELETE", response);
+
+      // get query params
+      const boardID = parseParam(request, "boardID", response);
+
+      // TODO: Check auth
+
+      // get path
+      const boardPath = getBoardDocPath(boardID);
+
+      //edit the list (if found) and send a response message
+      await deleteDoc(boardPath, response);
+
+      // send success message
+      sendJSON(response, null);
+    });
+  }
+);
 
 export const testingDeleteBoard = async (id: string) => {
-  const snapshot = await admin
-        .firestore()
-        .collection("boards")
-        .doc(String(id));
+  const snapshot = await admin.firestore().collection("boards").doc(String(id));
 
-      if ((await snapshot.get()).exists) {
-        snapshot.delete();
-      }
-}
+  if ((await snapshot.get()).exists) {
+    snapshot.delete();
+  }
+};

@@ -1,140 +1,163 @@
+import { List } from "../../types";
 import corsHandler from "./cors";
-import { admin, functions } from "./firebase";
-import { isList } from "./typeguards/isList";
-
-/**
- * Gets all lists from firestore, under the path /lists, and returns it as a json
- * object in the response's body
- */
-export const getLists = functions.https.onRequest(async (request, response) => {
-  // you need corsHandler to allow requests from localhost and the deployed website,
-  // so you don't get a CORS error.
-  corsHandler(request, response, async () => {
-    if (request.method !== "GET")
-      response.status(400).send("Bad method. Use GET");
-
-    // TODO: Check auth
-    var board_id = request.query.board_id
-    if(!board_id){
-      response.status(400).send("Specify a board id");
-    }
-    // TODO: Check auth
- 
-    // Push the new message into Firestore using the Firebase Admin SDK.
-    const snapshot = await admin.firestore().collection('boards').doc(String(board_id));
-    const itemsSnapshot = await admin.firestore().collectionGroup('listItems').startAt(snapshot).get();
-    // Send back a message that we've successfully written the message
-    if (snapshot)
-      response.json(
-        { lists: {
-        data: (await snapshot.collection('lists').get()).docs.map((doc) => doc.data()),
-        id: itemsSnapshot.docs.map((doc)=>doc.ref.path)
-       }
-      });
-  });
-});
+import { functions } from "./firebase";
+import {
+  createDoc,
+  deleteDoc,
+  updateDoc,
+  readDoc,
+  readCol,
+} from "./util/firestore/interactors";
+import { getListColPath, getListDocPath } from "./util/firestore/paths";
+import { checkHTTPMethod, parseBodyAsType, parseParam } from "./util/request";
+import { sendJSON } from "./util/response";
 
 /**
  * Take the List object send in the request body and insert it into Firestore
  * under the path /lists/writeResult.id
  */
-export const addList = functions.https.onRequest(async (request, response) => {
-  // you need corsHandler to allow requests from localhost and the deployed website,
-  // so you don't get a CORS error.
-  corsHandler(request, response, async () => {
-    // Check HTTP method
-    if (request.method !== "POST")
-      response.status(400).send("Bad method. Use POST");
+export const createList = functions.https.onRequest(
+  async (request, response) => {
+    // you need corsHandler to allow requests from localhost and the deployed website,
+    // so you don't get a CORS error.
+    corsHandler(request, response, async () => {
+      // Check HTTP method
+      checkHTTPMethod(request, "POST", response);
 
-      var board_id = request.query.id
-      if(!board_id){
-        response.status(400).send("Specify an id");
-      }
+      const boardID = parseParam(request, "boardID", response);
+
       // TODO: Check auth
-    // Read the body from the request.
-    const body = request.body;
 
-    // Ensure the body has the necessary information
-    // In this case, we check if the body is of type list
-    if (!isList(body)) {
-      response.status(400).send("Bad body in request.");
-      return;
-    }
-    const checkName = await admin.firestore().collection('boards').doc(String(board_id)).collection('lists');
-    if((await checkName.get()).docs.filter((doc)=>doc.data().name == body.name).length!=0){
-      response.send(`list already exists`);
-      return;
-    }
-    //add list at board with board_id
-    const snapshot = await admin.firestore().collection('boards').doc(String(board_id)).collection('lists').add(body);
-    
+      // Read the body from the request.
+      const body = parseBodyAsType(request, "List", response) as List;
+      if (!body) return;
+
+      // get collection path to add to.
+      const listColPath = getListColPath(boardID);
+
+      // add body to path
+      const newListDocRef = await createDoc(listColPath, body, response);
+
+      // send the response, that we have added the doc
+      const responseData = await readDoc(newListDocRef.path, response);
+
+      sendJSON(response, responseData);
+    });
+  }
+);
+
+/**
+ * Gets one list from firestore that matches the listID and boardID specified in
+ * request query parameters.
+ */
+export const readList = functions.https.onRequest(async (request, response) => {
+  // you need corsHandler to allow requests from localhost and the deployed website,
+  // so you don't get a CORS error.
+  corsHandler(request, response, async () => {
+    // check HTTP method
+    checkHTTPMethod(request, "GET", response);
+
+    // TODO: Check auth
+
+    // get query params
+    const boardID = parseParam(request, "boardID", response);
+    const listID = parseParam(request, "listID", response);
+
+    // get firestore path
+    const listDocPath = getListDocPath(boardID, listID);
+
+    // get the document
+    const responseData = await readDoc(listDocPath, response);
+
     // Send back a message that we've successfully written the message
-    if (snapshot)
-      response.send(`Messageasdfg with ID: ${snapshot.id} added.`);
+    sendJSON(response, responseData);
   });
 });
-export const deleteList = functions.https.onRequest(async (request, response) => {
-  // you need corsHandler to allow requests from localhost and the deployed website,
-  // so you don't get a CORS error.
-  corsHandler(request, response, async () => {
-    if (request.method !== "DELETE")
-      response.status(400).send("Bad method. Use DELETE");
 
-    const list_id = request.query.list_id
-    if(!list_id){
-      response.status(400).send("Specify a list id");
-    }
-    const board_id = request.query.board_id
-    if(!board_id){
-      response.status(400).send("Specify a board id");
-    }
-    // TODO: Check auth
+/**
+ * Gets all lists from firestore that matches the userID in the query,
+ * and returns it as a json object in the response's body
+ */
+export const readLists = functions.https.onRequest(
+  async (request, response) => {
+    // you need corsHandler to allow requests from localhost and the deployed website,
+    // so you don't get a CORS error.
+    corsHandler(request, response, async () => {
+      // check HTTP method
+      checkHTTPMethod(request, "GET", response);
 
-    // Get the list based on the request parameters
-    const snapshot = await admin.firestore().collection('boards').doc(String(board_id)).collection('lists').doc(String(list_id));
-    
-    //delete the list (if found) and send a response message
-    if ((await snapshot.get()).exists){
-      snapshot.delete();
-      response.status(400).send(`List with ID: ${list_id} is deleted.`);
-    }else 
-      response.status(400).send("List Not Found");
-  });
-});
-export const editList = functions.https.onRequest(async (request, response) => {
-  // you need corsHandler to allow requests from localhost and the deployed website,
-  // so you don't get a CORS error.
-  corsHandler(request, response, async () => {
-    if (request.method !== "PUT")
-      response.status(400).send("Bad method. Use PUT");
+      // TODO: Check auth
 
-    const list_id = request.query.list_id
-    if(!list_id){
-      response.status(400).send("Specify a note id");
-    }
-    const board_id = request.query.board_id
-    if(!board_id){
-      response.status(400).send("Specify a board id");
-    }
+      // get query params
+      const boardID = parseParam(request, "boardID", response);
 
-    const body = request.body;
+      // get firestore path
+      const listColPath = getListColPath(boardID);
 
-    // Ensure the body has the necessary information
-    // In this case, we check if the body is of type list
-    if (!isList(body)) {
-      response.status(400).send("Bad body in request.");
-      return;
-    }
-    // TODO: Check auth
+      // get the document
+      const responseData = await readCol(listColPath, response);
 
-    // Get the list based on the request parameters
-    const snapshot = await admin.firestore().collection('boards').doc(String(board_id)).collection('lists').doc(String(list_id));
-    
-    //edit the list (if found) and send a response message
-    if ((await snapshot.get()).exists){
-      snapshot.set(body);
-      response.status(400).send(`List with ID: ${list_id} is updated.`);
-    }else 
-      response.status(400).send("List Not Found");
-  });
-});
+      // Send back a message that we've successfully written the message
+      sendJSON(response, responseData);
+    });
+  }
+);
+
+/**
+ * Updates the list with listID in board with boardID.
+ */
+export const updateList = functions.https.onRequest(
+  async (request, response) => {
+    // you need corsHandler to allow requests from localhost and the deployed website,
+    // so you don't get a CORS error.
+    corsHandler(request, response, async () => {
+      // check HTTP method
+      checkHTTPMethod(request, "PUT", response);
+
+      // get query params
+      const boardID = parseParam(request, "boardID", response);
+      const listID = parseParam(request, "listID", response);
+
+      // get body
+      const body = parseBodyAsType(request, "List", response) as List;
+      if (!body) return;
+
+      // get path
+      const listPath = getListDocPath(boardID, listID);
+
+      //edit the list (if found) and send a response message
+      await updateDoc(listPath, body, response);
+
+      sendJSON(response, null);
+    });
+  }
+);
+
+/**
+ * Deletes the list with listID in board with boardID.
+ */
+export const deleteList = functions.https.onRequest(
+  async (request, response) => {
+    // you need corsHandler to allow requests from localhost and the deployed website,
+    // so you don't get a CORS error.
+    corsHandler(request, response, async () => {
+      // check HTTP method
+      checkHTTPMethod(request, "DELETE", response);
+
+      // get query params
+      const boardID = parseParam(request, "boardID", response);
+      const listID = parseParam(request, "listID", response);
+
+      // TODO: Check auth
+
+      // get path
+      const listPath = getListDocPath(boardID, listID);
+
+      //edit the list (if found) and send a response message
+      await deleteDoc(listPath, response);
+
+      // send success message
+      sendJSON(response, null);
+    });
+  }
+);

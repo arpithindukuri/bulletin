@@ -1,10 +1,10 @@
-import { MemberPermissions } from "../../../types";
+import { Permissions } from "../../../types";
 
-export function isMemberPermissions(arg: any): arg is MemberPermissions {
+export function isPermissions(arg: any): arg is Permissions {
   /**
-   * Cast arg into type MemberPermissions.
+   * Cast arg into type Permissions.
    */
-  const obj: MemberPermissions = arg;
+  const obj: Permissions = arg;
 
   return (
     /**

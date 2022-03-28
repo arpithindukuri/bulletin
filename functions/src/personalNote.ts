@@ -1,4 +1,4 @@
-import { Expense } from "../../types";
+import { PersonalNote } from "../../types";
 import corsHandler from "./cors";
 import { functions } from "./firebase";
 import {
@@ -8,15 +8,18 @@ import {
   readDoc,
   readCol,
 } from "./util/firestore/interactors";
-import { getExpenseColPath, getExpenseDocPath } from "./util/firestore/paths";
+import {
+  getPersonalNoteColPath,
+  getPersonalNoteDocPath,
+} from "./util/firestore/paths";
 import { checkHTTPMethod, parseBodyAsType, parseParam } from "./util/request";
 import { sendJSON } from "./util/response";
 
 /**
- * Take the Expense object send in the request body and insert it into Firestore
- * under the path /expenses/writeResult.id
+ * Take the PersonalNote object send in the request body and insert it into Firestore
+ * under the path /personalNotes/writeResult.id
  */
-export const createExpense = functions.https.onRequest(
+export const createPersonalNote = functions.https.onRequest(
   async (request, response) => {
     // you need corsHandler to allow requests from localhost and the deployed website,
     // so you don't get a CORS error.
@@ -24,29 +27,41 @@ export const createExpense = functions.https.onRequest(
       // Check HTTP method
       checkHTTPMethod(request, "POST", response);
 
-      const boardID = parseParam(request, "boardID", response);
+      const userID = parseParam(request, "userID", response);
 
       // TODO: Check auth
 
       // Read the body from the request.
-      const body = parseBodyAsType(request, "Expense", response) as Expense;
+      const body = parseBodyAsType(
+        request,
+        "PersonalNote",
+        response
+      ) as PersonalNote;
       if (!body) return;
 
       // get collection path to add to.
-      const expenseColPath = getExpenseColPath(boardID);
+      const personalNoteColPath = getPersonalNoteColPath(userID);
 
       // add body to path
-      const newExpenseDocRef = await createDoc(expenseColPath, body, response);
+      const newPersonalNoteDocRef = await createDoc(
+        personalNoteColPath,
+        body,
+        response
+      );
 
       // send the response, that we have added the doc
-      const responseData = await readDoc(newExpenseDocRef.path, response);
+      const responseData = await readDoc(newPersonalNoteDocRef.path, response);
 
       sendJSON(response, responseData);
     });
   }
 );
 
-export const readExpense = functions.https.onRequest(
+/**
+ * Gets one personalNote from firestore that matches the personalNoteID and userID specified in
+ * request query parameters.
+ */
+export const readPersonalNote = functions.https.onRequest(
   async (request, response) => {
     // you need corsHandler to allow requests from localhost and the deployed website,
     // so you don't get a CORS error.
@@ -57,14 +72,17 @@ export const readExpense = functions.https.onRequest(
       // TODO: Check auth
 
       // get query params
-      const boardID = parseParam(request, "boardID", response);
-      const expenseID = parseParam(request, "expenseID", response);
+      const userID = parseParam(request, "userID", response);
+      const personalNoteID = parseParam(request, "personalNoteID", response);
 
       // get firestore path
-      const expenseDocPath = getExpenseDocPath(boardID, expenseID);
+      const personalNoteDocPath = getPersonalNoteDocPath(
+        userID,
+        personalNoteID
+      );
 
       // get the document
-      const responseData = await readDoc(expenseDocPath, response);
+      const responseData = await readDoc(personalNoteDocPath, response);
 
       // Send back a message that we've successfully written the message
       sendJSON(response, responseData);
@@ -73,10 +91,10 @@ export const readExpense = functions.https.onRequest(
 );
 
 /**
- * Gets all expenses from firestore that matches the userID in the query,
+ * Gets all personalNotes from firestore that matches the userID in the query,
  * and returns it as a json object in the response's body
  */
-export const readExpenses = functions.https.onRequest(
+export const readPersonalNotes = functions.https.onRequest(
   async (request, response) => {
     // you need corsHandler to allow requests from localhost and the deployed website,
     // so you don't get a CORS error.
@@ -87,13 +105,13 @@ export const readExpenses = functions.https.onRequest(
       // TODO: Check auth
 
       // get query params
-      const boardID = parseParam(request, "boardID", response);
+      const userID = parseParam(request, "userID", response);
 
       // get firestore path
-      const expenseColPath = getExpenseColPath(boardID);
+      const personalNoteColPath = getPersonalNoteColPath(userID);
 
       // get the document
-      const responseData = await readCol(expenseColPath, response);
+      const responseData = await readCol(personalNoteColPath, response);
 
       // Send back a message that we've successfully written the message
       sendJSON(response, responseData);
@@ -101,7 +119,10 @@ export const readExpenses = functions.https.onRequest(
   }
 );
 
-export const updateExpense = functions.https.onRequest(
+/**
+ * Updates the personalNote with personalNoteID in user with userID.
+ */
+export const updatePersonalNote = functions.https.onRequest(
   async (request, response) => {
     // you need corsHandler to allow requests from localhost and the deployed website,
     // so you don't get a CORS error.
@@ -110,25 +131,32 @@ export const updateExpense = functions.https.onRequest(
       checkHTTPMethod(request, "PUT", response);
 
       // get query params
-      const boardID = parseParam(request, "boardID", response);
-      const expenseID = parseParam(request, "expenseID", response);
+      const userID = parseParam(request, "userID", response);
+      const personalNoteID = parseParam(request, "personalNoteID", response);
 
       // get body
-      const body = parseBodyAsType(request, "Expense", response) as Expense;
+      const body = parseBodyAsType(
+        request,
+        "PersonalNote",
+        response
+      ) as PersonalNote;
       if (!body) return;
 
       // get path
-      const expensePath = getExpenseDocPath(boardID, expenseID);
+      const personalNotePath = getPersonalNoteDocPath(userID, personalNoteID);
 
-      //edit the expense (if found) and send a response message
-      await updateDoc(expensePath, body, response);
+      //edit the personalNote (if found) and send a response message
+      await updateDoc(personalNotePath, body, response);
 
       sendJSON(response, null);
     });
   }
 );
 
-export const deleteExpense = functions.https.onRequest(
+/**
+ * Deletes the personalNote with personalNoteID in user with userID.
+ */
+export const deletePersonalNote = functions.https.onRequest(
   async (request, response) => {
     // you need corsHandler to allow requests from localhost and the deployed website,
     // so you don't get a CORS error.
@@ -137,16 +165,16 @@ export const deleteExpense = functions.https.onRequest(
       checkHTTPMethod(request, "DELETE", response);
 
       // get query params
-      const boardID = parseParam(request, "boardID", response);
-      const expenseID = parseParam(request, "expenseID", response);
+      const userID = parseParam(request, "userID", response);
+      const personalNoteID = parseParam(request, "personalNoteID", response);
 
       // TODO: Check auth
 
       // get path
-      const expensePath = getExpenseDocPath(boardID, expenseID);
+      const personalNotePath = getPersonalNoteDocPath(userID, personalNoteID);
 
-      //edit the expense (if found) and send a response message
-      await deleteDoc(expensePath, response);
+      //edit the personalNote (if found) and send a response message
+      await deleteDoc(personalNotePath, response);
 
       // send success message
       sendJSON(response, null);

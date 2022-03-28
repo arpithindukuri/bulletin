@@ -1,4 +1,4 @@
-import { Note } from "../../types";
+import { Tag } from "../../types";
 import corsHandler from "./cors";
 import { functions } from "./firebase";
 import {
@@ -8,15 +8,15 @@ import {
   readDoc,
   readCol,
 } from "./util/firestore/interactors";
-import { getNoteColPath, getNoteDocPath } from "./util/firestore/paths";
+import { getTagColPath, getTagDocPath } from "./util/firestore/paths";
 import { checkHTTPMethod, parseBodyAsType, parseParam } from "./util/request";
 import { sendJSON } from "./util/response";
 
 /**
- * Take the Note object send in the request body and insert it into Firestore
- * under the path /notes/writeResult.id
+ * Take the Tag object send in the request body and insert it into Firestore
+ * under the path /tags/writeResult.id
  */
-export const createNote = functions.https.onRequest(
+export const createTag = functions.https.onRequest(
   async (request, response) => {
     // you need corsHandler to allow requests from localhost and the deployed website,
     // so you don't get a CORS error.
@@ -29,24 +29,28 @@ export const createNote = functions.https.onRequest(
       // TODO: Check auth
 
       // Read the body from the request.
-      const body = parseBodyAsType(request, "Note", response) as Note;
+      const body = parseBodyAsType(request, "Tag", response) as Tag;
       if (!body) return;
 
       // get collection path to add to.
-      const noteColPath = getNoteColPath(boardID);
+      const tagColPath = getTagColPath(boardID);
 
       // add body to path
-      const newNoteDocRef = await createDoc(noteColPath, body, response);
+      const newTagDocRef = await createDoc(tagColPath, body, response);
 
       // send the response, that we have added the doc
-      const responseData = await readDoc(newNoteDocRef.path, response);
+      const responseData = await readDoc(newTagDocRef.path, response);
 
       sendJSON(response, responseData);
     });
   }
 );
 
-export const readNote = functions.https.onRequest(async (request, response) => {
+/**
+ * Gets one tag from firestore that matches the tagID and boardID specified in
+ * request query parameters.
+ */
+export const readTag = functions.https.onRequest(async (request, response) => {
   // you need corsHandler to allow requests from localhost and the deployed website,
   // so you don't get a CORS error.
   corsHandler(request, response, async () => {
@@ -57,13 +61,13 @@ export const readNote = functions.https.onRequest(async (request, response) => {
 
     // get query params
     const boardID = parseParam(request, "boardID", response);
-    const noteID = parseParam(request, "noteID", response);
+    const tagID = parseParam(request, "tagID", response);
 
     // get firestore path
-    const noteDocPath = getNoteDocPath(boardID, noteID);
+    const tagDocPath = getTagDocPath(boardID, tagID);
 
     // get the document
-    const responseData = await readDoc(noteDocPath, response);
+    const responseData = await readDoc(tagDocPath, response);
 
     // Send back a message that we've successfully written the message
     sendJSON(response, responseData);
@@ -71,35 +75,36 @@ export const readNote = functions.https.onRequest(async (request, response) => {
 });
 
 /**
- * Gets all notes from firestore that matches the userID in the query,
+ * Gets all tags from firestore that matches the userID in the query,
  * and returns it as a json object in the response's body
  */
-export const readNotes = functions.https.onRequest(
-  async (request, response) => {
-    // you need corsHandler to allow requests from localhost and the deployed website,
-    // so you don't get a CORS error.
-    corsHandler(request, response, async () => {
-      // check HTTP method
-      checkHTTPMethod(request, "GET", response);
+export const readTags = functions.https.onRequest(async (request, response) => {
+  // you need corsHandler to allow requests from localhost and the deployed website,
+  // so you don't get a CORS error.
+  corsHandler(request, response, async () => {
+    // check HTTP method
+    checkHTTPMethod(request, "GET", response);
 
-      // TODO: Check auth
+    // TODO: Check auth
 
-      // get query params
-      const boardID = parseParam(request, "boardID", response);
+    // get query params
+    const boardID = parseParam(request, "boardID", response);
 
-      // get firestore path
-      const noteColPath = getNoteColPath(boardID);
+    // get firestore path
+    const tagColPath = getTagColPath(boardID);
 
-      // get the document
-      const responseData = await readCol(noteColPath, response);
+    // get the document
+    const responseData = await readCol(tagColPath, response);
 
-      // Send back a message that we've successfully written the message
-      sendJSON(response, responseData);
-    });
-  }
-);
+    // Send back a message that we've successfully written the message
+    sendJSON(response, responseData);
+  });
+});
 
-export const updateNote = functions.https.onRequest(
+/**
+ * Updates the tag with tagID in board with boardID.
+ */
+export const updateTag = functions.https.onRequest(
   async (request, response) => {
     // you need corsHandler to allow requests from localhost and the deployed website,
     // so you don't get a CORS error.
@@ -109,24 +114,27 @@ export const updateNote = functions.https.onRequest(
 
       // get query params
       const boardID = parseParam(request, "boardID", response);
-      const noteID = parseParam(request, "noteID", response);
+      const tagID = parseParam(request, "tagID", response);
 
       // get body
-      const body = parseBodyAsType(request, "Note", response) as Note;
+      const body = parseBodyAsType(request, "Tag", response) as Tag;
       if (!body) return;
 
       // get path
-      const notePath = getNoteDocPath(boardID, noteID);
+      const tagPath = getTagDocPath(boardID, tagID);
 
-      //edit the note (if found) and send a response message
-      await updateDoc(notePath, body, response);
+      //edit the tag (if found) and send a response message
+      await updateDoc(tagPath, body, response);
 
       sendJSON(response, null);
     });
   }
 );
 
-export const deleteNote = functions.https.onRequest(
+/**
+ * Deletes the tag with tagID in board with boardID.
+ */
+export const deleteTag = functions.https.onRequest(
   async (request, response) => {
     // you need corsHandler to allow requests from localhost and the deployed website,
     // so you don't get a CORS error.
@@ -136,15 +144,15 @@ export const deleteNote = functions.https.onRequest(
 
       // get query params
       const boardID = parseParam(request, "boardID", response);
-      const noteID = parseParam(request, "noteID", response);
+      const tagID = parseParam(request, "tagID", response);
 
       // TODO: Check auth
 
       // get path
-      const notePath = getNoteDocPath(boardID, noteID);
+      const tagPath = getTagDocPath(boardID, tagID);
 
-      //edit the note (if found) and send a response message
-      await deleteDoc(notePath, response);
+      //edit the tag (if found) and send a response message
+      await deleteDoc(tagPath, response);
 
       // send success message
       sendJSON(response, null);

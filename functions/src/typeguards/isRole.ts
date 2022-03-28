@@ -1,10 +1,10 @@
-import { BoardMemberRole } from "../../../types";
+import { Role } from "../../../types";
 
-export function isBoardMemberRole(arg: any): arg is BoardMemberRole {
+export function isRole(arg: any): arg is Role {
   /**
    * Cast arg into type User.
    */
-  const obj: BoardMemberRole = arg;
+  const obj: Role = arg;
 
   return (
     /**
