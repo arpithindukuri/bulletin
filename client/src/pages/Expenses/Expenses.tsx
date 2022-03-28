@@ -76,16 +76,20 @@ export default function Expenses() {
       });
   }, [params.board_id]);
 
-  useEffect(() => {
+  const getBoard = () => {
     axiosInstance
-      .get("/getBoard", { params: { id: params.board_id } })
-      .then((res) => {
-        setBoardName(res.data.board.data.name);
-        console.log("Information recieved Successfully");
-      })
-      .catch((err) => {
-        console.log("error getting user boards: ", err);
-      });
+    .get("/getBoard", { params: { id: params.board_id } })
+    .then((res) => {
+      setBoardName(res.data.board.data.name);
+      console.log("Information recieved Successfully");
+    })
+    .catch((err) => {
+      console.log("error getting user boards: ", err);
+    });
+  }
+
+  useEffect(() => {
+    getBoard();
   }, [params.board_id]);
 
   return (
@@ -168,6 +172,7 @@ export default function Expenses() {
                 variant="text"
                 fullWidth={true}
                 onClick={() => newExpensePopup()}
+                id="add-expense-button"
               >
                 <Typography>+ Add New Expense</Typography>
               </Button>
@@ -230,6 +235,7 @@ export default function Expenses() {
                 variant="text"
                 fullWidth={true}
                 onClick={() => newBudgetPopup()}
+                id="add-budget-button"
               >
                 <Typography>+ Add New Budget</Typography>
               </Button>

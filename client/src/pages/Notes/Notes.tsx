@@ -42,7 +42,7 @@ const Notes: React.FC = () => {
     content: "",
   });
   const [message, setMessage] = useState("");
-  const [messageOpen, setMessageOpen] = useState(false);
+  const [messageOpen, setMessageOpen] = useState(true);
   const [messageSeverity, setMessageSeverity] = useState<AlertColor>("success");
   const handleChange =
     (prop: keyof State) => (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -95,14 +95,22 @@ const Notes: React.FC = () => {
     setErrors({ ...errors });
     return !errorsExits;
   };
-  const handleEditNote = (id: string, newName: string, newContent: string, newDate: String) => {
+  const handleEditNote = (
+    id: string,
+    newName: string,
+    newContent: string,
+    newDate: String
+  ) => {
     console.log(id);
     console.log(newName);
     console.log(newContent);
-    let success = true
+    let success = true;
     axiosInstance
-      .put("/editNote", {name: newName, content: newContent, date: newDate}, 
-      { params: { note_id: id, board_id: params.board_id } })
+      .put(
+        "/editNote",
+        { name: newName, content: newContent, date: newDate },
+        { params: { note_id: id, board_id: params.board_id } }
+      )
       .then((res) => {
         console.log(res);
         if (success) {
@@ -118,13 +126,14 @@ const Notes: React.FC = () => {
         console.log("error deleting note: ", err);
         success = false;
       });
-    
-  }
+  };
   const handleDeleteNote = (id: string) => {
     console.log(id);
-    let success = true
+    let success = true;
     axiosInstance
-      .delete("/deleteNote", { params: { note_id: id, board_id: params.board_id } })
+      .delete("/deleteNote", {
+        params: { note_id: id, board_id: params.board_id },
+      })
       .then((res) => {
         console.log(res);
         if (success) {
@@ -140,12 +149,12 @@ const Notes: React.FC = () => {
         console.log("error deleting note: ", err);
         success = false;
       });
-  }
+  };
   const handleSaveNote = () => {
     if (!validateData()) {
       return;
     }
-    let newDate = new Date()
+    let newDate = new Date();
     let day = newDate.getDate();
     let month = newDate.getMonth() + 1;
     let year = newDate.getFullYear();
@@ -155,7 +164,11 @@ const Notes: React.FC = () => {
     console.log(values);
     let success = true;
     axiosInstance
-      .post("/addNote", {name: values.name, content: values.content, date: values.date}, { params: { id: params.board_id } })
+      .post(
+        "/addNote",
+        { name: values.name, content: values.content, date: values.date },
+        { params: { id: params.board_id } }
+      )
       .then((res) => {
         console.log(res);
         if (success) {
@@ -185,33 +198,42 @@ const Notes: React.FC = () => {
               <Typography variant="h6">New Note</Typography>
               <TextField
                 variant="standard"
-                defaultValue={"Note Name..."}
+                placeholder={"Note Name..."}
                 onChange={handleChange("name")}
                 helperText={`${errors.name}`}
                 error={errors.name != ""}
+                id="add-note-name-field"
+                value={values.name}
               />
-              <Button onClick={() => setPopupState(false)}>
+              <Button
+                onClick={() => setPopupState(false)}
+                id="close-note-modal-button"
+              >
                 <Typography variant="h5">X</Typography>
               </Button>
             </div>
-           
-            <TextField 
-            className="InputText"
-            variant="outlined"
-            value={values.content}
-            onChange={handleChange("content")}
-            focused
-            align-items="left"
-            id="description-text"
-            rows="8"
-            helperText={`${errors.content}`}
-            multiline
-            style={{ fontWeight: "bold", marginTop:"10px" }}
-            error={errors.content !== ""}
+
+            <TextField
+              className="InputText"
+              variant="outlined"
+              value={values.content}
+              onChange={handleChange("content")}
+              focused
+              align-items="left"
+              id="add-note-description-field"
+              rows="8"
+              helperText={`${errors.content}`}
+              multiline
+              style={{ fontWeight: "bold", marginTop: "10px" }}
+              error={errors.content !== ""}
             />
 
             <div className="saveDiv">
-              <Button className="saveButton" onClick={handleSaveNote}>
+              <Button
+                className="saveButton"
+                onClick={handleSaveNote}
+                id="save-note-button"
+              >
                 Save Note
               </Button>
             </div>
@@ -219,7 +241,7 @@ const Notes: React.FC = () => {
         </div>
       ) : null}
 
-      <a href={"/board/"+params.board_id}>
+      <a href={"/board/" + params.board_id}>
         <Typography
           variant="subtitle1"
           color="primary.light"
@@ -243,7 +265,7 @@ const Notes: React.FC = () => {
             <Box width={"20%"}>
               <Typography fontWeight={"bold"}>Date Created</Typography>
             </Box>
-            
+
             <Box width={"5%"}></Box>
             <Box width={"5%"}></Box>
           </Box>
@@ -255,8 +277,8 @@ const Notes: React.FC = () => {
                   name={notes.name}
                   date={notes.date}
                   content={notes.content}
-                  onDelete = {handleDeleteNote}
-                  onEdit = {handleEditNote}
+                  onDelete={handleDeleteNote}
+                  onEdit={handleEditNote}
                 ></NoteRow>
               </Box>
             );
@@ -266,6 +288,7 @@ const Notes: React.FC = () => {
               variant="text"
               fullWidth={true}
               onClick={() => setPopupState(true)}
+              id="add-note-button"
             >
               <Typography>+ Add New Note</Typography>
             </Button>

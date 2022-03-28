@@ -249,7 +249,6 @@ export default function CreateNewBoard() {
             md={6}
             lg={5}
             xl={5}
-            direction="column"
             justifyContent="center"
             alignItems="center"
             style={{ width: "100%" }}
@@ -317,7 +316,6 @@ export default function CreateNewBoard() {
             lg={7}
             xl={7}
             md={6}
-            direction="column"
             justifyContent="flex-start"
             alignItems="flex-start"
           >
@@ -338,7 +336,7 @@ export default function CreateNewBoard() {
                 focused
                 id="name-text"
                 inputProps={{
-                  maxlength: NAME_LIMIT,
+                  maxLength: NAME_LIMIT,
                 }}
                 helperText={
                   errors.name !== ""
@@ -367,7 +365,7 @@ export default function CreateNewBoard() {
                 align-items="left"
                 id="description-text"
                 inputProps={{
-                  maxlength: DESCRIPTION_LIMIT,
+                  maxLength: DESCRIPTION_LIMIT,
                 }}
                 helperText={
                   errors.description !== ""

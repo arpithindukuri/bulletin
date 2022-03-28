@@ -1,0 +1,314 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing <SignUp /> Component should render properly 1`] = `
+<div
+  className="signup-container"
+>
+  <div
+    className="MuiGrid-root signup MuiGrid-container MuiGrid-spacing-xs-2"
+  >
+    <div
+      className="MuiGrid-root signup-left-container MuiGrid-container MuiGrid-item MuiGrid-grid-md-5 MuiGrid-grid-lg-5 MuiGrid-grid-xl-5"
+    >
+      <div
+        className="MuiGrid-root signup-inner-grid MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+      >
+        <div
+          className="MuiGrid-root signup-inner-grid MuiGrid-container MuiGrid-item MuiGrid-direction-xs-column MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+        >
+          <img
+            className="signup-logo-image"
+            src="logo.svg"
+          />
+          <h1
+            className="signup-app-name"
+          >
+            Bulletin
+          </h1>
+          <h3
+            className="signup-app-description"
+          >
+            Organize your household in a smart way
+             
+          </h3>
+        </div>
+        <div
+          className="MuiGrid-root signup-inner-grid MuiGrid-container MuiGrid-item MuiGrid-direction-xs-column MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+        >
+          <h4
+            className="signup-signup-redirect-text"
+          >
+            Already have an account?
+          </h4>
+          <button
+            className="MuiButtonBase-root MuiButton-root MuiButton-contained signup-signup-redirect-button"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            <span
+              className="MuiButton-label"
+            >
+              Log in
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      className="MuiGrid-root signup-inner-grid MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-item MuiGrid-direction-xs-column MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12 MuiGrid-grid-md-7 MuiGrid-grid-lg-7 MuiGrid-grid-xl-7"
+    >
+      <div
+        className="MuiGrid-root MuiGrid-item"
+      >
+        <h1
+          className="signup-title"
+        >
+          Sign Up
+        </h1>
+      </div>
+      <div
+        className="MuiGrid-root signup-inner-grid-item MuiGrid-item"
+      >
+        <p>
+          Name
+        </p>
+        <div
+          className="MuiFormControl-root MuiTextField-root signup-text-field"
+        >
+          <label
+            className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+            data-shrink={false}
+            htmlFor="signup-name-field"
+            id="signup-name-field-label"
+          >
+            Enter your full name
+          </label>
+          <div
+            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+            onClick={[Function]}
+          >
+            <input
+              aria-invalid={false}
+              autoFocus={false}
+              className="MuiInputBase-input MuiOutlinedInput-input"
+              disabled={false}
+              id="signup-name-field"
+              onAnimationStart={[Function]}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              required={false}
+              type="text"
+              value=""
+            />
+            <fieldset
+              aria-hidden={true}
+              className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                className="PrivateNotchedOutline-legendLabelled-3"
+              >
+                <span>
+                  Enter your full name
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+          
+        </div>
+      </div>
+      <div
+        className="MuiGrid-root signup-inner-grid-item MuiGrid-item"
+      >
+        <p>
+          Email
+        </p>
+        <div
+          className="MuiFormControl-root MuiTextField-root signup-text-field"
+        >
+          <label
+            className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+            data-shrink={false}
+            htmlFor="signup-email-field"
+            id="signup-email-field-label"
+          >
+            Enter your email address
+          </label>
+          <div
+            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+            onClick={[Function]}
+          >
+            <input
+              aria-invalid={false}
+              autoFocus={false}
+              className="MuiInputBase-input MuiOutlinedInput-input"
+              disabled={false}
+              id="signup-email-field"
+              onAnimationStart={[Function]}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              required={false}
+              type="text"
+              value=""
+            />
+            <fieldset
+              aria-hidden={true}
+              className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                className="PrivateNotchedOutline-legendLabelled-3"
+              >
+                <span>
+                  Enter your email address
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+          
+        </div>
+      </div>
+      <div
+        className="MuiGrid-root signup-inner-grid-item MuiGrid-item"
+      >
+        <p>
+          Password
+        </p>
+        <div
+          className="MuiFormControl-root MuiTextField-root signup-text-field"
+        >
+          <label
+            className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+            data-shrink={false}
+            htmlFor="signup-password-field"
+            id="signup-password-field-label"
+          >
+            Enter your password
+          </label>
+          <div
+            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+            onClick={[Function]}
+          >
+            <input
+              aria-invalid={false}
+              autoFocus={false}
+              className="MuiInputBase-input MuiOutlinedInput-input"
+              disabled={false}
+              id="signup-password-field"
+              onAnimationStart={[Function]}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              required={false}
+              type="password"
+              value=""
+            />
+            <fieldset
+              aria-hidden={true}
+              className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                className="PrivateNotchedOutline-legendLabelled-3"
+              >
+                <span>
+                  Enter your password
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+          
+        </div>
+      </div>
+      <div
+        className="MuiGrid-root signup-inner-grid-item MuiGrid-item"
+      >
+        <p>
+          Confrim Password
+        </p>
+        <div
+          className="MuiFormControl-root MuiTextField-root signup-text-field"
+        >
+          <label
+            className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+            data-shrink={false}
+            htmlFor="signup-confirm-password-field"
+            id="signup-confirm-password-field-label"
+          >
+            Re-enter your password
+          </label>
+          <div
+            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+            onClick={[Function]}
+          >
+            <input
+              aria-invalid={false}
+              autoFocus={false}
+              className="MuiInputBase-input MuiOutlinedInput-input"
+              disabled={false}
+              id="signup-confirm-password-field"
+              onAnimationStart={[Function]}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              required={false}
+              type="password"
+              value=""
+            />
+            <fieldset
+              aria-hidden={true}
+              className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                className="PrivateNotchedOutline-legendLabelled-3"
+              >
+                <span>
+                  Re-enter your password
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+          
+        </div>
+      </div>
+      <div
+        className="MuiGrid-root MuiGrid-item"
+      >
+        <button
+          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root signup-button css-sghohy-MuiButtonBase-root-MuiButton-root"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          Sign Up
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
