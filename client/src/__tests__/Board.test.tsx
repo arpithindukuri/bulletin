@@ -2,6 +2,8 @@ import React from "react";
 import { render as reactRender } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import Board from "../pages/Board/Board";
+import LoadCalendar from "../pages/Board/LoadCalendar";
+import LoadNotes from "../pages/Board/LoadNotes";
 import { configure, mount, ReactWrapper } from "enzyme";
 import renderer from "react-test-renderer";
 import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
@@ -33,6 +35,36 @@ describe("Testing <Board /> Component", () => {
         <Provider store={store}>
           <BrowserRouter>
             <Board />
+          </BrowserRouter>
+        </Provider>
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("should render calendar properly", () => {
+    const tree = renderer
+      .create(
+        <Provider store={store}>
+          <BrowserRouter>
+            <LoadCalendar />
+          </BrowserRouter>
+        </Provider>
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("should render notes properly", () => {
+    const tree = renderer
+      .create(
+        <Provider store={store}>
+          <BrowserRouter>
+            <LoadNotes
+              id="kwjednsadpsa"
+              name="Test Note"
+              message="test content"
+            />
           </BrowserRouter>
         </Provider>
       )

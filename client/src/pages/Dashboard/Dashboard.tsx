@@ -33,10 +33,10 @@ const Dashboard = () => {
   const userData = useTypedSelector(selectUserData);
   const dispatch = useTypedDispatch();
   const classes = useStyles();
-  const [overview, setOverview] = useState(userData.overview);
-  const [name, setName] = useState(userData.name);
-  const [birthday, setBirthday] = useState<null | Date>(userData.birthDay);
-  const [email, setEmail] = useState(userData.email);
+  const [overview, setOverview] = useState(userData?.overview);
+  const [name, setName] = useState(userData?.name);
+  const [birthday, setBirthday] = useState<null | Date>(userData?.birthDay);
+  const [email, setEmail] = useState(userData?.email);
   const [message, setMessage] = useState("");
   const [messageOpen, setMessageOpen] = useState(false);
   const [messageSeverity, setMessageSeverity] = useState<AlertColor>("success");
@@ -111,7 +111,7 @@ const Dashboard = () => {
               <img src={profile} className="dashboard-profile-pic" />
             </Grid>
             <Grid item>
-              <h1 className="dashboard-user-info">{userData.name}</h1>
+              <h1 className="dashboard-user-info">{userData?.name}</h1>
             </Grid>
             <Grid item>
               <h1 className="dashboard-user-info">Calgary, Alberta</h1>
@@ -131,6 +131,7 @@ const Dashboard = () => {
               <Grid className="dashboard-grid-item" xl={10} xs={10} item>
                 <p>Brief Overview</p>
                 <TextField
+                  id="dashboard-overview-field"
                   style={{ width: "100%" }}
                   className={classes.textField}
                   InputLabelProps={{ shrink: false }}
@@ -157,6 +158,7 @@ const Dashboard = () => {
                 <Grid item style={{ width: "100%" }}>
                   <p>Name</p>
                   <TextField
+                    id="dashboard-name-field"
                     className={classes.textField}
                     InputLabelProps={{ shrink: false }}
                     value={name}

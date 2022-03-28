@@ -42,6 +42,9 @@ export default function MemberStatus({
   const [messageSeverity, setMessageSeverity] = useState<AlertColor>("success");
 
   const editMemberRole = () => {
+    if (!id || !userBoardid) {
+      return;
+    }
     axiosInstance
       .put(
         "/editUserFromBoard",
@@ -103,15 +106,12 @@ export default function MemberStatus({
           display={"flex"}
           justifyContent="center"
         >
-          {/* <Typography color={"primary"}> */}
           <Select
+            id="manage-board-member-status-select"
             sx={{ width: "100%" }}
-            // labelId="demo-simple-select-label"
-            // id="demo-simple-select"
             variant="outlined"
-            // value={role}
+            value={newRole}
             color="primary"
-            defaultValue={newRole}
             onChange={handleChange}
           >
             <MenuItem color="primary" value={"Admin"}>
@@ -130,7 +130,7 @@ export default function MemberStatus({
           flexDirection="row"
           alignItems={"center"}
         >
-          {userData.id !== id && (
+          {userData?.id !== id && (
             <Button onClick={() => onDelete(userBoardid, id, false)}>
               <Typography fontWeight={"bold"} color="primary" variant="h6">
                 X

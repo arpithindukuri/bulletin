@@ -16,14 +16,14 @@ jest.mock("react-router-dom", () => ({
 
 describe("Testing <Lists /> Component", () => {
   it("should render notes page correctly", () => {
-    const app = shallow(
+    const listPage = shallow(
       <Provider store={store}>
         <BrowserRouter>
           <List />
         </BrowserRouter>
       </Provider>
     );
-    expect(app.getElements()).toMatchSnapshot();
+    expect(listPage.getElements()).toMatchSnapshot();
   });
 
   it("should open a modal", () => {
@@ -64,6 +64,7 @@ describe("Testing <Lists /> Component", () => {
         wrapper.find("input").find("#list-name").get(0).props.value
       ).toEqual("Test List");
     });
+    
     it("should leave list title empty", () => {
         wrapper
           .find("input")

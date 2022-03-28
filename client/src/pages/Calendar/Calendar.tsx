@@ -249,6 +249,7 @@ export default function Calendar() {
             <StyledMenu />
           </div>
           <Button
+            id="calendar-add-event-button"
             style={{
               backgroundColor: "#AA896B",
               fontSize: "14px",
@@ -263,13 +264,18 @@ export default function Calendar() {
       </div>
       <div>
         <Modal
+          id="calendar-add-event-modal"
           open={open}
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <Typography
+              component={"span"}
+              id="modal-modal-description"
+              sx={{ mt: 2 }}
+            >
               <Button
                 style={{
                   color: "#AA896B",
@@ -293,7 +299,7 @@ export default function Calendar() {
               >
                 <div>
                   <TextField
-                    id="standard-basic"
+                    id="calendar-add-event-modal-event-name"
                     label="Event Name"
                     variant="standard"
                     InputLabelProps={{
@@ -309,7 +315,7 @@ export default function Calendar() {
                 </div>
                 <div>
                   <TextField
-                    id="standard-basic"
+                    id="calendar-add-event-modal-event-date"
                     label="Date (Month, Day, Year)"
                     variant="standard"
                     InputLabelProps={{
@@ -325,7 +331,7 @@ export default function Calendar() {
                 </div>
                 <div>
                   <TextField
-                    id="standard-basic"
+                    id="calendar-add-event-modal-event-start-time"
                     label="Start Time(24 Hour Format)"
                     variant="standard"
                     InputLabelProps={{
@@ -392,6 +398,7 @@ export default function Calendar() {
                 </div>
                 <div>
                   <Button
+                    id="calendar-add-event-modal-save-button"
                     style={{
                       color: "#FFFFFF",
                       backgroundColor: "#AA896B",

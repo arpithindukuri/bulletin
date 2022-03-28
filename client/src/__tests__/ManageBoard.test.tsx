@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import ManageBoard from "../pages/ManageBoard/ManageBoard";
+import MemberPermissions from "../pages/ManageBoard/MemberPermissions";
 import { configure, mount, ReactWrapper, shallow } from "enzyme";
 import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
-import { createMemoryHistory } from "history";
-import { render as reactRender } from "@testing-library/react";
 import { store } from "../store";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
@@ -19,15 +18,27 @@ jest.mock("react-router-dom", () => ({
 
 describe("Testing <ManageBoard /> Component", () => {
   it("should render Manage-Board page correctly", () => {
-    const app = shallow(
+    const manageBoard = mount(
       <Provider store={store}>
         <BrowserRouter>
           <ManageBoard />
         </BrowserRouter>
       </Provider>
     );
-    expect(app.getElements()).toMatchSnapshot();
+    expect(manageBoard.getElements()).toMatchSnapshot();
   });
+
+  it("should render Member Permissions correctly", () => {
+    const memberPermissions = mount(
+      <Provider store={store}>
+        <BrowserRouter>
+          <MemberPermissions name="Test User" viewOn={true} editOn={true} />
+        </BrowserRouter>
+      </Provider>
+    );
+    expect(memberPermissions.getElements()).toMatchSnapshot();
+  });
+
   describe("Need open modal setup", () => {
     const wrapper: ReactWrapper = mount(
       <Provider store={store}>
@@ -62,89 +73,88 @@ describe("Testing <ManageBoard /> Component", () => {
         });
 
       wrapper.find("button").find("#saveButton").simulate("click");
-      expect(
-        wrapper.find("p").find("#name-text-helper-text").text()
-      ).toEqual("0/20  Please enter a valid board Name");
+      expect(wrapper.find("p").find("#name-text-helper-text").text()).toEqual(
+        "0/20  Please enter a valid board Name"
+      );
     });
 
     it("should change board description value", () => {
-        wrapper
-          .find("textarea")
-          .find("#description-text")
-          .simulate("change", {
-            target: { value: "Edit Board description" },
-          });
-        expect(
-          wrapper.find("textarea").find("#description-text").get(0).props.value
-        ).toEqual("Edit Board description");
-      });
-  
-      it("should display board description error", () => {
-        wrapper
-          .find("textarea")
-          .find("#description-text")
-          .simulate("change", {
-            target: { value: "" },
-          });
-  
-        wrapper.find("button").find("#saveButton").simulate("click");
-        expect(
-          wrapper.find("p").find("#description-text-helper-text").text()
-        ).toEqual("0/50  Please enter a valid board description.");
-      });
+      wrapper
+        .find("textarea")
+        .find("#description-text")
+        .simulate("change", {
+          target: { value: "Edit Board description" },
+        });
+      expect(
+        wrapper.find("textarea").find("#description-text").get(0).props.value
+      ).toEqual("Edit Board description");
+    });
 
-      it("should update board name", () => {
-        wrapper
-          .find("textarea")
-          .find("#description-text")
-          .simulate("change", {
-            target: { value: "description test" },
-          });
-        wrapper
+    it("should display board description error", () => {
+      wrapper
+        .find("textarea")
+        .find("#description-text")
+        .simulate("change", {
+          target: { value: "" },
+        });
+
+      wrapper.find("button").find("#saveButton").simulate("click");
+      expect(
+        wrapper.find("p").find("#description-text-helper-text").text()
+      ).toEqual("0/50  Please enter a valid board description.");
+    });
+
+    it("should update board name", () => {
+      wrapper
+        .find("textarea")
+        .find("#description-text")
+        .simulate("change", {
+          target: { value: "description test" },
+        });
+      wrapper
         .find("input")
         .find("#name-text")
         .simulate("change", {
-        target: { value: "name test" },
+          target: { value: "name test" },
         });
-  
-        wrapper.find("button").find("#saveButton").simulate("click");
-        expect(
-          wrapper.find("h5").at(0).text()
-        ).toEqual("name test");
-      });
-  });
-  describe("Inviation email", () => {
-        const wrapper: ReactWrapper = mount(
-        <Provider store={store}>
-            <BrowserRouter>
-            <ManageBoard />
-            </BrowserRouter>
-        </Provider>
-        );
-        it("should change invitaton email value", () => {
-            wrapper
-            .find("input")
-            .find("#invitation-email-text")
-            .simulate("change", {
-                target: { value: "test@mail.com" },
-            });
-            expect(
-            wrapper.find("input").find("#invitation-email-text").get(0).props.value
-            ).toEqual("test@mail.com");
-        });
-    });
-    describe("Member Info box", () => {
-        const wrapper: ReactWrapper = mount(
-        <Provider store={store}>
-            <BrowserRouter>
-            <ManageBoard />
-            </BrowserRouter>
-        </Provider>
-        );
-        
-        it("Member box should have three headers/columns", () => {
-            expect(wrapper.find("#memberInfoBox").length).toEqual(3);
-        });
-    });
 
-})
+      wrapper.find("button").find("#saveButton").simulate("click");
+      expect(wrapper.find("h5").at(0).text()).toEqual("name test");
+    });
+  });
+
+  describe("Inviation email", () => {
+    const wrapper: ReactWrapper = mount(
+      <Provider store={store}>
+        <BrowserRouter>
+          <ManageBoard />
+        </BrowserRouter>
+      </Provider>
+    );
+    it("should change invitaton email value", () => {
+      wrapper
+        .find("input")
+        .find("#invitation-email-text")
+        .simulate("change", {
+          target: { value: "test@mail.com" },
+        });
+      expect(
+        wrapper.find("input").find("#invitation-email-text").get(0).props.value
+      ).toEqual("test@mail.com");
+    });
+  });
+
+  describe("Member Info box", () => {
+    const wrapper: ReactWrapper = mount(
+      <Provider store={store}>
+        <BrowserRouter>
+          <ManageBoard />
+        </BrowserRouter>
+      </Provider>
+    );
+
+    it("Member box should have three headers/columns", () => {
+      expect(wrapper.find("#memberInfoBox").length).toEqual(3);
+    });
+  });
+});

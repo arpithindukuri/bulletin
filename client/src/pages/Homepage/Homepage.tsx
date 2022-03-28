@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
-import { Grid, Button, TextField } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import "./Homepage.scss";
 import { useNavigate } from "react-router-dom";
+import { useTypedSelector } from "../../hooks/ReduxHooks";
+import { selectUserData } from "../../actions/UserActions/UserSelector";
 
 const Homepage = () => {
   const navigate = useNavigate();
+  const userData = useTypedSelector(selectUserData);
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState("");
 
@@ -37,6 +40,13 @@ const Homepage = () => {
     }
     navigate("/signup/" + email);
   };
+
+  useEffect(() => {
+    if (userData?.id && localStorage.getItem("refresh")) {
+      navigate("/boardsView");
+    }
+  }, []);
+
   return (
     <div className="email-signup-page">
       <div className="email-signup-page-inner">
