@@ -12,12 +12,19 @@ const Homepage = () => {
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState("");
 
+  /**
+   * Handles the email field.
+   * @param event 
+   */
   const handleEmailChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setEmail(event.target.value);
   };
 
+  /**
+  * Allows the validation of the value in the email field.
+  */
   const validateData = () => {
     if (!email) {
       setErrors("Please enter an email.");
@@ -34,6 +41,9 @@ const Homepage = () => {
     return true;
   };
 
+  /**
+   * Handles what happens when the "sign up now" butoon is pressed.
+   */
   const handleSignupClick = () => {
     if (!validateData()) {
       return;

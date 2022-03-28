@@ -18,6 +18,9 @@ import { useTypedDispatch } from "../../hooks/ReduxHooks";
 import { userLoggedIn } from "../../actions/UserActions/UserActionCreator";
 import { Alert, AlertColor } from "@mui/material";
 
+/**
+ * Uses the pre-determined theme to customize this page.
+ */
 const useStyles = makeStyles((theme) => ({
   textField: {
     marginTop: -10,
@@ -41,28 +44,47 @@ const Dashboard = () => {
   const [messageOpen, setMessageOpen] = useState(false);
   const [messageSeverity, setMessageSeverity] = useState<AlertColor>("success");
 
+  /**
+   * Handles the brief overview field.
+   * @param event 
+   */
   const handleOverviewChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setOverview(event.target.value);
   };
 
+  /**
+   * Handles the name field.
+   * @param event 
+   */
   const handleNameChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setName(event.target.value);
   };
 
+  /**
+   * Handles the birthday field.
+   * @param selectedDate 
+   */
   const handleBirthdayChange = (selectedDate: Date) => {
     setBirthday(selectedDate);
   };
 
+  /**
+   * Handles the email field.
+   * @param event 
+   */
   const handleEmailChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setEmail(event.target.value);
   };
 
+  /**
+   * Handles the save values entereed in the fields.
+   */
   const handleSave = () => {
     const newUserData = {
       ...userData,

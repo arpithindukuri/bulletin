@@ -18,6 +18,10 @@ import axiosInstance from "../../axios";
 import { userLoggedIn } from "../../actions/UserActions/UserActionCreator";
 import { Alert, AlertColor } from "@mui/material";
 
+/**
+ * Contains all the fields used in the Account Information page.
+ * Will be used to detect errors.
+ */
 interface AccountEditErrors {
   password: string;
   confrimPassword: string;
@@ -26,6 +30,9 @@ interface AccountEditErrors {
   alternativeEmail: string;
 }
 
+/**
+ * Uses the pre-determined theme to customize this page.
+ */
 const useStyles = makeStyles((theme) => ({
   textField: {
     marginTop: -10,
@@ -63,36 +70,59 @@ const AccountInfo = () => {
     alternativeEmail: "",
   });
 
+  /**
+   * Handles the password field.
+   * @param event 
+   */
   const handlePasswordChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setPassword(event.target.value);
   };
 
+  /**
+   * Handles the confirm password field.
+   * @param event  
+   */
   const handleConfirmPasswordChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setConfirmPassword(event.target.value);
   };
 
+  /**
+   * Handles the phone number field.
+   * @param event 
+   */
   const handlePhoneNumberChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setPhoneNumber(event.target.value);
   };
 
+  /**
+   * Handles the primary email field.
+   * @param event 
+   */
   const handlePrimaryEmailChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setPrimaryEmail(event.target.value);
   };
 
+  /**
+   * Handles the alternative email field.
+   * @param event 
+   */
   const handleAlternativeEmailChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setAlternativeEmail(event.target.value);
   };
 
+  /**
+   * Allows the validation of the values in the fields.
+   */
   const validateData = () => {
     errors.password = "";
     errors.confrimPassword = "";
@@ -116,6 +146,9 @@ const AccountInfo = () => {
     return !errorsExits;
   };
 
+  /**
+   * Handles the save values entereed in the fields.
+   */
   const handleSave = () => {
     if (!validateData()) {
       return;
