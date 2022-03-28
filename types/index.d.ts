@@ -1,4 +1,44 @@
-export type BoardMemberRole = "admin" | "member";
+/**
+ * **IMPORTANT**
+ * **IMPORTANT**
+ * **IMPORTANT**
+ *
+ * This document defines the data models being used by entire system.
+ *
+ * 1) Whenever you add, modify, or remove a type in this file, remember to:
+ *     A) Update type "Types".
+ *     B) Update, add, or remove the necessary typegaurds in functions and client.
+ *
+ * 2) Whenever you use a type from this file, remember to import it as a type, as follows:
+ *     "import type {...} from .../types"
+ *
+ * **IMPORTANT**
+ * **IMPORTANT**
+ * **IMPORTANT**
+ */
+
+/**
+ * Every single shared type in the system.
+ */
+export type Types =
+  | "Board"
+  | "Budget"
+  | "Event"
+  | "Expense"
+  | "List"
+  | "ListItem"
+  | "Member"
+  | "Money"
+  | "Note"
+  | "Permissions"
+  | "PersonalNote"
+  | "PersonalReminder"
+  | "Role"
+  | "Tag"
+  | "Timestamp"
+  | "User";
+
+export type Role = "admin" | "member";
 
 /** Number of CAD cents */
 export type Money = number;
@@ -6,21 +46,25 @@ export type Money = number;
 /** Number of **milliseconds** from UNIX Epoch */
 export type Timestamp = number;
 
+export type StatusType = "success" | "failure";
+
+export interface ResponseBody {
+  status: StatusType;
+  content: any;
+}
+
 export interface Board {
   description: string;
+  budgets: Budget[];
   events: Event[];
   expenses: Expense[];
   id: string | null;
   lists: List[];
-  memberPermissions: MemberPermissions;
-  members: BoardMember[];
+  members: Member[];
   name: string;
   notes: Note[];
-}
-
-export interface BoardMember {
-  role: BoardMemberRole;
-  userID: string;
+  permissions: Permissions;
+  tags: Tag[];
 }
 
 export interface Budget {
@@ -62,7 +106,20 @@ export interface ListItem {
   name: string;
 }
 
-export interface MemberPermissions {
+export interface Member {
+  role: Role;
+  userID: string;
+}
+
+export interface Note {
+  attachmentURL?: string;
+  author: string;
+  content: string;
+  id: string | null;
+  timestamp: Timestamp;
+}
+
+export interface Permissions {
   editCalendar: boolean;
   editExpenses: boolean;
   editLists: boolean;
@@ -73,14 +130,6 @@ export interface MemberPermissions {
   viewLists: boolean;
   viewNotes: boolean;
   viewPersonalReminders: boolean;
-}
-
-export interface Note {
-  attachmentURL?: string;
-  author: string;
-  content: string;
-  id: string | null;
-  timestamp: Timestamp;
 }
 
 export interface PersonalNote {
