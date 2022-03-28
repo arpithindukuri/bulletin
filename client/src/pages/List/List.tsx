@@ -305,7 +305,11 @@ export default function List() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style} style={{ height: "200px" }}>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography
+            component={"span"}
+            id="modal-modal-description"
+            sx={{ mt: 2 }}
+          >
             <Button
               style={{
                 color: "#AA896B",
@@ -381,9 +385,7 @@ export default function List() {
                     padding: "10px",
                   }}
                 >
-                  <h2 className="listTitle">
-                    {list.name}
-                  </h2>
+                  <h2 className="listTitle">{list.name}</h2>
                   <Box>
                     {list.listItem?.map((value) => (
                       <>
@@ -411,7 +413,11 @@ export default function List() {
                     aria-describedby="modal-modal-description"
                   >
                     <Box sx={style}>
-                      <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      <Typography
+                        component={"span"}
+                        id="modal-modal-description"
+                        sx={{ mt: 2 }}
+                      >
                         <Button
                           style={{
                             color: "#AA896B",

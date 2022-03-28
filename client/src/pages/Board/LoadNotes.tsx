@@ -1,7 +1,6 @@
-import { Typography, Container, Box, Button } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import * as React from 'react';
-import IconButton from '@mui/material/IconButton';
 
 interface Props {
     message: string;
@@ -10,7 +9,7 @@ interface Props {
 }
 
 
-export default function BoardIcons({ message, name, id }: Props) {
+export default function LoadNotes({ message, name, id }: Props) {
 
     //Created Note + Name
     return (

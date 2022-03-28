@@ -1,6 +1,5 @@
 import React from "react";
 import Expenses from "../pages/Expenses/Expenses";
-import ExpensesOverlay from "../pages/Expenses/ExpensesOverlay";
 import { configure, mount, ReactWrapper } from "enzyme";
 import renderer from "react-test-renderer";
 import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
@@ -41,7 +40,7 @@ describe("Testing <Expenses /> Component", () => {
     );
 
     wrapper.find("button").find("#add-expense-button").simulate("click");
-    expect(wrapper.find(".overlayBox"));
+    expect(wrapper.find(".overlayBox").exists()).toBeTruthy();
   });
 
   it("should open a modal", () => {

@@ -23,10 +23,10 @@ import Grid from '@mui/material/Grid';
 export default function LoadCalendar() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const locale = "en";
-    const handleDateChange = (date: any) => {
-        setSelectedDate(date);
-        console.log("Date is: ", date);
-    };
+    // const handleDateChange = (date: any) => {
+    //     setSelectedDate(date);
+    //     console.log("Date is: ", date);
+    // };
     //
     return (
         // <MuiPickersUtilsProvider utils={Utils} locale={localeMap[locale]}>

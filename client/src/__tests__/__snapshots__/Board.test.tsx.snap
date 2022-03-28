@@ -1,5 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Testing <Board /> Component should render calendar properly 1`] = `
+<div
+  className="MuiGrid-root css-vj1n65-MuiGrid-root"
+>
+  <div
+    className="MuiPaper-root MuiPaper-elevation1 MuiPaper-rounded"
+    style={
+      Object {
+        "overflow": "hidden",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Testing <Board /> Component should render notes properly 1`] = `
+<div
+  className="MuiBox-root css-ci30bg"
+>
+  <div
+    className="MuiGrid-root css-vj1n65-MuiGrid-root"
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1 css-1num6fk-MuiTypography-root"
+    >
+      test content
+    </p>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-container css-12dnab7-MuiGrid-root"
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1 css-ld2yqp-MuiTypography-root"
+    >
+      Test Note
+    </p>
+  </div>
+</div>
+`;
+
 exports[`Testing <Board /> Component should render properly 1`] = `
 <div
   style={
