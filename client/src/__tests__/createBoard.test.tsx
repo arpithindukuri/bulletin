@@ -1,6 +1,6 @@
 import React from "react";
 import CreateNewBoard from "../pages/CreateNewBoard/CreateNewBoard";
-import { configure, mount, ReactWrapper } from "enzyme";
+import { configure, mount, ReactWrapper, shallow } from "enzyme";
 import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
 import { store } from "../store";
 import { Provider } from "react-redux";
@@ -9,6 +9,17 @@ import { BrowserRouter } from "react-router-dom";
 configure({ adapter: new Adapter() });
 
 describe("Testing <CreateNewBoard /> Component", () => {
+  it("renders app correctly", () => {
+    const app = shallow(
+      <Provider store={store}>
+        <BrowserRouter>
+          <CreateNewBoard />
+        </BrowserRouter>
+      </Provider>
+    );
+    expect(app.getElements()).toMatchSnapshot();
+  });
+
   it("should change name field value", () => {
     const wrapper: ReactWrapper = mount(
       <Provider store={store}>

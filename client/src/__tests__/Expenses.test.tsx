@@ -1,5 +1,6 @@
 import React from "react";
 import Expenses from "../pages/Expenses/Expenses";
+import ExpensesOverlay from "../pages/Expenses/ExpensesOverlay";
 import { configure, mount, ReactWrapper } from "enzyme";
 import renderer from "react-test-renderer";
 import Adapter from "@wojtekmaj/enzyme-adapter-react-17";

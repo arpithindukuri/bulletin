@@ -128,6 +128,7 @@ export default function ExpensesRow({
       </Box>
       <Box className="expensesTableRow" width="5%">
         <Button
+          id="edit-expense-dialog-button"
           sx={{ textDecoration: "underline" }}
           onClick={() => editPopup()}
         >

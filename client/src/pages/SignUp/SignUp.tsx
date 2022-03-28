@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import { Grid, Button, TextField } from "@material-ui/core";
 import Logo from "../../assets/logo.svg";
 import { signUpEndPoint } from "../../authEndPoints";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SpinnerButton from "../../components/SpinnerButton";
 import "./SignUp.scss";
+import { useEffect } from "react";
 
 interface SignUpErrors {
   name: string;
@@ -17,6 +18,7 @@ interface SignUpErrors {
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
+  const params = useParams();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -152,6 +154,12 @@ const SignUp: React.FC = () => {
   ) => {
     setConfrimPassword(event.target.value);
   };
+
+  useEffect(() => {
+    if (params.user_email) {
+      setEmail(params.user_email);
+    }
+  }, [params.user_email]);
 
   return (
     <div className="signup-container">

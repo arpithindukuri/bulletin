@@ -3,9 +3,11 @@
 exports[`Testing <BoardIcons /> Component Add board icon should render properly 1`] = `
 <div
   className="board-icon-container"
+  id="add-board-icon"
 >
   <button
     className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButtonBase-root  css-16xo46n-MuiButtonBase-root-MuiButton-root"
+    data-testid="add-board-button"
     disabled={false}
     onBlur={[Function]}
     onClick={[Function]}

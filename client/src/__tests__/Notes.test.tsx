@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Notes from "../pages/Notes/Notes";
-import { configure, mount, ReactWrapper } from "enzyme";
+import NoteRow from "../pages/Notes/NoteRow";
+import { configure, mount, ReactWrapper, shallow } from "enzyme";
 import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
+import renderer from "react-test-renderer";
 import { store } from "../store";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
@@ -16,6 +18,17 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe("Testing <Notes /> Component", () => {
+  it("should render notes page correctly", () => {
+    const app = shallow(
+      <Provider store={store}>
+        <BrowserRouter>
+          <Notes />
+        </BrowserRouter>
+      </Provider>
+    );
+    expect(app.getElements()).toMatchSnapshot();
+  });
+
   it("should open a modal", () => {
     const wrapper: ReactWrapper = mount(
       <Provider store={store}>
@@ -99,26 +112,5 @@ describe("Testing <Notes /> Component", () => {
       wrapper.find("button").find("#close-note-modal-button").simulate("click");
       expect(wrapper.find(".overlayBox").exists()).toBeFalsy();
     });
-  });
-
-  it("should open a snackbar", () => {
-    const wrapper: ReactWrapper = mount(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Notes />
-        </BrowserRouter>
-      </Provider>
-    );
-
-    const setValue = (arg: boolean) => {
-      return arg;
-    };
-
-    jest.mock("react", () => ({
-      ...jest.requireActual("react"),
-      useState: jest.fn(() => [true, setValue]),
-    }));
-
-    expect(wrapper.find(".MuiSnackbar-root").exists()).toBeTruthy();
   });
 });

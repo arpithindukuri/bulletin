@@ -28,7 +28,7 @@ export default function BoardsView() {
 
   useEffect(() => {
     axiosInstance
-      .get("/getUser", { params: { user_id: userData.id } })
+      .get("/getUser", { params: { user_id: userData?.id } })
       .then((uData) => {
         dispatch(userLoggedIn({ ...uData.data.user }));
         setDataLoaded(true);
@@ -41,7 +41,7 @@ export default function BoardsView() {
   useEffect(() => {
     if (dataLoaded) {
       const allBoards: any = [];
-      userData.boards.map(async (boardData: string) => {
+      userData?.boards.map(async (boardData: string) => {
         const res = await axiosInstance.get("/getBoard", {
           params: { id: boardData },
         });
@@ -51,13 +51,13 @@ export default function BoardsView() {
           name: res.data.board.data.name,
         };
         allBoards.push(newBoard);
-        if (allBoards.length == userData.boards.length) {
+        if (allBoards.length == userData?.boards.length) {
           setCurrentBoards([...allBoards]);
           console.log("setting boards");
         }
       });
     }
-  }, [userData.boards, dataLoaded]);
+  }, [userData?.boards, dataLoaded]);
 
   return (
     <Container sx={{ width: "100%", height: "100%" }} maxWidth={false}>

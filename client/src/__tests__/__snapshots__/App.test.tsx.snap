@@ -340,6 +340,10 @@ Array [
                 />
                 <Route
                   element={<SignUp />}
+                  path="/signup/:user_email"
+                />
+                <Route
+                  element={<SignUp />}
                   path="/signup"
                 />
                 <Route

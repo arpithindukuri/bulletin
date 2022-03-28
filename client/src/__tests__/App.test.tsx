@@ -11,7 +11,7 @@ describe("App test", () => {
   });
 
   it("renders root correctly", () => {
-    const app = document.getElementById('root');
-    expect(app).toMatchSnapshot();
+    const root = document.getElementById('root');
+    expect(root).toMatchSnapshot();
   });
 });

@@ -19,6 +19,7 @@ export default function BoardIcons({ name, id, isAdd }: Props) {
     return (
       <div
         className="board-icon-container"
+        id="add-board-icon"
       >
         <Button
           size="small"
@@ -27,6 +28,7 @@ export default function BoardIcons({ name, id, isAdd }: Props) {
             "&:hover": { backgroundColor: "transparent" },
           }}
           onClick={() => navigate("/create-board")}
+          data-testid="add-board-button"
         >
           <img
             style={{ boxShadow: "1px 5px 8px rgba(165, 165, 165)" }}

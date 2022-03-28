@@ -42,7 +42,7 @@ const Notes: React.FC = () => {
     content: "",
   });
   const [message, setMessage] = useState("");
-  const [messageOpen, setMessageOpen] = useState(true);
+  const [messageOpen, setMessageOpen] = useState(false);
   const [messageSeverity, setMessageSeverity] = useState<AlertColor>("success");
   const handleChange =
     (prop: keyof State) => (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -95,6 +95,7 @@ const Notes: React.FC = () => {
     setErrors({ ...errors });
     return !errorsExits;
   };
+
   const handleEditNote = (
     id: string,
     newName: string,
@@ -127,6 +128,7 @@ const Notes: React.FC = () => {
         success = false;
       });
   };
+
   const handleDeleteNote = (id: string) => {
     console.log(id);
     let success = true;
@@ -150,6 +152,7 @@ const Notes: React.FC = () => {
         success = false;
       });
   };
+
   const handleSaveNote = () => {
     if (!validateData()) {
       return;

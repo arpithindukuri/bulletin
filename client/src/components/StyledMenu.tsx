@@ -60,7 +60,7 @@ export default function CustomizedMenus() {
   return (
     <div>
       <Button
-        id="demo-customized-button"
+        id="styled-menu-button"
         aria-controls={open ? 'demo-customized-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
@@ -78,7 +78,7 @@ export default function CustomizedMenus() {
         Filter
       </Button>
       <StyledMenu
-        id="demo-customized-menu"
+        id="styled-menu-filters-list"
         MenuListProps={{
           'aria-labelledby': 'demo-customized-button',
         }}
