@@ -1,0 +1,316 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing <AccountInfo /> Component should render properly 1`] = `
+Array [
+  <button
+    className="MuiButtonBase-root MuiIconButton-root makeStyles-drawerButton-10"
+    disabled={false}
+    id="side-drawer-button"
+    onBlur={[Function]}
+    onClick={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label"
+    >
+      <svg
+        aria-hidden={true}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-tzssek-MuiSvgIcon-root"
+        data-testid="ArrowForwardIosIcon"
+        focusable="false"
+        style={
+          Object {
+            "color": "#68390D",
+          }
+        }
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M6.23 20.23 8 22l10-10L8 2 6.23 3.77 14.46 12z"
+        />
+      </svg>
+    </span>
+  </button>,
+  <div
+    className="account"
+  >
+    <div
+      className="MuiGrid-root MuiGrid-container MuiGrid-item"
+      style={
+        Object {
+          "height": "100%",
+        }
+      }
+    >
+      <div
+        className="MuiGrid-root account-panel-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-5 MuiGrid-grid-lg-5 MuiGrid-grid-xl-5"
+      >
+        <div
+          className="account-panel"
+        >
+          <img
+            className="profile-pic"
+            src="profile.svg"
+          />
+          <h1
+            className="account-panel-name"
+          >
+            
+          </h1>
+          <h1
+            className="account-panel-last-password"
+          >
+            Last Password Change: 20/01/2022
+          </h1>
+        </div>
+      </div>
+      <div
+        className="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-direction-xs-column MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12 MuiGrid-grid-md-7 MuiGrid-grid-lg-7 MuiGrid-grid-xl-7"
+        style={
+          Object {
+            "height": "100%",
+            "width": "100%",
+          }
+        }
+      >
+        <h1
+          className="account-edit-title"
+        >
+          Account
+        </h1>
+        <div
+          className="MuiGrid-root account-edit-grid-item MuiGrid-item"
+        >
+          <p>
+            Change Your Password
+          </p>
+          <div
+            className="MuiFormControl-root MuiTextField-root makeStyles-textField-1"
+          >
+            <label
+              className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
+              data-shrink={false}
+              htmlFor="account-info-password-field"
+              id="account-info-password-field-label"
+            >
+              Enter your new password
+            </label>
+            <div
+              className="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+              onClick={[Function]}
+            >
+              <input
+                aria-invalid={false}
+                autoFocus={false}
+                className="MuiInputBase-input MuiFilledInput-input"
+                disabled={false}
+                id="account-info-password-field"
+                onAnimationStart={[Function]}
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                required={false}
+                type="password"
+                value=""
+              />
+            </div>
+            
+          </div>
+        </div>
+        <div
+          className="MuiGrid-root account-edit-grid-item MuiGrid-item"
+        >
+          <p>
+            Confirm New Password
+          </p>
+          <div
+            className="MuiFormControl-root MuiTextField-root makeStyles-textField-1"
+          >
+            <label
+              className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
+              data-shrink={false}
+              htmlFor="account-info-confirm-password-field"
+              id="account-info-confirm-password-field-label"
+            >
+              Confrim your new password
+            </label>
+            <div
+              className="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+              onClick={[Function]}
+            >
+              <input
+                aria-invalid={false}
+                autoFocus={false}
+                className="MuiInputBase-input MuiFilledInput-input"
+                disabled={false}
+                id="account-info-confirm-password-field"
+                onAnimationStart={[Function]}
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                required={false}
+                type="password"
+                value=""
+              />
+            </div>
+            
+          </div>
+        </div>
+        <div
+          className="MuiGrid-root account-edit-grid-item MuiGrid-item"
+        >
+          <p>
+            Add Phone Number
+          </p>
+          <div
+            className="MuiFormControl-root MuiTextField-root makeStyles-textField-1"
+          >
+            <label
+              className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
+              data-shrink={false}
+              htmlFor="account-info-phone-field"
+              id="account-info-phone-field-label"
+            >
+              Provide your phone number
+            </label>
+            <div
+              className="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+              onClick={[Function]}
+            >
+              <input
+                aria-invalid={false}
+                autoFocus={false}
+                className="MuiInputBase-input MuiFilledInput-input"
+                disabled={false}
+                id="account-info-phone-field"
+                onAnimationStart={[Function]}
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                required={false}
+                type="text"
+                value=""
+              />
+            </div>
+            
+          </div>
+        </div>
+        <div
+          className="MuiGrid-root account-edit-grid-item MuiGrid-item"
+        >
+          <p>
+            Primary Email Address
+          </p>
+          <div
+            className="MuiFormControl-root MuiTextField-root makeStyles-textField-1"
+          >
+            <label
+              className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled Mui-disabled Mui-disabled"
+              data-shrink={false}
+            >
+              Primary Email
+            </label>
+            <div
+              className="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline Mui-disabled Mui-disabled MuiInputBase-formControl"
+              onClick={[Function]}
+            >
+              <input
+                aria-invalid={false}
+                autoFocus={false}
+                className="MuiInputBase-input MuiFilledInput-input Mui-disabled Mui-disabled"
+                disabled={true}
+                onAnimationStart={[Function]}
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                required={false}
+                type="text"
+                value=""
+              />
+            </div>
+            
+          </div>
+        </div>
+        <div
+          className="MuiGrid-root account-edit-grid-item MuiGrid-item"
+        >
+          <p>
+            Alternative Email Address
+          </p>
+          <div
+            className="MuiFormControl-root MuiTextField-root makeStyles-textField-1"
+          >
+            <label
+              className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
+              data-shrink={false}
+              htmlFor="account-info-alternative-email-field"
+              id="account-info-alternative-email-field-label"
+            >
+              Alternative Email
+            </label>
+            <div
+              className="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+              onClick={[Function]}
+            >
+              <input
+                aria-invalid={false}
+                autoFocus={false}
+                className="MuiInputBase-input MuiFilledInput-input"
+                disabled={false}
+                id="account-info-alternative-email-field"
+                onAnimationStart={[Function]}
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                required={false}
+                type="text"
+                value=""
+              />
+            </div>
+            
+          </div>
+        </div>
+        <div
+          className="MuiGrid-root MuiGrid-item"
+        >
+          <button
+            className="MuiButtonBase-root MuiButton-root MuiButton-contained save-button"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            <span
+              className="MuiButton-label"
+            >
+              Save
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>,
+]
+`;

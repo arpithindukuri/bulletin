@@ -54,13 +54,26 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test -u",
+    "test": "react-scripts test -u --coverage --watchAll",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/components/*.{ts,tsx}",
+      "src/pages/**/*.{ts,tsx}",
+      "src/hooks/*.{ts,tsx}",
+      "src/reducers/*.{ts,tsx}",
+      "src/actions/**/*.{ts,tsx}",
+      "src/theme/*.{ts,tsx}",
+      "src/App.tsx",
+      "src/store.ts",
+      "src/authEndPoint.ts"
     ]
   },
   "browserslist": {

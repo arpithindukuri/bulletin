@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing <BoardIcons /> Component Add board icon should render properly 1`] = `
+<div
+  className="board-icon-container"
+>
+  <button
+    className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButtonBase-root  css-16xo46n-MuiButtonBase-root-MuiButton-root"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <img
+      alt="Add A New Board"
+      src="newBoard.png"
+      style={
+        Object {
+          "boxShadow": "1px 5px 8px rgba(165, 165, 165)",
+        }
+      }
+      width="80%"
+    />
+    <span
+      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+    />
+  </button>
+  <h6
+    className="MuiTypography-root MuiTypography-h6 css-1x7nvub-MuiTypography-root"
+  >
+    Create A New Board
+  </h6>
+</div>
+`;
+
+exports[`Testing <BoardIcons /> Component Regular board icon should render properly 1`] = `
+<div
+  className="board-icon-container"
+>
+  <button
+    className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButtonBase-root  css-4iz0b5-MuiButtonBase-root-MuiButton-root"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <img
+      className="board-icon-image"
+      src="usedBoard.png"
+      width="80%"
+    />
+  </button>
+  <h6
+    className="MuiTypography-root MuiTypography-h6 css-1x7nvub-MuiTypography-root"
+  >
+    test board
+  </h6>
+  <p
+    className="MuiTypography-root MuiTypography-body1 css-1yma4ta-MuiTypography-root"
+  >
+    Welcome to the 
+    test board
+     board!
+  </p>
+</div>
+`;
