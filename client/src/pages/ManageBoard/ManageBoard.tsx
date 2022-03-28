@@ -12,13 +12,6 @@ import { useNavigate } from "react-router-dom";
 import { useTypedSelector } from "../../hooks/ReduxHooks";
 import { selectUserData } from "../../actions/UserActions/UserSelector";
 
-//Mock Info passed into Member Status
-const mockMemberInfo = [
-  { id: 1, name: "Liane Doe", email: "liane.doe@gmail.com", role: "Admin" },
-  { id: 2, name: "Dad Doe", email: "dad.doe@gmail.com", role: "Admin" },
-  { id: 3, name: "Logan Doe", email: "logan.doe@gmail.com", role: "Member" },
-  { id: 4, name: "Aly Doe", email: "aly.doe@gmail.com", role: "Member" },
-];
 interface CreateBoardErrors {
   name: string;
   description: string;
@@ -302,7 +295,7 @@ export default function ManageBoard() {
               focused
               id="name-text"
               inputProps={{
-                maxlength: NAME_LIMIT,
+                maxLength: NAME_LIMIT,
               }}
               helperText={`${board.name.length}/${NAME_LIMIT}  ${errors.name}`}
               error={errors.name !== ""}
@@ -324,7 +317,7 @@ export default function ManageBoard() {
               align-items="left"
               id="description-text"
               inputProps={{
-                maxlength: DESCRIPTION_LIMIT,
+                maxLength: DESCRIPTION_LIMIT,
               }}
               rows="3"
               helperText={`${board.description.length}/${DESCRIPTION_LIMIT}  ${errors.description}`}
@@ -333,7 +326,7 @@ export default function ManageBoard() {
               error={errors.description !== ""}
             />
             <div className="saveDiv">
-              <Button className="saveButton" onClick={handleSaveBoard}>
+              <Button className="saveButton" onClick={handleSaveBoard} id="saveButton">
                 Save Board
               </Button>
             </div>
@@ -382,6 +375,7 @@ export default function ManageBoard() {
               disableRipple={true}
               disableTouchRipple={true}
               className="renameButton"
+              id="renameButton"
               onClick={() => setPopupState(true)}
             >
               <Typography
@@ -412,6 +406,7 @@ export default function ManageBoard() {
             value={invitationEmail}
             onChange={handleInvitationEmailChange}
             sx={{ width: "90%" }}
+            id="invitation-email-text"
           />
         </Box>
 
@@ -421,6 +416,7 @@ export default function ManageBoard() {
             color="secondary"
             sx={{ borderRadius: "50px", border: "1px solid #68390D" }}
             onClick={sendInvitation}
+            id="sendInviteButton"
           >
             <Typography color="primary" variant="h6">
               Send Invite
@@ -432,7 +428,7 @@ export default function ManageBoard() {
       <hr style={{ color: "rgb(104, 57, 13, 0.2)", borderWidth: "0.5px" }}></hr>
 
       {/* Member Information */}
-      <Box className="memberInfoBox">
+      <Box className="memberInfoBox" id="memberInfoBox">
         <Typography color="primary" variant="h6" textAlign={"left"}>
           Members
         </Typography>

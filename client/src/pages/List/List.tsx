@@ -270,6 +270,7 @@ export default function List() {
             }}
             variant="contained"
             onClick={handleOpen}
+            id="add-list-button"
           >
             + Add another list
           </Button>
@@ -328,7 +329,7 @@ export default function List() {
             >
               <div>
                 <BrownTextField
-                  id="standard-basic"
+                  id="list-name"
                   label="List Name"
                   variant="standard"
                   InputLabelProps={{
@@ -352,6 +353,7 @@ export default function List() {
                     top: "50px",
                   }}
                   variant="text"
+                  id="saveListButton"
                   disableElevation
                   onClick={handleAddList}
                 >
@@ -398,6 +400,7 @@ export default function List() {
                     }}
                     variant="text"
                     onClick={() => handleOpenTask(list.id)}
+                    id="addTaskButton"
                   >
                     + Add a Task
                   </Button>
