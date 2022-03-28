@@ -92,6 +92,7 @@ export default function Board() {
         success = false;
       });
   }, []);
+  
   useEffect(() => {
     let success = true;
     axiosInstance
@@ -101,10 +102,9 @@ export default function Board() {
         if (success) {
           res.data.users.filter((member: any) => {
             if (member.role === "Admin" && member.id === userData.id) {
-              setIsAdmin(true)
+              setIsAdmin(true);
             }
           });
-          
         }
       })
       .catch((err) => {
@@ -163,12 +163,12 @@ export default function Board() {
 
   useEffect(() => {
     let newDate = new Date();
-    let day = ('0' + newDate.getDate()).slice(-2);
-    let month = ('0' + (newDate.getMonth() + 1)).slice(-2);
+    let day = ("0" + newDate.getDate()).slice(-2);
+    let month = ("0" + (newDate.getMonth() + 1)).slice(-2);
     let year = newDate.getFullYear();
 
     let currDate = `${month},${day},${year}`;
-    console.log(currDate)
+    console.log(currDate);
     let success = true;
     axiosInstance
       .get("/getEvents", { params: { id: params.board_id } })
@@ -196,6 +196,7 @@ export default function Board() {
       }}
     >
       <Grid
+        container
         className="board-container"
         direction="column"
         alignContent="center"
@@ -215,6 +216,7 @@ export default function Board() {
             justifyContent="flex-start"
             alignItems="center"
             container
+            item
             xs={6}
             direction="row"
           >
@@ -228,11 +230,14 @@ export default function Board() {
                 height: "80px",
                 fontSize: "60px",
                 marginTop: "10px",
+                marginRight: "15px",
               }}
             >
               {board.name.split(" ")[0][0]}
             </Avatar>
             <Grid
+              item
+              style={{ margin: "40px 0px" }}
               className="info-container"
               xs={7}
               justifyContent="flex-start"
@@ -277,31 +282,29 @@ export default function Board() {
             justifyContent="flex-end"
             alignItems="flex-end"
             xs={6}
+            item
             container
             direction="row"
           >
-            {isAdmin?
-            <Grid
-              className="link-container"
-              justifyContent="flex-end"
-              alignItems="flex-end"
-              container
-              direction="column"
-            >
-              <Link
-                variant="body1"
-                color="primary"
-                fontSize={30}
-                underline="hover"
-                href={"/manage-board/" + params.board_id}
+            {isAdmin ? (
+              <Grid
+                className="link-container"
+                justifyContent="flex-end"
+                alignItems="flex-end"
+                container
+                direction="column"
               >
-                Manage Board
-              </Link>
-            
-              
+                <Link
+                  variant="body1"
+                  color="primary"
+                  fontSize={30}
+                  underline="hover"
+                  href={"/manage-board/" + params.board_id}
+                >
+                  Manage Board
+                </Link>
               </Grid>
-              :null
-            }
+            ) : null}
           </Grid>
         </Grid>
         <Grid
@@ -314,7 +317,7 @@ export default function Board() {
         >
           <Box
             className="bulletinBoardBox"
-            sx={{ width: "100%", height: "100%" }}
+            sx={{ width: "100%", height: "100%", padding: "10px 0px" }}
           >
             <Grid
               className="boardContainer"
@@ -331,6 +334,7 @@ export default function Board() {
                 alignItems="center"
                 container
                 xs={6}
+                item
                 direction="column"
               >
                 <Grid
@@ -346,6 +350,7 @@ export default function Board() {
                     xs={7}
                     pr={1}
                     direction="column"
+                    item
                   >
                     <Grid className="NoteHeader" container direction="column">
                       <Typography
@@ -356,6 +361,7 @@ export default function Board() {
                           display: "inline-block",
                           whiteSpace: "pre-line",
                         }}
+                        id="board-notes-title"
                       >
                         Notes
                       </Typography>
@@ -366,10 +372,9 @@ export default function Board() {
                       spacing={{ xs: 2, md: 1 }}
                       columns={{ xs: 4, sm: 8, md: 12 }}
                     >
-                      {notes.map((mockNotes) => {
+                      {notes.map((mockNotes, index) => {
                         return (
-                          // <Grid item xs={6} sm={6} mr={1} mt={1} >
-                          <Grid item>
+                          <Grid item key={mockNotes.id} id={`board-note-${index}`}>
                             <LoadNote
                               message={mockNotes.content}
                               name={mockNotes.name}
@@ -386,6 +391,7 @@ export default function Board() {
                     justifyContent="center"
                     alignItems="center"
                     xs={5}
+                    item
                     pr={3}
                     direction="column"
                   >
@@ -398,6 +404,7 @@ export default function Board() {
                           fontWeight: "bold",
                           color: " #631800",
                         }}
+                        id="board-list-title"
                       >
                         List
                       </Typography>
@@ -510,6 +517,7 @@ export default function Board() {
                 alignItems="center"
                 container
                 xs={6}
+                item
                 direction="column"
               >
                 <Grid
@@ -520,7 +528,7 @@ export default function Board() {
                   alignItems="center"
                   direction="column"
                 >
-                  <Box p={1} className="CalendarBox">
+                  <Box p={1} className="CalendarBox" id="board-react-calendar">
                     <Calendar locale={"en-US"} className="react-calendar" />
                   </Box>
                 </Grid>

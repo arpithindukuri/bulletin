@@ -14,7 +14,7 @@ const axiosInstance = axios.create({
   },
 });
 
-axiosInstance.interceptors.response.use(
+axiosInstance?.interceptors.response.use(
   (response) => response,
   async function (error) {
     const failedRequest = error.config;

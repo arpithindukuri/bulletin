@@ -19,7 +19,7 @@ export default function ViewNote() {
             container
             direction='row'
             justifyContent="flex-start">
-            <Link underline="hover" variant='body1' href={'/notes/'+params.board_id}>
+            <Link underline="hover" variant='body1' href={'/notes/'+params.board_id} data-testid="board-notes-redirect">
                  View All notes
             </Link>
         </Grid>

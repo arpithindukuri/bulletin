@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Notes from "../pages/Notes/Notes";
 import { configure, mount, ReactWrapper } from "enzyme";
-import renderer from "react-test-renderer";
 import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
 import { store } from "../store";
 import { Provider } from "react-redux";

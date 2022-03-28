@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`App test renders correctly 1`] = `
+exports[`App test renders app correctly 1`] = `
 Array [
   <Provider
     store={
@@ -399,3 +399,5 @@ Array [
   </Provider>,
 ]
 `;
+
+exports[`App test renders root correctly 1`] = `null`;

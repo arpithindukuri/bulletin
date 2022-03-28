@@ -5,8 +5,13 @@ import App from "../App";
 configure({ adapter: new Adapter() });
 
 describe("App test", () => {
-  it("renders correctly", () => {
+  it("renders app correctly", () => {
     const app = shallow(<App />);
     expect(app.getElements()).toMatchSnapshot();
+  });
+
+  it("renders root correctly", () => {
+    const app = document.getElementById('root');
+    expect(app).toMatchSnapshot();
   });
 });

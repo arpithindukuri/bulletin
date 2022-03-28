@@ -82,12 +82,14 @@ const SideDrawer: React.FC = () => {
   return (
     <>
       <IconButton
+        id="side-drawer-button"
         className={classes.drawerButton}
         onClick={() => setDrawerOpen(!drawerOpen)}
       >
         <ArrowForwardIosIcon style={{ color: "#68390D" }} fontSize="large" />
       </IconButton>
       <Drawer
+      id="side-drawer-id"
         className={classes.drawer}
         classes={{
           paper: classes.drawerPaper,

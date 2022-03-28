@@ -43,10 +43,14 @@ const AccountInfo = () => {
   const classes = useStyles();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState(userData.phoneNumber);
-  const [primaryEmail, setPrimaryEmail] = useState(userData.email);
+  const [phoneNumber, setPhoneNumber] = useState(
+    userData?.phoneNumber ? userData.phoneNumber : ""
+  );
+  const [primaryEmail, setPrimaryEmail] = useState(
+    userData?.email ? userData.email : ""
+  );
   const [alternativeEmail, setAlternativeEmail] = useState(
-    userData.alternativeEmail
+    userData?.alternativeEmail ? userData.alternativeEmail : ""
   );
   const [message, setMessage] = useState("");
   const [messageOpen, setMessageOpen] = useState(false);
@@ -195,7 +199,9 @@ const AccountInfo = () => {
           >
             <div className="account-panel">
               <img src={profile} className="profile-pic"></img>
-              <h1 className="account-panel-name">{userData.name}</h1>
+              <h1 className="account-panel-name">
+                {userData?.name ? userData.name : ""}
+              </h1>
               <h1 className="account-panel-last-password">
                 Last Password Change: 20/01/2022
               </h1>
@@ -217,6 +223,7 @@ const AccountInfo = () => {
             <Grid className="account-edit-grid-item" item>
               <p>Change Your Password</p>
               <TextField
+                id="account-info-password-field"
                 className={classes.textField}
                 InputLabelProps={{ shrink: false }}
                 value={password}
@@ -231,6 +238,7 @@ const AccountInfo = () => {
             <Grid className="account-edit-grid-item" item>
               <p>Confirm New Password</p>
               <TextField
+                id="account-info-confirm-password-field"
                 className={classes.textField}
                 InputLabelProps={{ shrink: false }}
                 value={confirmPassword}
@@ -247,6 +255,7 @@ const AccountInfo = () => {
             <Grid className="account-edit-grid-item" item>
               <p>Add Phone Number</p>
               <TextField
+                id="account-info-phone-field"
                 className={classes.textField}
                 InputLabelProps={{ shrink: false }}
                 value={phoneNumber}
@@ -276,6 +285,7 @@ const AccountInfo = () => {
             <Grid className="account-edit-grid-item" item>
               <p>Alternative Email Address</p>
               <TextField
+                id="account-info-alternative-email-field"
                 className={classes.textField}
                 InputLabelProps={{ shrink: false }}
                 value={alternativeEmail}
