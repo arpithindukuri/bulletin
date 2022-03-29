@@ -83,7 +83,7 @@ export default function Board() {
       .get("/getBoardUsers", { params: { board_id: params.board_id } })
       .then((res) => {
         const index = res.data.users.findIndex(
-          (x: any) => x.id === userData.id
+          (x: any) => x.id === userData?.id
         );
         if (index == -1) {
           return;

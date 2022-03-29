@@ -97,7 +97,7 @@ const Dashboard = () => {
       .then(() => {
         console.log("user data updated");
         dispatch(
-          userLoggedIn({ ...newUserData, lastLogin: userData.lastLogin })
+          userLoggedIn({ ...newUserData, lastLogin: userData?.lastLogin })
         );
         setMessage("Information updated.");
         setMessageSeverity("success");
@@ -143,9 +143,9 @@ const Dashboard = () => {
             <Grid item>
               <h1 className="dashboard-user-info">
                 Last Login:{" "}
-                {userData.lastLogin instanceof Date
-                  ? userData.lastLogin.toISOString().replace(/T.*$/, "")
-                  : userData.lastLogin.replace(/T.*$/, "")}
+                {userData?.lastLogin instanceof Date
+                  ? userData?.lastLogin.toISOString().replace(/T.*$/, "")
+                  : userData?.lastLogin.replace(/T.*$/, "")}
               </h1>
             </Grid>
             <Grid
