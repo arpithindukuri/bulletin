@@ -242,3 +242,69 @@ describe("add Notes", () => {
     });
 
   });
+
+  describe("delete Notes", () => {
+    describe("Needs added board setup", () => {
+      let addedBoardId = undefined;
+      let addedNoteId = undefined;
+      beforeEach(async () => {
+        return new Promise<void>((resolve, reject) => {
+          const initialReq = {
+            headers: {},
+            method: "POST",
+            body: {
+              name: "testing",
+              description: "testing123",
+            },
+          } as unknown as Request;
+          const initialRes = {
+            status: (code: number) => {
+              console.log("status called with staus: ", code);
+            },
+            json: (arg: any) => {
+              addedBoardId = arg.board.id;
+              resolve();
+            },
+            end: () => {},
+            setHeader: (arg) => {
+              console.log(arg);
+            },
+            getHeader: () => {},
+          } as unknown as Response;
+    
+          boardFunctions.addBoard(initialReq, initialRes);
+        })
+      });
+  
+      it("Should Return 200 OK Valid Input", (done: any) => {
+        console.log("inside delete notes, added board id is: ", addedBoardId);
+        console.log("inside delete notes, added node id is: ", addedNoteId);
+        const req = {
+          headers: {},
+          method: "DELETE",
+          body: {},
+          query: {
+            board_id: addedBoardId,
+            note_id: addedNoteId,
+          },
+        } as unknown as Request;
+        const res = {
+          status: (code: number) => {
+            assert.equal(code, 200);
+            done();
+          },
+          end: () => {},
+          setHeader: (arg) => {
+            console.log(arg);
+          },
+          getHeader: () => {},
+        } as unknown as Response;
+  
+        notesFunction.deleteNote(req, res);
+      });
+
+        afterEach(async () => {
+          ftest.cleanup();
+        });
+    });
+  });
