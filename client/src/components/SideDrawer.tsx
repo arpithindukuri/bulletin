@@ -64,10 +64,6 @@ const listLinks = [
     path: "/account-info",
   },
   {
-    name: "Personalization",
-    path: "/personalization",
-  },
-  {
     name: "Support Us",
     path: "/support-us",
   },
