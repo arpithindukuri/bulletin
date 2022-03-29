@@ -31,7 +31,7 @@ export const getExpenses = functions.https.onRequest(
 
       // Send back a message that we've successfully written the message
       if (snapshot)
-        response.json({
+        response.status(200).json({
           expenses: snapshot.docs.map((doc) => {
             return { id: doc.id, ...doc.data() };
           }),
@@ -39,7 +39,6 @@ export const getExpenses = functions.https.onRequest(
     });
   }
 );
-
 export const getExpense = functions.https.onRequest(
   async (request, response) => {
     // you need corsHandler to allow requests from localhost and the deployed website,
@@ -76,7 +75,6 @@ export const getExpense = functions.https.onRequest(
     });
   }
 );
-
 /**
  * Take the expenses object send in the request body and insert it into Firestore
  * under the path /expenses/writeResult.id
@@ -146,7 +144,7 @@ export const deleteExpense = functions.https.onRequest(
       //delete the expense (if found) and send a response message
       if ((await snapshot.get()).exists) {
         snapshot.delete();
-        response.status(204).send(`Event with ID: ${expense_id} is deleted.`);
+        response.status(202).send(`Event with ID: ${expense_id} is deleted.`);
       } else response.status(400).send("Event Not Found");
     });
   }

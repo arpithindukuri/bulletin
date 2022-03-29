@@ -30,7 +30,7 @@ export const getLists = functions.https.onRequest(async (request, response) => {
 
     // Send back a message that we've successfully written the message
     if (snapshot)
-      response.json({
+      response.status(200).json({
         lists: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })),
       });
   });
@@ -115,7 +115,7 @@ export const deleteList = functions.https.onRequest(
       //delete the list (if found) and send a response message
       if ((await snapshot.get()).exists) {
         snapshot.delete();
-        response.status(400).send(`List with ID: ${list_id} is deleted.`);
+        response.status(202).send(`List with ID: ${list_id} is deleted.`);
       } else response.status(400).send("List Not Found");
     });
   }
@@ -157,7 +157,7 @@ export const editList = functions.https.onRequest(async (request, response) => {
     //edit the list (if found) and send a response message
     if ((await snapshot.get()).exists) {
       snapshot.set(body);
-      response.status(400).send(`List with ID: ${list_id} is updated.`);
+      response.status(200).send(`List with ID: ${list_id} is updated.`);
     } else response.status(400).send("List Not Found");
   });
 });

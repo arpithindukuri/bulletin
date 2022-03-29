@@ -30,7 +30,7 @@ export const addUser = functions.https.onRequest(async (request, response) => {
       .set(body);
 
     // Send back a message that we've successfully written the message
-    if (snapshot) response.send(`User with ID: ${body.id} added.`);
+    if (snapshot) response.status(201).send(`User with ID: ${body.id} added.`);
   });
 });
 
@@ -55,7 +55,7 @@ export const getUser = functions.https.onRequest(async (request, response) => {
     if (!databaseUser.exists) {
       response.status(400).send("User Not Found");
     } else {
-      response.json({ user: databaseUser.data() });
+      response.status(200).json({ user: databaseUser.data() });
     }
   });
 });
@@ -113,7 +113,7 @@ export const getUserByEmail = functions.https.onRequest(async (request, response
     if ((await databaseUser.get()).docs.length === 0) {
       response.status(400).send("User Not Found");
     } else {
-      response.json({ user: (await databaseUser.get()).docs.map((doc)=>doc.data()) });
+      response.status(200).json({ user: (await databaseUser.get()).docs.map((doc)=>doc.data()) });
     }
   });
 });

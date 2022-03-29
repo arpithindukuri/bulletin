@@ -33,7 +33,7 @@ export const getListItems = functions.https.onRequest(
         .get();
 
       // Send back a message that we've successfully written the message
-      if (snapshot) response.json({ listItems: snapshot.data() });
+      if (snapshot) response.status(200).json({ listItems: snapshot.data() });
     });
   }
 );
@@ -80,7 +80,7 @@ export const addListItem = functions.https.onRequest(
       snapshot
         .get()
         .then((data) => {
-          if (data.data().listItem.length > 0) {
+          if (data.data().listItem?.length > 0) {
             snapshot
               .update({
                 listItem: admin.firestore.FieldValue.arrayRemove({

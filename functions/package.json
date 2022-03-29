@@ -8,10 +8,21 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "test": "mocha --reporter spec"
+    "test": "nyc mocha --reporter spec --timeout 40000"
   },
   "engines": {
     "node": "16"
+  },
+  "nyc": {
+    "include":[
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "**/node_modules/**",
+      "**/test/**",
+      "**/coverage/**"
+    ],
+    "all": true
   },
   "main": "lib/src/index.js",
   "dependencies": {

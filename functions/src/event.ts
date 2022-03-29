@@ -29,7 +29,7 @@ export const getEvents = functions.https.onRequest(
 
       // Send back a message that we've successfully written the message
       if (snapshot)
-        response.json({
+        response.status(200).json({
           events: snapshot.docs.map((doc) => {
             return { id: doc.id, ...doc.data() };
           }),
@@ -178,7 +178,7 @@ export const editEvent = functions.https.onRequest(
       //edit the event (if found) and send a response message
       if ((await snapshot.get()).exists) {
         snapshot.set(body);
-        response.status(400).send(`Event with ID: ${event_id} is updated.`);
+        response.status(200).send(`Event with ID: ${event_id} is updated.`);
       } else response.status(400).send("Event Not Found");
     });
   }
