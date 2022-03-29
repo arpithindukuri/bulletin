@@ -1,7 +1,7 @@
-import { useState } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Calendar from "./pages/Calendar";
-import List from "./pages/List";
+import Calendar from "./pages/Calendar/Calendar";
+import List from "./pages/List/List";
 import { theme } from "./theme/theme";
 import { ThemeProvider } from "@mui/material/styles";
 import { Provider } from "react-redux";
@@ -11,6 +11,7 @@ import SignUp from "./pages/SignUp/SignUp";
 import Homepage from "./pages/Homepage/Homepage";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import AccountInfo from "./pages/AccountInfo/AccountInfo";
+import Board from "./pages/Board/Board";
 import Header from "./components/Header";
 import AuthGuard from "./AuthGuard";
 import BoardsView from "./pages/BoardViews/BoardsView";
@@ -40,8 +41,9 @@ function App() {
                   <Route path="/account-info" element={<AccountInfo />}></Route>
                   <Route path="/profile" element={<Dashboard />}></Route>
                   <Route path="/support-us" element={<SupportUs />}></Route>
-                  <Route path="/boards" element={<BoardsView />}></Route>
+                  <Route path="/boardsView" element={<BoardsView />}></Route>
                   <Route path="/notes/:board_id" element={<Notes />}></Route>
+                  <Route path="/board/:board_id" element={<Board />}></Route>
                   <Route
                     path="/create-board"
                     element={<CreateNewBoard />}
@@ -54,8 +56,11 @@ function App() {
                     path="/manage-board/:board_id"
                     element={<ManageBoard />}
                   ></Route>
-                  <Route path="/calendar" element={<Calendar />}></Route>
-                  <Route path="/list" element={<List />}></Route>
+                  <Route
+                    path="/calendar/:board_id"
+                    element={<Calendar />}
+                  ></Route>
+                  <Route path="/lists/:board_id" element={<List />}></Route>
                 </Routes>
               </AuthGuard>
             </BrowserRouter>

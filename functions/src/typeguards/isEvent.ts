@@ -23,7 +23,7 @@ export function isEvent(arg: any): arg is Event {
     obj.startTime !== undefined &&
     obj.endTime !== undefined &&
     obj.description !== undefined &&
-    obj.tags !== undefined &&
+    obj.tag !== undefined &&
     /**
      * Check that EVERY field is the correct type.
      * Note that brackets are important when we use || with &&.
@@ -34,7 +34,6 @@ export function isEvent(arg: any): arg is Event {
     isTimestamp(obj.startTime) &&
     isTimestamp(obj.endTime) &&
     typeof obj.description === "string" &&
-    Array.isArray(obj.tags) &&
-    obj.tags.every((val) => isTag(val))
+    isTag(obj.tag)
   );
 }

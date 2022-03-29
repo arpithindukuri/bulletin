@@ -10,12 +10,11 @@ import {
 } from "@mui/material";
 import ExpensesOverlay from "./ExpensesOverlay";
 import axiosInstance from "../../axios";
-import Budget from "../../models/Budget";
-import Expense from "../../models/Expense";
+import { Budget, Expense } from "../../../../types";
 
 interface Props {
   name: string;
-  date: string;
+  date: number;
   assigned: string;
   balance: number;
   type: string;
@@ -63,7 +62,7 @@ export default function ExpensesRow({
     if (type === "Expense") {
       axiosInstance
         .delete("/deleteExpense", {
-          params: { board_id: boardId, expense_id: expenseId },
+          params: { boardID: boardId, expenseID: expenseId },
         })
         .then((res) => {
           console.log("delete expense response is: ", res);
@@ -76,7 +75,7 @@ export default function ExpensesRow({
     } else {
       axiosInstance
         .delete("/deleteBudget", {
-          params: { board_id: boardId, budget_id: expenseId },
+          params: { boardID: boardId, budgetID: expenseId },
         })
         .then((res) => {
           console.log("delete budget response is: ", res);

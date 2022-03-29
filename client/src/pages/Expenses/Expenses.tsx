@@ -4,9 +4,8 @@ import "./Expenses.css";
 import ExpensesRow from "./ExpensesRow";
 import ExpensesOverlay from "./ExpensesOverlay";
 import { useParams } from "react-router-dom";
+import { Budget, Expense } from "../../../../types";
 import axiosInstance from "../../axios";
-import Budget from "../../models/Budget";
-import Expense from "../../models/Expense";
 
 export default function Expenses() {
   const params = useParams();
@@ -56,20 +55,20 @@ export default function Expenses() {
     }
 
     axiosInstance
-      .get("/getExpenses", { params: { id: params.board_id } })
+      .get("/readExpenses", { params: { boardID: params.board_id } })
       .then((res) => {
         console.log("expenses repsonse is: ", res);
-        setExpenses([...res.data.expenses]);
+        setExpenses([...res.data.content]);
       })
       .catch((err) => {
         console.log("error getting user expenses: ", err);
       });
 
     axiosInstance
-      .get("/getBudgets", { params: { id: params.board_id } })
+      .get("/readBudgets", { params: { boardID: params.board_id } })
       .then((res) => {
         console.log("budgets repsonse is: ", res);
-        setBudgets([...res.data.budgets]);
+        setBudgets([...res.data.content]);
       })
       .catch((err) => {
         console.log("error getting user budgets: ", err);
@@ -78,9 +77,9 @@ export default function Expenses() {
 
   useEffect(() => {
     axiosInstance
-      .get("/getBoard", { params: { id: params.board_id } })
+      .get("/readBoard", { params: { boardID: params.board_id } })
       .then((res) => {
-        setBoardName(res.data.board.data.name);
+        setBoardName(res.data.content.name);
         console.log("Information recieved Successfully");
       })
       .catch((err) => {
@@ -103,7 +102,7 @@ export default function Expenses() {
         />
       ) : null}
       <div style={{ marginLeft: "5%" }}>
-        <a href="/">
+        <a href={"/board/" + params.board_id}>
           <Typography
             variant="subtitle1"
             color="primary.light"
@@ -145,12 +144,13 @@ export default function Expenses() {
               <Box width={"5%"}></Box>
             </Box>
             {expenses.map((expense) => {
+              if (expense.id === null) return "null expense.id";
               return (
                 <Box className="expensesTableRow">
                   <ExpensesRow
                     name={expense.name}
-                    date={expense.deadline}
-                    assigned={expense.assignee}
+                    date={expense.dueDate}
+                    assigned={expense.assignedUserID}
                     balance={expense.amount}
                     type={"Expense"}
                     boardId={params.board_id}
@@ -159,7 +159,7 @@ export default function Expenses() {
                     expenses={expenses}
                     budgets={budgets}
                     setBudgets={setBudgets}
-                  ></ExpensesRow>
+                  />
                 </Box>
               );
             })}
@@ -207,12 +207,13 @@ export default function Expenses() {
               <Box width={"5%"}></Box>
             </Box>
             {budgets.map((budget) => {
+              if (budget.id === null) return "null expense.id";
               return (
                 <Box className="expensesTableRow">
                   <ExpensesRow
                     name={budget.name}
-                    date={budget.date}
-                    assigned={budget.assigned}
+                    date={budget.endDate}
+                    assigned={budget.assignedUserID}
                     balance={budget.balance}
                     type={"Budget"}
                     boardId={params.board_id}

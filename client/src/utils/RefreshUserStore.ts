@@ -7,9 +7,9 @@ export const refreshUserStore = (
   userId: string
 ) => {
   axiosInstance
-    .get("/getUser", { params: { user_id: userId } })
+    .get("/readUser", { params: { userID: userId } })
     .then((uData) => {
-      dispatch(userLoggedIn({ ...uData.data.user }));
+      dispatch(userLoggedIn({ ...uData.data.content }));
     })
     .catch((userError) => {
       console.log("error while getting user info: ", userError);

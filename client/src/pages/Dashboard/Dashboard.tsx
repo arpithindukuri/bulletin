@@ -70,20 +70,25 @@ const Dashboard = () => {
       name: name,
       birthDay: birthday,
     };
+
     axiosInstance
-      .put("/editUser", newUserData)
-      .then(() => {
-        console.log("user data updated");
-        dispatch(userLoggedIn(newUserData));
-        setMessage("Information updated.");
-        setMessageSeverity("success");
-        setMessageOpen(true);
-      })
-      .catch((err) => {
-        console.log("error editing user data: ", err);
-        setMessage("Information update failed.");
-        setMessageSeverity("error");
-        setMessageOpen(true);
+      .get("/readUser", { params: { userID: userData.id } })
+      .then((res) => {
+        axiosInstance
+          .put("/updateUser", { ...res, ...newUserData })
+          .then(() => {
+            console.log("user data updated");
+            dispatch(userLoggedIn(newUserData));
+            setMessage("Information updated.");
+            setMessageSeverity("success");
+            setMessageOpen(true);
+          })
+          .catch((err) => {
+            console.log("error editing user data: ", err);
+            setMessage("Information update failed.");
+            setMessageSeverity("error");
+            setMessageOpen(true);
+          });
       });
   };
 

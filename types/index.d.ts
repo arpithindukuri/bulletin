@@ -4,6 +4,7 @@
  * **IMPORTANT**
  *
  * This document defines the data models being used by entire system.
+ * Please follow ALL the following steps when using these types in any way.
  *
  * 1) Whenever you add, modify, or remove a type in this file, remember to:
  *     A) Update type "Types".
@@ -82,7 +83,7 @@ export interface Event {
   id: string | null;
   name: string;
   startTime: Timestamp;
-  tags: Tag[];
+  tag: Tag;
 }
 
 export interface Expense {
@@ -107,6 +108,7 @@ export interface ListItem {
 }
 
 export interface Member {
+  id: string | null;
   role: Role;
   userID: string;
 }
@@ -134,12 +136,13 @@ export interface Permissions {
 
 export interface PersonalNote {
   content: string;
-  id: string;
+  id: string | null;
   name: string;
+  timestamp: Timestamp;
 }
 
 export interface PersonalReminder {
-  id: string;
+  id: string | null;
   name: string;
   time: Timestamp;
 }
@@ -161,4 +164,5 @@ export interface User {
   overview: string;
   phoneNumber: string;
   reminders: PersonalReminder[];
+  idToken?: string;
 }

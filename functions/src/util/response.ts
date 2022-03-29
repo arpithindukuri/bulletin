@@ -15,7 +15,7 @@ export function sendUserFailure(response: Response, content: string) {
     content,
   };
   response.status(400).send(responseBody);
-  response.end();
+  // response.end();
 }
 
 export function sendServerFailure(response: Response, content: string) {

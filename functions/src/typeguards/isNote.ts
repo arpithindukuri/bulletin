@@ -20,8 +20,7 @@ export function isNote(arg: any): arg is Note {
     obj.id !== undefined &&
     obj.content !== undefined &&
     obj.author !== undefined &&
-    obj.author !== undefined &&
-    obj.attachmentURL !== undefined &&
+    // obj.attachmentURL !== undefined &&
     /**
      * Check that EVERY field is the correct type.
      * Note that brackets are important when we use || with &&.
@@ -31,6 +30,6 @@ export function isNote(arg: any): arg is Note {
     typeof obj.content === "string" &&
     typeof obj.author === "string" &&
     isTimestamp(obj.timestamp) &&
-    typeof obj.attachmentURL === "string"
+    (obj.attachmentURL === undefined || typeof obj.attachmentURL === "string")
   );
 }

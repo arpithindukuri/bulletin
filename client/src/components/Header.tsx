@@ -80,9 +80,9 @@ const Header = () => {
       name: "Boards",
       function: () => {
         setAnchor(null);
-        navigate("/boards");
+        navigate("/boardsView");
       },
-      path: "/boards",
+      path: "/boardsView",
     },
     {
       name: "dashboard",

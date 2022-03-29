@@ -9,6 +9,7 @@ import axiosInstance from "../../axios";
 import { useTypedDispatch } from "../../hooks/ReduxHooks";
 import { userLoggedIn } from "../../actions/UserActions/UserActionCreator";
 import { useEffect, useState } from "react";
+import { Board } from "../../../../types";
 
 interface BoardIconsProps {
   id: string;
@@ -17,35 +18,77 @@ interface BoardIconsProps {
 
 export default function BoardsView() {
   const userData = useTypedSelector(selectUserData);
+  const dispatch = useTypedDispatch();
 
   const [currentBoards, setCurrentBoards] = useState<Array<BoardIconsProps>>(
     []
   );
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  console.log("current boards is: ", currentBoards);
 
   useEffect(() => {
-    setCurrentBoards([]);
-    userData.boards.map((boardData: string) => {
-      const boardExists = currentBoards.find((obj) => (obj.id = boardData));
-      if (!boardExists) {
-        let success = true;
+    axiosInstance
+      .get("/readUser", { params: { userID: userData.id } })
+      .then((uData) => {
         axiosInstance
-          .get("/getBoard", { params: { id: boardData } })
-          .then((res) => {
-            const newBoard: BoardIconsProps = {
-              id: boardData,
-              name: res.data.board.data.name,
-            };
-            currentBoards.push(newBoard);
-            setCurrentBoards([...currentBoards]);
-            console.log("Information recieved Successfully");
+          .get("/readBoardsByUserID", {
+            params: { userID: userData.id },
           })
-          .catch((err) => {
-            console.log("error getting user boards: ", err);
-            success = false;
+          .then((res) => {
+            console.log(res);
+            dispatch(
+              userLoggedIn({
+                ...uData.data.content,
+                boards: (res.data.content.boards as Board[]).map(
+                  (board) => board.id
+                ),
+              })
+            );
+            const allBoards: any = [];
+            (res.data.content.boards as Board[]).map((board) => {
+              const newBoard: BoardIconsProps = {
+                id: board.id || "",
+                name: board.name,
+              };
+
+              allBoards.push(newBoard);
+
+              if (allBoards.length == userData.boards.length) {
+                setCurrentBoards([...allBoards]);
+                console.log("setting boards");
+              }
+            });
+            setDataLoaded(true);
           });
-      }
-    });
-  }, [userData]);
+      })
+      .catch((userError) => {
+        console.log("error while getting user info: ", userError);
+      });
+  }, []);
+
+  // useEffect(() => {
+  //   if (dataLoaded) {
+  //     const allBoards: any = [];
+  //     userData.boards.map(async (boardData: string) => {
+  //       const res = await axiosInstance.get("/readBoard", {
+  //         params: { boardID: boardData },
+  //       });
+
+  //       const newBoard: BoardIconsProps = {
+  //         id: boardData,
+  //         name: res.data.name,
+  //       };
+
+  //       allBoards.push(newBoard);
+
+  //       if (allBoards.length == userData.boards.length) {
+  //         setCurrentBoards([...allBoards]);
+  //         console.log("setting boards");
+  //       }
+  //     });
+  //   }
+  // }, [userData.boards, dataLoaded]);
 
   return (
     <Container sx={{ width: "100%", height: "100%" }} maxWidth={false}>

@@ -73,7 +73,7 @@ import {
   deletePersonalReminder,
 } from "./personalReminder";
 import { createTag, readTag, readTags, updateTag, deleteTag } from "./tag";
-import { createUser, readUser, updateUser } from "./user";
+import { createUser, readUser, readUserByEmail, updateUser } from "./user";
 
 export const helloWorld = functions.https.onRequest((request, response) => {
   functions.logger.info("Hello logs!", { structuredData: true });
@@ -146,4 +146,5 @@ export {
   createUser,
   readUser,
   updateUser,
+  readUserByEmail,
 };

@@ -7,9 +7,9 @@ import {
   Box,
 } from "@mui/material";
 import React, { useState } from "react";
+import { format } from "date-fns";
+import { Budget, Expense } from "../../../../types";
 import axiosInstance from "../../axios";
-import Expense from "../../models/Expense";
-import Budget from "../../models/Budget";
 
 interface Props {
   header: string;
@@ -21,7 +21,7 @@ interface Props {
   boardId: string | undefined;
   isEdit: boolean;
   defaultName?: string;
-  defaultDate?: string;
+  defaultDate?: number;
   defaultAssignee?: string;
   defaultAmount?: number;
   expenseId?: string;
@@ -56,14 +56,16 @@ export default function ExpensesOverlay({
   const [popupAssignee, setPopupAssignee] = useState(
     defaultAssignee ? defaultAssignee : ""
   );
-  const [popupDate, setPopupDate] = useState(defaultDate ? defaultDate : "");
+  const [popupDate, setPopupDate] = useState(
+    defaultDate ? format(defaultDate, "dd/MM/YYYY") : ""
+  );
 
   const getExpenses = () => {
     axiosInstance
-      .get("/getExpenses", { params: { id: boardId } })
+      .get("/readExpenses", { params: { boardID: boardId } })
       .then((res) => {
         console.log("expenses repsonse is: ", res);
-        setExpenses([...res.data.expenses]);
+        setExpenses([...res.data.content]);
       })
       .catch((err) => {
         console.log("error getting user expenses: ", err);
@@ -72,10 +74,10 @@ export default function ExpensesOverlay({
 
   const getBudgets = () => {
     axiosInstance
-      .get("/getBudgets", { params: { id: boardId } })
+      .get("/readBudgets", { params: { boardID: boardId } })
       .then((res) => {
         console.log("budgets repsonse is: ", res);
-        setBudgets([...res.data.budgets]);
+        setBudgets([...res.data.content]);
       })
       .catch((err) => {
         console.log("error getting user budgets: ", err);
@@ -152,7 +154,6 @@ export default function ExpensesOverlay({
   };
 
   const isValidDate = (date: string) => {
-    console.log("input date is: ", date);
     if (!date.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/)) {
       return false;
     }
@@ -164,15 +165,17 @@ export default function ExpensesOverlay({
       return;
     }
 
-    const values = {
+    const values: Expense = {
       name: popupName,
-      deadline: popupDate,
+      dueDate: parseInt(popupDate),
       amount: parseFloat(popupBalance),
-      assignee: popupAssignee,
+      assignedUserID: popupAssignee,
+      balance: -parseFloat(popupBalance),
+      id: null,
     };
 
     axiosInstance
-      .post("/addExpense", values, { params: { id: boardId } })
+      .post("/createExpense", values, { params: { boardID: boardId } })
       .then((res) => {
         console.log(res);
         getExpenses();
@@ -188,16 +191,18 @@ export default function ExpensesOverlay({
       return;
     }
 
-    const values = {
+    const values: Expense = {
       name: popupName,
-      deadline: popupDate,
+      dueDate: parseInt(popupDate),
       amount: parseFloat(popupBalance),
-      assignee: popupAssignee,
+      balance: -parseFloat(popupBalance),
+      assignedUserID: popupAssignee,
+      id: expenseId || "",
     };
 
     axiosInstance
-      .put("/editExpense", values, {
-        params: { board_id: boardId, expense_id: expenseId },
+      .put("/updateExpense", values, {
+        params: { boardID: boardId, expenseID: expenseId },
       })
       .then((res) => {
         getExpenses();
@@ -213,15 +218,17 @@ export default function ExpensesOverlay({
       return;
     }
 
-    const values = {
+    const values: Budget = {
       name: popupName,
-      date: popupDate,
-      balance: parseFloat(popupBalance),
-      assigned: popupAssignee,
+      endDate: parseInt(popupDate),
+      amount: parseFloat(popupBalance),
+      balance: -parseFloat(popupBalance),
+      assignedUserID: popupAssignee,
+      id: null,
     };
 
     axiosInstance
-      .post("/addBudget", values, { params: { id: boardId } })
+      .post("/createBudget", values, { params: { boardID: boardId } })
       .then((res) => {
         console.log(res);
         getBudgets();
@@ -234,26 +241,30 @@ export default function ExpensesOverlay({
 
   const handleEditBudget = () => {
     if (!validateData()) {
-        return;
-      }
-  
-      const values = {
-        name: popupName,
-        date: popupDate,
-        balance: parseFloat(popupBalance),
-        assigned: popupAssignee,
-      };
-  
-      axiosInstance
-        .put("/editBudget", values, { params: { board_id: boardId, budget_id: expenseId  } })
-        .then((res) => {
-          console.log(res);
-          getBudgets();
-          setPopupState(false);
-        })
-        .catch((err) => {
-          console.log("error editing budget: ", err);
-        });
+      return;
+    }
+
+    const values: Expense = {
+      id: expenseId || "",
+      name: popupName,
+      dueDate: parseInt(popupDate),
+      balance: -parseFloat(popupBalance),
+      amount: parseFloat(popupBalance),
+      assignedUserID: popupAssignee,
+    };
+
+    axiosInstance
+      .put("/updateBudget", values, {
+        params: { boardID: boardId, budgetID: expenseId },
+      })
+      .then((res) => {
+        console.log(res);
+        getBudgets();
+        setPopupState(false);
+      })
+      .catch((err) => {
+        console.log("error editing budget: ", err);
+      });
   };
 
   return (

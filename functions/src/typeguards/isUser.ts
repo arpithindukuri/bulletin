@@ -22,7 +22,6 @@ export function isUser(arg: any): arg is User {
     obj.name !== undefined &&
     obj.email !== undefined &&
     obj.dateOfBirth !== undefined &&
-    obj.alternativeEmail !== undefined &&
     obj.phoneNumber !== undefined &&
     obj.overview !== undefined &&
     obj.reminders !== undefined &&
@@ -43,6 +42,7 @@ export function isUser(arg: any): arg is User {
     Array.isArray(obj.reminders) &&
     obj.reminders.every((val) => isPersonalReminder(val)) &&
     Array.isArray(obj.notes) &&
-    obj.notes.every((val) => isPersonalNote(val))
+    obj.notes.every((val) => isPersonalNote(val)) &&
+    (obj.idToken === undefined || typeof obj.idToken == "string")
   );
 }

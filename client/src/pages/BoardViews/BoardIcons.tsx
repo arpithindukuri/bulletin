@@ -46,7 +46,7 @@ export default function BoardIcons({ name, id, isAdd }: Props) {
 
   return (
     <div className="board-icon-container">
-      <Button size="small" sx={{ maxWidth: "10vw" }}>
+      <Button size="small" sx={{ maxWidth: "10vw" }} onClick={() => navigate("/board/"+id)}>
         <img
           className="board-icon-image"
           src={usedBoard}

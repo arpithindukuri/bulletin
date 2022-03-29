@@ -17,6 +17,7 @@ import axios from "axios";
 import axiosInstance from "../../axios";
 import { userLoggedIn } from "../../actions/UserActions/UserActionCreator";
 import { Alert, AlertColor } from "@mui/material";
+import { User } from "../../../../types";
 
 interface AccountEditErrors {
   password: string;
@@ -158,23 +159,34 @@ const AccountInfo = () => {
         phoneNumber: phoneNumber,
       };
 
-      axiosInstance
-        .put("/editUser", newUserData)
-        .then(() => {
-          console.log("user data updated");
-          dispatch(userLoggedIn(newUserData));
-          if (success) {
-            setMessage("Information updated.");
-            setMessageSeverity("success");
-          } else {
-            setMessage("Information update failed.");
-            setMessageSeverity("error");
-          }
-          setMessageOpen(true);
+      axios
+        .get("/readUser", {
+          params: { userID: userData.id },
         })
-        .catch((err) => {
-          console.log("error editing user data: ", err);
-          success = false;
+        .then((res) => {
+          const newUser: User = {
+            ...res.data.content,
+            ...newUserData,
+          };
+
+          axiosInstance
+            .put("/updateUser", newUser)
+            .then(() => {
+              console.log("user data updated");
+              dispatch(userLoggedIn(newUserData));
+              if (success) {
+                setMessage("Information updated.");
+                setMessageSeverity("success");
+              } else {
+                setMessage("Information update failed.");
+                setMessageSeverity("error");
+              }
+              setMessageOpen(true);
+            })
+            .catch((err) => {
+              console.log("error editing user data: ", err);
+              success = false;
+            });
         });
     }
   };

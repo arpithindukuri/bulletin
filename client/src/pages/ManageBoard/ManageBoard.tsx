@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Container, Box, Button } from "@mui/material";
+import { Typography, Container, Box, Button, Modal } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import MemberPermissions from "./MemberPermissions";
 import MemberStatus from "./MemberStatus";
-import avatar from "../../assets/avatar.jpg";
+import Avatar from "@mui/material/Avatar";
 import "./ManageBoard.css";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../axios";
+import { Snackbar } from "@material-ui/core";
+import { Alert, AlertColor } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useTypedSelector } from "../../hooks/ReduxHooks";
+import { selectUserData } from "../../actions/UserActions/UserSelector";
+import { Board, Member } from "../../../../types";
 
 //Mock Info passed into Member Status
 const mockMemberInfo = [
@@ -15,42 +20,358 @@ const mockMemberInfo = [
   { id: 3, name: "Logan Doe", email: "logan.doe@gmail.com", role: "Member" },
   { id: 4, name: "Aly Doe", email: "aly.doe@gmail.com", role: "Member" },
 ];
-
-//Headers passed into Member Permissions
-const permissionHeaders = [
-  { id: 1, name: "Notes", viewOn: true, editOn: false },
-  { id: 2, name: "Lists", viewOn: true, editOn: true },
-  { id: 3, name: "Expenses", viewOn: false, editOn: false },
-  { id: 4, name: "Calendar", viewOn: true, editOn: false },
-  { id: 5, name: "Personal Notes", viewOn: true, editOn: true },
-];
+interface CreateBoardErrors {
+  name: string;
+  description: string;
+}
 
 export default function ManageBoard() {
+  const userData = useTypedSelector(selectUserData);
+  const navigate = useNavigate();
+  const NAME_LIMIT = 20;
+  const DESCRIPTION_LIMIT = 50;
   const params = useParams();
-  const [boardName, setBoardName] = useState("");
+  const [popupState, setPopupState] = useState(false);
+  const [editBoard, setEditBoard] = useState(false);
+  const [board, setBoard] = useState<Board>({
+    name: "",
+    description: "",
+    budgets: [],
+    events: [],
+    expenses: [],
+    id: null,
+    lists: [],
+    members: [],
+    notes: [],
+    permissions: {
+      editCalendar: true,
+      editExpenses: true,
+      editLists: true,
+      editNotes: true,
+      editPersonalReminders: true,
+      viewCalendar: true,
+      viewExpenses: true,
+      viewLists: true,
+      viewNotes: true,
+      viewPersonalReminders: true,
+    },
+    tags: [],
+  });
+  const [members, setMembers] = useState<Array<Member>>([]);
+  const [errors, setErrors] = useState<CreateBoardErrors>({
+    name: "",
+    description: "",
+  });
+  const [invitationEmail, setInvitationEmail] = useState<string>("");
+  const [message, setMessage] = useState("");
+  const [messageOpen, setMessageOpen] = useState(false);
+  const [messageSeverity, setMessageSeverity] = useState<AlertColor>("success");
 
   useEffect(() => {
+    let success = true;
     axiosInstance
-      .get("/getBoard", { params: { id: params.board_id } })
+      .get("/readBoard", { params: { boardID: params.board_id } })
       .then((res) => {
-        setBoardName(res.data.board.data.name);
-        console.log("Information recieved Successfully");
+        console.log(res);
+        if (success) {
+          setBoard(res.data.content);
+        }
       })
       .catch((err) => {
-        console.log("error getting user boards: ", err);
+        console.log("error getting board: ", err);
+        success = false;
       });
-  }, [params.board_id]);
+    axiosInstance
+      .get("/readMembers", { params: { boardID: params.board_id } })
+      .then((res) => {
+        console.log(res);
+        if (success) {
+          setMembers(res.data.content);
+        }
+      })
+      .catch((err) => {
+        console.log("error getting users: ", err);
+        success = false;
+      });
+  }, [editBoard]);
+
+  const handleChange =
+    (prop: keyof Board) => (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setBoard({ ...board, [prop]: event.target.value });
+    };
+
+  const handleInvitationEmailChange = (event: any) => {
+    setInvitationEmail(event.target.value);
+  };
+
+  const validateData = () => {
+    errors.name = "";
+    errors.description = "";
+
+    let errorsExits = false;
+
+    if (!board.name || board.name.length > NAME_LIMIT) {
+      errors.name = "Please enter a valid board Name";
+      errorsExits = true;
+    }
+
+    if (!board.description || board.description.length > DESCRIPTION_LIMIT) {
+      errors.description = "Please enter a valid board description.";
+      errorsExits = true;
+    }
+
+    setErrors({ ...errors });
+    return !errorsExits;
+  };
+
+  const handleSaveBoard = () => {
+    if (!validateData()) {
+      return;
+    }
+
+    let success = true;
+
+    axiosInstance
+      .get("/readBoard", { params: { boardID: params.board_id } })
+      .then((boardRes) => {
+        axiosInstance
+          .put(
+            "/updateBoard",
+            {
+              ...boardRes.data.content,
+              name: board.name,
+              description: board.description,
+            },
+            { params: { boardID: params.board_id } }
+          )
+          .then((res) => {
+            if (success) {
+              setMessage("Board is Edited");
+              setMessageOpen(true);
+              setMessageSeverity("success");
+              setPopupState(false);
+            } else {
+              setMessage("board cannot be edited.");
+              setMessageSeverity("error");
+              setMessageOpen(true);
+            }
+          })
+          .catch((err) => {
+            console.log("error editing board: ", err);
+            success = false;
+          });
+      });
+  };
+
+  const deleteMember = (userBoardid: string, id: string, isLeave: boolean) => {
+    const admins = members.filter((member) => {
+      if (member.role === "admin") {
+        return member;
+      }
+    });
+    console.log("admins is: ", admins);
+    if (admins.length == 1 && admins[0].userID === id) {
+      setMessage(
+        "The only admin cannot be removed. Please assign a new admin first."
+      );
+      setMessageSeverity("error");
+      setMessageOpen(true);
+      return;
+    }
+    axiosInstance
+      .delete("/deleteUserFromBoard", {
+        params: { boardID: params.board_id, userID: userBoardid },
+      })
+      .then((res) => {
+        console.log("user is deleted: " + res);
+        // axiosInstance
+        //   .get("./getUser", { params: { user_id: id } })
+        //   .then((res) => {
+        //     console.log(res);
+        //     const removedUserData = res.data.user;
+        //     const newBoards = res.data.user.boards.filter(
+        //       (board: any) => board !== params.board_id
+        //     );
+        //     console.log(newBoards);
+        //     const newRemovedUserData = {
+        //       ...removedUserData,
+        //       boards: newBoards,
+        //     };
+        //     axiosInstance
+        //       .put("./editUser", newRemovedUserData)
+        //       .then(() => {
+        if (isLeave) {
+          navigate("/boardsView");
+        }
+        //         console.log("new removed user data is: ", newRemovedUserData);
+        //         console.log("user is edited");
+        //         const index = members.findIndex(
+        //           (x: Member) => x.userID === newRemovedUserData.id
+        //         );
+        //         if (index > -1) {
+        //           members.splice(index, 1);
+        //           setMembers([...members]);
+        //         }
+        //       })
+        //       .catch((err) => {
+        //         console.log("error editing user data: ", err);
+        //       });
+        //   })
+        //   .catch((err) => {
+        //     console.log("error editing user data: ", err);
+        //   });
+
+        setMessage("User is removed");
+
+        setMessageSeverity("success");
+        setMessageOpen(true);
+      });
+  };
+
+  const sendInvitation = () => {
+    axiosInstance
+      .get("/readUserByEmail", { params: { email: invitationEmail } })
+      .then((res) => {
+        const check = members.filter(
+          (member) => res.data.content.email === invitationEmail
+        );
+        // if (check.length > 0) {
+        if (res.data.content.email) {
+          setMessage("User already has access to the board");
+          setMessageOpen(true);
+          setMessageSeverity("warning");
+          return;
+        }
+
+        console.log(res);
+        const invitedUserData = res.data.content;
+        // const Boards = [...invitedUserData.boards];
+        // Boards.push(params.board_id);
+        // const newInvitedUserData = { ...invitedUserData, boards: [...Boards] };
+        // axiosInstance
+        //   .put("./editUser", newInvitedUserData)
+        //   .then(() => {
+        //     console.log("user is edited");
+        //   })
+        //   .catch((err) => {
+        //     console.log("error editing user data: ", err);
+        //   });
+
+        const newMember: Member = {
+          id: null,
+          role: "member",
+          userID: invitedUserData.id,
+        };
+
+        axiosInstance
+          .put("./createMember", newMember, {
+            params: { boardID: params.board_id },
+          })
+          .then(() => {
+            console.log("user added to board");
+            setEditBoard(!editBoard);
+          })
+          .catch((err) => {
+            console.log("error adding user to board: ", err);
+          });
+        setInvitationEmail("");
+        setMessage("User has been added to Board");
+        setMessageOpen(true);
+        setMessageSeverity("success");
+      })
+      .catch((err) => {
+        console.log("User Not Found", err);
+        setMessage("User Not Found");
+        setMessageOpen(true);
+        setMessageSeverity("error");
+      });
+  };
+
+  const handleLeaveButton = () => {
+    const index = members.findIndex((x: Member) => x.userID === userData.id);
+    if (index > -1) {
+      deleteMember(params.board_id || "", members[index].userID || "", true);
+    }
+  };
 
   return (
     <Container maxWidth={false}>
-      <a href="/">
+      {popupState ? (
+        <Modal
+          open={true}
+          onClose={() => setPopupState(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <div className="overlayBox">
+            <div className="noteHeader">
+              <Typography variant="h6">Edit Board</Typography>
+              <Button onClick={() => setPopupState(false)}>
+                <Typography variant="h5">X</Typography>
+              </Button>
+            </div>
+            <Typography
+              className="inputTitle"
+              variant="h6"
+              color="primary"
+              sx={{ fontWeight: "bold" }}
+            >
+              Board Name
+            </Typography>
+            <TextField
+              className="InputText"
+              variant="outlined"
+              value={board.name}
+              onChange={handleChange("name")}
+              focused
+              id="name-text"
+              inputProps={{
+                maxlength: NAME_LIMIT,
+              }}
+              helperText={`${board.name.length}/${NAME_LIMIT}  ${errors.name}`}
+              error={errors.name !== ""}
+            />
+            <Typography
+              className="inputTitle"
+              variant="h6"
+              color="primary"
+              sx={{ fontWeight: "bold" }}
+            >
+              Description
+            </Typography>
+            <TextField
+              className="InputText"
+              variant="outlined"
+              value={board.description}
+              onChange={handleChange("description")}
+              focused
+              align-items="left"
+              id="description-text"
+              inputProps={{
+                maxlength: DESCRIPTION_LIMIT,
+              }}
+              rows="3"
+              helperText={`${board.description.length}/${DESCRIPTION_LIMIT}  ${errors.description}`}
+              multiline
+              style={{ fontWeight: "bold" }}
+              error={errors.description !== ""}
+            />
+            <div className="saveDiv">
+              <Button className="saveButton" onClick={handleSaveBoard}>
+                Save Board
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      ) : null}
+      <a href={"/board/" + params.board_id}>
         <Typography
           variant="subtitle1"
           color="primary.light"
           align="left"
           sx={{ pt: "1vh" }}
         >
-          Back to {boardName} Board - Main
+          Back to {board.name} Board - Main
         </Typography>
       </a>
 
@@ -59,36 +380,33 @@ export default function ManageBoard() {
         <Box className="manageHeaderBox">
           <Box className="managePhotoBox">
             {/* For the board image */}
-            <img className="profilePicture" src={avatar}></img>
-            <Button
-              sx={{ display: "block", margin: "auto" }}
-              disableElevation={true}
-              disableFocusRipple={true}
-              disableRipple={true}
-              disableTouchRipple={true}
+            <Avatar
+              className="profileCircle"
+              sx={{
+                background: "#f0e6db",
+                color: "#AA896B",
+                fontWeight: "bold",
+                width: " 80px",
+                height: "80px",
+                fontSize: "60px",
+                marginTop: "10px",
+              }}
             >
-              <Typography
-                className="underlineButton"
-                variant="subtitle1"
-                color="primary.light"
-              >
-                Change Board Picture
-              </Typography>
-            </Button>
+              {board.name.split(" ")[0][0]}
+            </Avatar>
           </Box>
           <Box className="boardNameBox">
             {/* For the Board name */}
             <Typography variant="h5" color="primary" fontWeight="bold">
-              {boardName}
+              {board.name}
             </Typography>
             <Button
               disableElevation={true}
               disableFocusRipple={true}
               disableRipple={true}
               disableTouchRipple={true}
-              sx={{
-                display: "block",
-              }}
+              className="renameButton"
+              onClick={() => setPopupState(true)}
             >
               <Typography
                 className="underlineButton"
@@ -96,18 +414,7 @@ export default function ManageBoard() {
                 color="primary.light"
                 textAlign={"left"}
               >
-                Rename Board
-              </Typography>
-            </Button>
-          </Box>
-          <Box className="duplicateBoardBox">
-            <Button
-              variant="contained"
-              color="secondary"
-              sx={{ borderRadius: "50px", border: "1px solid #68390D" }}
-            >
-              <Typography color="primary" variant="h6">
-                Duplicate Board
+                Edit Board
               </Typography>
             </Button>
           </Box>
@@ -125,10 +432,9 @@ export default function ManageBoard() {
         </Box>
         <Box width={"30%"}>
           <TextField
-            className="testText"
-            variant="outlined"
-            color="primary"
             label="Email Address"
+            value={invitationEmail}
+            onChange={handleInvitationEmailChange}
             sx={{ width: "90%" }}
           />
         </Box>
@@ -138,6 +444,7 @@ export default function ManageBoard() {
             variant="contained"
             color="secondary"
             sx={{ borderRadius: "50px", border: "1px solid #68390D" }}
+            onClick={sendInvitation}
           >
             <Typography color="primary" variant="h6">
               Send Invite
@@ -193,78 +500,32 @@ export default function ManageBoard() {
             <Box width="5%"></Box>
           </Box>
 
-          {mockMemberInfo.map((members) => {
-            return (
-              <MemberStatus
-                name={members.name}
-                email={members.email}
-                role={members.role}
-              ></MemberStatus>
-            );
+          {members.map((member) => {
+            axiosInstance
+              .get("/readUser", { params: { userID: member.userID } })
+              .then((res) => {
+                console.log(res);
+                if (res.data.status === "success") {
+                  return (
+                    <MemberStatus
+                      onDelete={deleteMember}
+                      userBoardid={params.board_id || ""}
+                      id={member.userID}
+                      name={res.data.content.name}
+                      email={res.data.content.email}
+                      role={member.role}
+                    ></MemberStatus>
+                  );
+                }
+              })
+              .catch((err) => {
+                console.log("error getting expenses: ", err);
+              });
           })}
         </Box>
       </Box>
 
       <hr style={{ color: "rgb(104, 57, 13, 0.2)", borderWidth: "0.5px" }}></hr>
-
-      {/* Member Permissions */}
-      <Box className="memberInfoBox">
-        <Typography color="primary" variant="h6" textAlign={"left"}>
-          Member Permissions
-        </Typography>
-
-        <Box
-          display={"flex"}
-          flexDirection="row"
-          justifyContent={"space-evenly"}
-          paddingTop={"20px"}
-        >
-          <Box>
-            <Box className="permissionsGrid" height="60px"></Box>
-
-            <Box
-              className="permissionsGrid"
-              height="50px"
-              justifyContent={"center"}
-            >
-              <Typography
-                color="primary"
-                variant="subtitle1"
-                fontWeight="bold"
-                textAlign={"center"}
-              >
-                View
-              </Typography>
-            </Box>
-
-            <Box className="permissionsGrid" height="50px">
-              <Typography
-                color="primary"
-                variant="subtitle1"
-                fontWeight="bold"
-                textAlign={"center"}
-              >
-                Edit
-              </Typography>
-            </Box>
-          </Box>
-
-          {permissionHeaders.map((permissions) => {
-            return (
-              <Box>
-                <MemberPermissions
-                  name={permissions.name}
-                  viewOn={permissions.viewOn}
-                  editOn={permissions.editOn}
-                />
-              </Box>
-            );
-          })}
-        </Box>
-      </Box>
-
-      <hr style={{ color: "rgb(104, 57, 13, 0.2)", borderWidth: "0.5px" }}></hr>
-
       <Box className="leaveBoardButtons">
         <Button
           variant="contained"
@@ -274,13 +535,14 @@ export default function ManageBoard() {
             borderRadius: "50px",
             border: "1px solid #68390D",
           }}
+          onClick={handleLeaveButton}
         >
           <Typography color="primary" variant="h6">
-            Leave Board{" "}
+            Leave Board
           </Typography>
         </Button>
 
-        <Button
+        {/* <Button
           variant="contained"
           color="warning"
           sx={{
@@ -288,12 +550,22 @@ export default function ManageBoard() {
             borderRadius: "50px",
             border: "1px solid #68390D",
           }}
+          onClick={deleteBoard}
         >
           <Typography color="primary" variant="h6">
-            Delete Board{" "}
+            Delete Board
           </Typography>
-        </Button>
+        </Button> */}
       </Box>
+      <Snackbar
+        open={messageOpen}
+        autoHideDuration={6000}
+        onClose={() => setMessageOpen(false)}
+      >
+        <Alert severity={messageSeverity} sx={{ width: "100%" }}>
+          {message}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

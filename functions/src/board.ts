@@ -83,13 +83,15 @@ export const readBoardsByUserID = functions.https.onRequest(
         .collectionGroup("members")
         .where("userID", "==", userID);
 
-      const snapshot = await query.get();
+      const boardRefs = (await query.get()).docs.map(
+        (doc) => doc.ref.parent.parent
+      );
 
       // Send back a message that we've successfully written the message
-      if (snapshot) {
+      if (boardRefs) {
         const result = await Promise.all(
-          snapshot.docs.map(async (doc) => {
-            const boardData = await readDoc(doc.ref.path, response);
+          boardRefs.map(async (doc) => {
+            const boardData = await readDoc(doc.path, response);
             return boardData;
           })
         );

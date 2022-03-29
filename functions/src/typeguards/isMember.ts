@@ -17,6 +17,7 @@ export function isMember(arg: any): arg is Member {
     /**
      * Check that EVERY field in the object is defined
      */
+    obj.id !== undefined &&
     obj.userID !== undefined &&
     obj.role !== undefined &&
     /**
@@ -24,6 +25,7 @@ export function isMember(arg: any): arg is Member {
      * Note that brackets are important when we use || with &&.
      * Note that we must iterate through all arrays to ensure all values are of the required type.
      */
+    (typeof obj.id === "string" || obj.id === null) &&
     typeof obj.userID === "string" &&
     isRole(obj.role)
   );
