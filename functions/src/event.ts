@@ -29,7 +29,7 @@ export const getEvents = functions.https.onRequest(
 
       // Send back a message that we've successfully written the message
       if (snapshot)
-        response.json({
+        response.status(200).json({
           events: snapshot.docs.map((doc) => {
             return { id: doc.id, ...doc.data() };
           }),

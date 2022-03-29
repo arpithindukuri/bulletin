@@ -57,7 +57,7 @@ export const getBudget = functions.https.onRequest(async (request, response) => 
     
     // Send back a message that we've successfully written the message
     if (oneBudget)
-      response.json({ Budget: oneBudget.map((doc) => doc.data()) });
+      response.status(200).json({ Budget: oneBudget.map((doc) => doc.data()) });
     else 
       response.status(400).send("Budget Not Found");
   });

@@ -9,6 +9,7 @@ import { isBoard, isBoardUser } from "./typeguards/board";
  * object in the response's body
  */
 export const getBoards = functions.https.onRequest(async (request, response) => {
+  console.log(request)
   // you need corsHandler to allow requests from localhost and the deployed website,
   // so you don't get a CORS error.
   corsHandler(request, response, async () => {
@@ -31,7 +32,7 @@ export const getBoards = functions.https.onRequest(async (request, response) => 
     
     // Send back a message that we've successfully written the message
     if (snapshot)
-      response.json({ board: snapshot.docs.map((doc) => doc.data()) });
+      response.status(200).json({ board: snapshot.docs.map((doc) => doc.data()) });
     else 
       response.status(400).send("Board Not Found");
   });
@@ -183,7 +184,7 @@ export const addUserToBoard = functions.https.onRequest(async (request, response
     
     // Send back a message that we've successfully written the message
     if (snapshot)
-      response.send(`Messageasdfg with ID: ${snapshot.id} added.`);
+      response.status(201).send(`Messageasdfg with ID: ${snapshot.id} added.`);
   });
 });
 export const deleteUserFromBoard = functions.https.onRequest(async (request, response) => {
@@ -273,7 +274,7 @@ export const getBoardUsers = functions.https.onRequest(async (request, response)
     
     // Send back a message that we've successfully written the message
     if (snapshot)
-    response.json({ users: snapshot.docs.map((doc) => ({ UserBoardId: doc.id, ...doc.data() })) });
+    response.status(200).json({ users: snapshot.docs.map((doc) => ({ UserBoardId: doc.id, ...doc.data() })) });
   });
 });
 
