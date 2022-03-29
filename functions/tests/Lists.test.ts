@@ -1,6 +1,6 @@
 import { assert } from "chai";
 import { Request, Response } from "firebase-functions/v1";
-const budgetFunction = require("../src/budget");
+const listFunctions = require("../src/lists");
 const boardFunctions = require("../src/board");
 
 const ftest = require("firebase-functions-test")(
@@ -11,7 +11,7 @@ const ftest = require("firebase-functions-test")(
   },
   "bulletin-be82d-firebase-adminsdk-bwpv8-7ce197c197.json"
 );
-describe("get budgets", () => {
+describe("get lists", () => {
   describe("Needs added board setup", () => {
     let addedBoardId = undefined;
     beforeEach(async () => {
@@ -50,7 +50,7 @@ describe("get budgets", () => {
         method: "GET",
         body: {},
         query: {
-          id: addedBoardId,
+          board_id: addedBoardId,
         },
       } as unknown as Request;
       const res = {
@@ -65,7 +65,7 @@ describe("get budgets", () => {
         getHeader: () => {},
       } as unknown as Response;
 
-      budgetFunction.getBudgets(req, res);
+      listFunctions.getLists(req, res);
     });
     it("Should Return Status 400 Bad Params", (done: any) => {
         const req = {
@@ -73,7 +73,7 @@ describe("get budgets", () => {
             method: "GET",
             body: {},
             query: {
-              user: addedBoardId,
+              date: addedBoardId,
             },
           } as unknown as Request;
           const res = {
@@ -88,7 +88,7 @@ describe("get budgets", () => {
             getHeader: () => {},
           } as unknown as Response;
     
-          budgetFunction.getBudgets(req, res);
+          listFunctions.getLists(req, res);
       });
       it("Should Return Status 400 Bad Method", (done: any) => {
         const req = {
@@ -96,7 +96,7 @@ describe("get budgets", () => {
             method: "POST",
             body: {},
             query: {
-              id: addedBoardId,
+              board_id: addedBoardId,
             },
           } as unknown as Request;
           const res = {
@@ -111,7 +111,7 @@ describe("get budgets", () => {
             getHeader: () => {},
           } as unknown as Response;
     
-          budgetFunction.getBudgets(req, res);
+          listFunctions.getLists(req, res);
       });
       afterEach(async () => {
         boardFunctions.testingDeleteBoard(addedBoardId);
@@ -120,7 +120,7 @@ describe("get budgets", () => {
   });
 });
 
-describe("add Budget", () => {
+describe("add lists", () => {
     describe("Needs added board setup", () => {
       let addedBoardId = undefined;
       beforeEach(async () => {
@@ -152,180 +152,21 @@ describe("add Budget", () => {
         })
       });
   
-      it("Should Return 201 Budget Added", (done: any) => {
-        const req = {
-            headers: {},
-            method: "POST",
-            body: {
-                name: "test name",
-                assigned: "John",
-                date: "03/27/2022",
-                balance: 123,
-            },
-            query: {
-              id: addedBoardId,
-            },
-          } as unknown as Request;
-          const res = {
-            status: (code: number) => {
-              assert.equal(code, 201);
-              done();
-            },
-            end: () => {},
-            setHeader: (arg) => {
-              console.log(arg);
-            },
-            getHeader: () => {},
-          } as unknown as Response;
-    
-          budgetFunction.addBudget(req, res);
-      });
-      it("Should Return Status 400 Bad Params", (done: any) => {
-        const req = {
-            headers: {},
-            method: "POST",
-            body: {
-                name: "test name",
-                assigned: "John",
-                date: "03/27/2022",
-                balance: 123,
-            },
-            query: {
-              user: addedBoardId,
-            },
-          } as unknown as Request;
-          const res = {
-            status: (code: number) => {
-              assert.equal(code, 400);
-              done();
-            },
-            end: () => {},
-            setHeader: (arg) => {
-              console.log(arg);
-            },
-            getHeader: () => {},
-          } as unknown as Response;
-    
-          budgetFunction.addBudget(req, res);
-        });
-        it("Should Return Status 400 Bad Method", (done: any) => {
-            const req = {
-                headers: {},
-                method: "DELETE",
-                body: {
-                    name: "test name",
-                    assigned: "John",
-                    date: "03/27/2022",
-                    balance: 123,
-                },
-                query: {
-                  id: addedBoardId,
-                },
-              } as unknown as Request;
-              const res = {
-                status: (code: number) => {
-                  assert.equal(code, 400);
-                  done();
-                },
-                end: () => {},
-                setHeader: (arg) => {
-                  console.log(arg);
-                },
-                getHeader: () => {},
-              } as unknown as Response;
-        
-              budgetFunction.addBudget(req, res);
-        });
-        afterEach(async () => {
-          boardFunctions.testingDeleteBoard(addedBoardId);
-          ftest.cleanup();
-        });
-    });
-
-  });
-
-
-
-  describe("delete Budget", () => {
-    describe("Needs added board and budget setup", () => {
-      let addedBoardId = undefined;
-      let addedBudgetId = undefined;
-      beforeEach(async () => {
-        return new Promise<void>((resolve, reject) => {
-          const initialReq = {
-            headers: {},
-            method: "POST",
-            body: {
-              name: "testing",
-              description: "testing123",
-            },
-          } as unknown as Request;
-          const initialRes = {
-            status: (code: number) => {
-              console.log("status called with staus: ", code);
-            },
-            json: (arg: any) => {
-              addedBoardId = arg.board.id;
-              const expenseReq = {
-                headers: {},
-                method: "POST",
-                body: {
-                    name: "test name",
-                    date: "03/27/2022",
-                    balance: 234,
-                    assigned: "John",
-                },
-                query: {
-                  id: addedBoardId,
-                },
-              } as unknown as Request;
-  
-              const expenseRes = {
-                status: (code: number) => {
-                  // ----------------------------------- For nested function calls return an object having the next fucntion
-                  // for eg: res.status(xx).json(xx) should have the following format --------------------
-                  return {
-                    json: (arg: any) => {
-                      addedBudgetId = arg.id; 
-                      resolve();
-                    },
-                  };
-                },
-                end: () => {},
-                setHeader: (arg) => {
-                  console.log(arg);
-                },
-                getHeader: () => {},
-              } as unknown as Response;
-  
-              budgetFunction.addBudget(expenseReq, expenseRes);
-            },
-            end: () => {},
-            setHeader: (arg) => {
-              console.log(arg);
-            },
-            getHeader: () => {},
-          } as unknown as Response;
-  
-          boardFunctions.addBoard(initialReq, initialRes);
-        });
-      });
-  
-      it("Should Return 202 Budget is Deleted", (done: any) => {
-        console.log("inside delete notes, added board id is: ", addedBoardId);
-        console.log("inside delete notes, added budget id is: ", addedBudgetId);
+      it("Should Return 201 List is Added", (done: any) => {
+        console.log("inside get budgets, added board id is: ", addedBoardId);
         const req = {
           headers: {},
-          method: "DELETE",
-          body: {},
+          method: "POST",
+          body: {
+              name: "Grocery",
+          },
           query: {
-            board_id: addedBoardId,
-            budget_id: addedBudgetId,
+            id: addedBoardId,
           },
         } as unknown as Request;
         const res = {
           status: (code: number) => {
-            assert.equal(code, 202);
+            assert.equal(code, 201);
             done();
           },
           end: () => {},
@@ -335,18 +176,17 @@ describe("add Budget", () => {
           getHeader: () => {},
         } as unknown as Response;
   
-        budgetFunction.deleteBudget(req, res);
+        listFunctions.addList(req, res);
       });
-  
-    
-      it("Should Return 400 Bad Params", (done: any) => {
+      it("Should Return Status 400 Bad Params", (done: any) => {
         const req = {
             headers: {},
-            method: "DELETE",
-            body: {},
+            method: "POST",
+            body: {
+                name: "Grocery"
+            },
             query: {
-              board_id: addedBoardId,
-              user_id: addedBudgetId,
+              user_id: addedBoardId,
             },
           } as unknown as Request;
           const res = {
@@ -361,44 +201,44 @@ describe("add Budget", () => {
             getHeader: () => {},
           } as unknown as Response;
     
-          budgetFunction.deleteBudget(req, res);
-      });
-      it("Should Return 400 Bad Method", (done: any) => {
-        const req = {
-            headers: {},
-            method: "PUT",
-            body: {},
-            query: {
-              board_id: addedBoardId,
-              budget_id: addedBudgetId,
-            },
-          } as unknown as Request;
-          const res = {
-            status: (code: number) => {
-              assert.equal(code, 400);
-              done();
-            },
-            end: () => {},
-            setHeader: (arg) => {
-              console.log(arg);
-            },
-            getHeader: () => {},
-          } as unknown as Response;
+          listFunctions.addList(req, res);
+        });
+        it("Should Return Status 400 Bad Method", (done: any) => {
+            const req = {
+                headers: {},
+                method: "GET",
+                body: {
+                    name: "Grocery"
+                },
+                query: {
+                    id: addedBoardId,
+                },
+            } as unknown as Request;
+            const res = {
+                status: (code: number) => {
+                    assert.equal(code, 400);
+                    done();
+                },
+                end: () => {},
+                setHeader: (arg) => {
+                    console.log(arg);
+                },
+                getHeader: () => {},
+            } as unknown as Response;
     
-          budgetFunction.deleteBudget(req, res);
-      });
-  
-      afterEach(async () => {
-        boardFunctions.testingDeleteBoard(addedBoardId);
-        ftest.cleanup();
-      });
+            listFunctions.addList(req, res);
+        });
+        afterEach(async () => {
+          boardFunctions.testingDeleteBoard(addedBoardId);
+          ftest.cleanup();
+        });
     });
   });
 
-describe("edit Budget", () => {
-    describe("Needs added board and budget setup", () => {
+  describe("delete list", () => {
+    describe("Needs added board and list setup", () => {
         let addedBoardId = undefined;
-        let addedBudgetId = undefined;
+        let addedListId = undefined;
         beforeEach(async () => {
           return new Promise<void>((resolve, reject) => {
             const initialReq = {
@@ -415,27 +255,24 @@ describe("edit Budget", () => {
               },
               json: (arg: any) => {
                 addedBoardId = arg.board.id;
-                const expenseReq = {
+                const noteReq = {
                   headers: {},
                   method: "POST",
                   body: {
-                      name: "test name",
-                      date: "03/27/2022",
-                      balance: 234,
-                      assigned: "John",
+                    name: "test list",
                   },
                   query: {
                     id: addedBoardId,
                   },
                 } as unknown as Request;
     
-                const expenseRes = {
+                const noteRes = {
                   status: (code: number) => {
                     // ----------------------------------- For nested function calls return an object having the next fucntion
-                    // for eg: res.status(xx).json(xx) should have the following format --------------------
+                    // for eg: res.status(xx).json(xx) should have the folloeing format --------------------
                     return {
                       json: (arg: any) => {
-                        addedBudgetId = arg.id; 
+                        addedListId = arg.id; 
                         resolve();
                       },
                     };
@@ -447,7 +284,7 @@ describe("edit Budget", () => {
                   getHeader: () => {},
                 } as unknown as Response;
     
-                budgetFunction.addBudget(expenseReq, expenseRes);
+                listFunctions.addList(noteReq, noteRes);
               },
               end: () => {},
               setHeader: (arg) => {
@@ -459,27 +296,45 @@ describe("edit Budget", () => {
             boardFunctions.addBoard(initialReq, initialRes);
           });
         });
-    
-        it("Should Return 200 OK Valid Input", (done: any) => {
-          console.log("inside delete notes, added board id is: ", addedBoardId);
-          console.log("inside delete notes, added budget id is: ", addedBudgetId);
-          const req = {
+  
+      it("Should Return 202 List is Deleted", (done: any) => {
+        console.log("inside get budgets, added board id is: ", addedListId);
+        const req = {
+          headers: {},
+          method: "DELETE",
+          body: {},
+          query: {
+            board_id: addedBoardId,
+            list_id: addedListId,
+          },
+        } as unknown as Request;
+        const res = {
+          status: (code: number) => {
+            assert.equal(code, 202);
+            done();
+          },
+          end: () => {},
+          setHeader: (arg) => {
+            console.log(arg);
+          },
+          getHeader: () => {},
+        } as unknown as Response;
+  
+        listFunctions.deleteList(req, res);
+      });
+      it("Should Return Status 400 Bad Params", (done: any) => {
+        const req = {
             headers: {},
-            method: "PUT",
-            body: {
-                name: "EDITED test name",
-                date: "03/27/2022",
-                balance: 234,
-                assigned: "John",
-            },
+            method: "DELETE",
+            body: {},
             query: {
               board_id: addedBoardId,
-              budget_id: addedBudgetId,
+              user_id: addedListId,
             },
           } as unknown as Request;
           const res = {
             status: (code: number) => {
-              assert.equal(code, 200);
+              assert.equal(code, 400);
               done();
             },
             end: () => {},
@@ -489,72 +344,182 @@ describe("edit Budget", () => {
             getHeader: () => {},
           } as unknown as Response;
     
-          budgetFunction.editBudget(req, res);
+          listFunctions.deleteList(req, res);
         });
-    
-      
-        it("Should Return 400 Bad Params", (done: any) => {
-            const req = {
-            headers: {},
-            method: "PUT",
-            body: {
-                name: "EDITED test name",
-                date: "03/27/2022",
-                balance: 234,
-                assigned: "John",
-            },
-            query: {
-                board_id: addedBoardId,
-                user_id: addedBudgetId,
-            },
-            } as unknown as Request;
-            const res = {
-            status: (code: number) => {
-                assert.equal(code, 400);
-                done();
-            },
-            end: () => {},
-            setHeader: (arg) => {
-                console.log(arg);
-            },
-            getHeader: () => {},
-            } as unknown as Response;
-    
-            budgetFunction.editBudget(req, res);
-        });
-        it("Should Return 400 Bad Method", (done: any) => {
+        it("Should Return Status 400 Bad Method", (done: any) => {
             const req = {
                 headers: {},
-                method: "GET",
-                body: {
-                    name: "EDITED test name",
-                    date: "03/27/2022",
-                    balance: 234,
-                    assigned: "John",
-                },
+                method: "POST",
+                body: {},
                 query: {
                   board_id: addedBoardId,
-                  budget_id: addedBudgetId,
+                  list_id: addedListId,
                 },
-            } as unknown as Request;
-            const res = {
+              } as unknown as Request;
+              const res = {
                 status: (code: number) => {
-                    assert.equal(code, 400);
-                    done();
+                  assert.equal(code, 400);
+                  done();
                 },
                 end: () => {},
                 setHeader: (arg) => {
-                    console.log(arg);
+                  console.log(arg);
                 },
                 getHeader: () => {},
-            } as unknown as Response;
-    
-            budgetFunction.editBudget(req, res);
+              } as unknown as Response;
+        
+              listFunctions.deleteList(req, res);
         });
-    
         afterEach(async () => {
           boardFunctions.testingDeleteBoard(addedBoardId);
           ftest.cleanup();
         });
+    });
+});
+
+
+describe("edit list", () => {
+    describe("Needs added board and list setup", () => {
+        let addedBoardId = undefined;
+        let addedListId = undefined;
+        beforeEach(async () => {
+          return new Promise<void>((resolve, reject) => {
+            const initialReq = {
+              headers: {},
+              method: "POST",
+              body: {
+                name: "testing",
+                description: "testing123",
+              },
+            } as unknown as Request;
+            const initialRes = {
+              status: (code: number) => {
+                console.log("status called with staus: ", code);
+              },
+              json: (arg: any) => {
+                addedBoardId = arg.board.id;
+                const noteReq = {
+                  headers: {},
+                  method: "POST",
+                  body: {
+                    name: "test list",
+                  },
+                  query: {
+                    id: addedBoardId,
+                  },
+                } as unknown as Request;
+    
+                const noteRes = {
+                  status: (code: number) => {
+                    // ----------------------------------- For nested function calls return an object having the next fucntion
+                    // for eg: res.status(xx).json(xx) should have the folloeing format --------------------
+                    return {
+                      json: (arg: any) => {
+                        addedListId = arg.id; 
+                        resolve();
+                      },
+                    };
+                  },
+                  end: () => {},
+                  setHeader: (arg) => {
+                    console.log(arg);
+                  },
+                  getHeader: () => {},
+                } as unknown as Response;
+    
+                listFunctions.addList(noteReq, noteRes);
+              },
+              end: () => {},
+              setHeader: (arg) => {
+                console.log(arg);
+              },
+              getHeader: () => {},
+            } as unknown as Response;
+    
+            boardFunctions.addBoard(initialReq, initialRes);
+          });
+        });
+  
+      it("Should Return 200 OK Status", (done: any) => {
+        console.log("inside get budgets, added board id is: ", addedListId);
+        const req = {
+          headers: {},
+          method: "PUT",
+          body: {
+              name: "edited name"
+          },
+          query: {
+            board_id: addedBoardId,
+            list_id: addedListId,
+          },
+        } as unknown as Request;
+        const res = {
+          status: (code: number) => {
+            assert.equal(code, 200);
+            done();
+          },
+          end: () => {},
+          setHeader: (arg) => {
+            console.log(arg);
+          },
+          getHeader: () => {},
+        } as unknown as Response;
+  
+        listFunctions.editList(req, res);
       });
-  });
+      it("Should Return Status 400 Bad Params", (done: any) => {
+        const req = {
+            headers: {},
+            method: "PUT",
+            body: {
+                name: "edited name"
+            },
+            query: {
+              board_id: addedBoardId,
+              user_id: addedListId,
+            },
+          } as unknown as Request;
+          const res = {
+            status: (code: number) => {
+              assert.equal(code, 400);
+              done();
+            },
+            end: () => {},
+            setHeader: (arg) => {
+              console.log(arg);
+            },
+            getHeader: () => {},
+          } as unknown as Response;
+    
+          listFunctions.editList(req, res);
+        });
+        it("Should Return Status 400 Bad Method", (done: any) => {
+            const req = {
+                headers: {},
+                method: "GET",
+                body: {},
+                query: {
+                  board_id: addedBoardId,
+                  list_id: addedListId,
+                },
+              } as unknown as Request;
+              const res = {
+                status: (code: number) => {
+                  assert.equal(code, 400);
+                  done();
+                },
+                end: () => {},
+                setHeader: (arg) => {
+                  console.log(arg);
+                },
+                getHeader: () => {},
+              } as unknown as Response;
+        
+              listFunctions.editList(req, res);
+        });
+        afterEach(async () => {
+          boardFunctions.testingDeleteBoard(addedBoardId);
+          ftest.cleanup();
+        });
+    });
+});

@@ -119,7 +119,7 @@ export const deleteBudget = functions.https.onRequest(async (request, response) 
     //delete the budget (if found) and send a response message
     if ((await snapshot.get()).exists){
       snapshot.delete();
-      response.status(204).send(`Budget with ID: ${budget_id} is deleted.`);
+      response.status(202).send(`Budget with ID: ${budget_id} is deleted.`);
     } else 
       response.status(400).send("Budget Not Found");
   });

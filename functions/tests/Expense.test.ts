@@ -1,6 +1,6 @@
 import { assert } from "chai";
 import { Request, Response } from "firebase-functions/v1";
-const eventFunction = require("../src/event");
+const expenseFunction = require("../src/expense");
 const boardFunctions = require("../src/board");
 
 const ftest = require("firebase-functions-test")(
@@ -11,7 +11,7 @@ const ftest = require("firebase-functions-test")(
   },
   "bulletin-be82d-firebase-adminsdk-bwpv8-7ce197c197.json"
 );
-describe("get events", () => {
+describe("get expenses", () => {
   describe("Needs added board setup", () => {
     let addedBoardId = undefined;
     beforeEach(async () => {
@@ -65,7 +65,7 @@ describe("get events", () => {
         getHeader: () => {},
       } as unknown as Response;
 
-      eventFunction.getEvents(req, res);
+      expenseFunction.getExpenses(req, res);
     });
     it("Should Return Status 400 Bad Params", (done: any) => {
         const req = {
@@ -88,7 +88,7 @@ describe("get events", () => {
             getHeader: () => {},
           } as unknown as Response;
     
-          eventFunction.getEvents(req, res);
+          expenseFunction.getExpenses(req, res);
       });
       it("Should Return Status 400 Bad Method", (done: any) => {
         const req = {
@@ -111,7 +111,7 @@ describe("get events", () => {
             getHeader: () => {},
           } as unknown as Response;
     
-          eventFunction.getEvents(req, res);
+          expenseFunction.getExpenses(req, res);
       });
       afterEach(async () => {
         boardFunctions.testingDeleteBoard(addedBoardId);
@@ -120,7 +120,7 @@ describe("get events", () => {
   });
 });
 
-describe("add Event", () => {
+describe("add Expense", () => {
     describe("Needs added board setup", () => {
       let addedBoardId = undefined;
       beforeEach(async () => {
@@ -152,16 +152,15 @@ describe("add Event", () => {
         })
       });
   
-      it("Should Return 201 Budget Added", (done: any) => {
+      it("Should Return 201 Expense Added", (done: any) => {
         const req = {
             headers: {},
             method: "POST",
             body: {
                 name: "test name",
-                startTime: "10:00:00",
-                endTime: "12:00:00",
-                date: "03/27/2022",
-                description: "this is a test",
+                deadline: "03/27/2022",
+                amount: 234,
+                assignee: "John",
             },
             query: {
               id: addedBoardId,
@@ -179,7 +178,7 @@ describe("add Event", () => {
             getHeader: () => {},
           } as unknown as Response;
     
-          eventFunction.addEvent(req, res);
+          expenseFunction.addExpense(req, res);
       });
       it("Should Return Status 400 Bad Params", (done: any) => {
         const req = {
@@ -187,13 +186,12 @@ describe("add Event", () => {
             method: "POST",
             body: {
                 name: "test name",
-                startTime: "10:00:00",
-                endTime: "12:00:00",
-                date: "03/27/2022",
-                description: "this is a test",
+                deadline: "03/27/2022",
+                amount: 234,
+                assignee: "John",
             },
             query: {
-              number: addedBoardId,
+              user_id: addedBoardId,
             },
           } as unknown as Request;
           const res = {
@@ -208,21 +206,20 @@ describe("add Event", () => {
             getHeader: () => {},
           } as unknown as Response;
     
-          eventFunction.addEvent(req, res);
+          expenseFunction.addExpense(req, res);
         });
         it("Should Return Status 400 Bad Method", (done: any) => {
             const req = {
                 headers: {},
-                method: "PUT",
+                method: "GET",
                 body: {
                     name: "test name",
-                    startTime: "10:00:00",
-                    endTime: "12:00:00",
-                    date: "03/27/2022",
-                    description: "this is a test",
+                    deadline: "03/27/2022",
+                    amount: 234,
+                    assignee: "John",
                 },
                 query: {
-                  number: addedBoardId,
+                  id: addedBoardId,
                 },
               } as unknown as Request;
               const res = {
@@ -237,7 +234,7 @@ describe("add Event", () => {
                 getHeader: () => {},
               } as unknown as Response;
         
-              eventFunction.addEvent(req, res);
+              expenseFunction.addExpense(req, res);
         });
         afterEach(async () => {
           boardFunctions.testingDeleteBoard(addedBoardId);
@@ -247,10 +244,10 @@ describe("add Event", () => {
 
   });
 
-  describe("delete Event", () => {
-    describe("Needs added board and event setup", () => {
+  describe("delete Expense", () => {
+    describe("Needs added board and expense setup", () => {
       let addedBoardId = undefined;
-      let addedEventId = undefined;
+      let addedExpenseId = undefined;
       beforeEach(async () => {
         return new Promise<void>((resolve, reject) => {
           const initialReq = {
@@ -267,28 +264,27 @@ describe("add Event", () => {
             },
             json: (arg: any) => {
               addedBoardId = arg.board.id;
-              const eventReq = {
+              const expenseReq = {
                 headers: {},
                 method: "POST",
                 body: {
                     name: "test name",
-                    startTime: "10:00:00",
-                    endTime: "12:00:00",
-                    date: "03/27/2022",
-                    description: "this is a test",
+                    deadline: "03/27/2022",
+                    amount: 234,
+                    assignee: "John",
                 },
                 query: {
                   id: addedBoardId,
                 },
               } as unknown as Request;
   
-              const eventRes = {
+              const expenseRes = {
                 status: (code: number) => {
                   // ----------------------------------- For nested function calls return an object having the next fucntion
                   // for eg: res.status(xx).json(xx) should have the following format --------------------
                   return {
                     json: (arg: any) => {
-                      addedEventId = arg.id; 
+                      addedExpenseId = arg.id; 
                       resolve();
                     },
                   };
@@ -300,7 +296,7 @@ describe("add Event", () => {
                 getHeader: () => {},
               } as unknown as Response;
   
-              eventFunction.addEvent(eventReq, eventRes);
+              expenseFunction.addExpense(expenseReq, expenseRes);
             },
             end: () => {},
             setHeader: (arg) => {
@@ -313,16 +309,16 @@ describe("add Event", () => {
         });
       });
   
-      it("Should Return 202 Event is Deleted", (done: any) => {
+      it("Should Return 202 Expense is Deleted", (done: any) => {
         console.log("inside delete notes, added board id is: ", addedBoardId);
-        console.log("inside delete notes, added node id is: ", addedEventId);
+        console.log("inside delete notes, added expense id is: ", addedExpenseId);
         const req = {
           headers: {},
           method: "DELETE",
           body: {},
           query: {
             board_id: addedBoardId,
-            event_id: addedEventId,
+            expense_id: addedExpenseId,
           },
         } as unknown as Request;
         const res = {
@@ -337,57 +333,57 @@ describe("add Event", () => {
           getHeader: () => {},
         } as unknown as Response;
   
-        eventFunction.deleteEvent(req, res);
+        expenseFunction.deleteExpense(req, res);
       });
   
     
       it("Should Return 400 Bad Params", (done: any) => {
         const req = {
-          headers: {},
-          method: "DELETE",
-          body: {},
-          query: {
-            board_id: addedBoardId,
-            user_id: addedEventId,
-          },
-        } as unknown as Request;
-        const res = {
-          status: (code: number) => {
-            assert.equal(code, 400);
-            done();
-          },
-          end: () => {},
-          setHeader: (arg) => {
-            console.log(arg);
-          },
-          getHeader: () => {},
-        } as unknown as Response;
-  
-        eventFunction.deleteEvent(req, res);
+            headers: {},
+            method: "DELETE",
+            body: {},
+            query: {
+              board_id: addedBoardId,
+              user_id: addedExpenseId,
+            },
+          } as unknown as Request;
+          const res = {
+            status: (code: number) => {
+              assert.equal(code, 400);
+              done();
+            },
+            end: () => {},
+            setHeader: (arg) => {
+              console.log(arg);
+            },
+            getHeader: () => {},
+          } as unknown as Response;
+    
+          expenseFunction.deleteExpense(req, res);
       });
       it("Should Return 400 Bad Method", (done: any) => {
         const req = {
-          headers: {},
-          method: "PUT",
-          body: {},
-          query: {
-            board_id: addedBoardId,
-            event_id: addedEventId,
-          },
-        } as unknown as Request;
-        const res = {
-          status: (code: number) => {
-            assert.equal(code, 400);
-            done();
-          },
-          end: () => {},
-          setHeader: (arg) => {
-            console.log(arg);
-          },
-          getHeader: () => {},
-        } as unknown as Response;
-  
-        eventFunction.deleteEvent(req, res);
+            headers: {},
+            method: "PUT",
+            body: {},
+            query: {
+              board_id: addedBoardId,
+              expense_id: addedExpenseId,
+            },
+          } as unknown as Request;
+          const res = {
+            status: (code: number) => {
+              assert.equal(code, 400);
+              done();
+            },
+            end: () => {},
+            setHeader: (arg) => {
+              console.log(arg);
+            },
+            getHeader: () => {},
+          } as unknown as Response;
+    
+          expenseFunction.deleteExpense(req, res);
       });
   
       afterEach(async () => {
@@ -397,10 +393,10 @@ describe("add Event", () => {
     });
   });
 
-describe("edit Event", () => {
-    describe("Needs added board and event setup", () => {
+describe("edit Expense", () => {
+    describe("Needs added board and expense setup", () => {
         let addedBoardId = undefined;
-        let addedEventId = undefined;
+        let addedExpenseId = undefined;
         beforeEach(async () => {
           return new Promise<void>((resolve, reject) => {
             const initialReq = {
@@ -417,40 +413,39 @@ describe("edit Event", () => {
               },
               json: (arg: any) => {
                 addedBoardId = arg.board.id;
-                const noteReq = {
-                  headers: {},
-                  method: "POST",
-                  body: {
-                      name: "test name",
-                      startTime: "10:00:00",
-                      endTime: "12:00:00",
-                      date: "03/27/2022",
-                      description: "this is a test",
-                  },
-                  query: {
-                    id: addedBoardId,
-                  },
-                } as unknown as Request;
-    
-                const noteRes = {
-                  status: (code: number) => {
-                    // ----------------------------------- For nested function calls return an object having the next fucntion
-                    // for eg: res.status(xx).json(xx) should have the following format --------------------
-                    return {
-                      json: (arg: any) => {
-                        addedEventId = arg.id;  
-                        resolve();
-                      },
-                    };
-                  },
-                  end: () => {},
-                  setHeader: (arg) => {
-                    console.log(arg);
-                  },
-                  getHeader: () => {},
-                } as unknown as Response;
-    
-                eventFunction.addEvent(noteReq, noteRes);
+                const expenseReq = {
+                    headers: {},
+                    method: "POST",
+                    body: {
+                        name: "test name",
+                        deadline: "03/27/2022",
+                        amount: 234,
+                        assignee: "John",
+                    },
+                    query: {
+                      id: addedBoardId,
+                    },
+                  } as unknown as Request;
+      
+                  const expenseRes = {
+                    status: (code: number) => {
+                      // ----------------------------------- For nested function calls return an object having the next fucntion
+                      // for eg: res.status(xx).json(xx) should have the following format --------------------
+                      return {
+                        json: (arg: any) => {
+                          addedExpenseId = arg.id; 
+                          resolve();
+                        },
+                      };
+                    },
+                    end: () => {},
+                    setHeader: (arg) => {
+                      console.log(arg);
+                    },
+                    getHeader: () => {},
+                  } as unknown as Response;
+      
+                  expenseFunction.addExpense(expenseReq, expenseRes);
               },
               end: () => {},
               setHeader: (arg) => {
@@ -465,20 +460,19 @@ describe("edit Event", () => {
     
         it("Should Return 200 OK Valid Input", (done: any) => {
           console.log("inside delete notes, added board id is: ", addedBoardId);
-          console.log("inside delete notes, added node id is: ", addedEventId);
+          console.log("inside delete notes, added expense id is: ", addedExpenseId);
           const req = {
             headers: {},
             method: "PUT",
             body: {
                 name: "Edited test name",
-                startTime: "10:00:00",
-                endTime: "12:00:00",
-                date: "03/27/2022",
-                description: "this is a test",
+                deadline: "03/27/2022",
+                amount: 234,
+                assignee: "John",
             },
             query: {
               board_id: addedBoardId,
-              event_id: addedEventId,
+              expense_id: addedExpenseId,
             },
           } as unknown as Request;
           const res = {
@@ -493,7 +487,7 @@ describe("edit Event", () => {
             getHeader: () => {},
           } as unknown as Response;
     
-          eventFunction.editEvent(req, res);
+          expenseFunction.editExpense(req, res);
         });
     
       
@@ -501,10 +495,15 @@ describe("edit Event", () => {
           const req = {
             headers: {},
             method: "PUT",
-            body: {},
+            body: {
+                name: "Edited test name",
+                deadline: "03/27/2022",
+                amount: 234,
+                assignee: "John",
+            },
             query: {
               board_id: addedBoardId,
-              user_id: addedEventId,
+              user_id: addedExpenseId,
             },
           } as unknown as Request;
           const res = {
@@ -519,31 +518,36 @@ describe("edit Event", () => {
             getHeader: () => {},
           } as unknown as Response;
     
-          eventFunction.editEvent(req, res);
+          expenseFunction.editExpense(req, res);
         });
         it("Should Return 400 Bad Method", (done: any) => {
-          const req = {
-            headers: {},
-            method: "GET",
-            body: {},
-            query: {
-              board_id: addedBoardId,
-              event_id: addedEventId,
-            },
-          } as unknown as Request;
-          const res = {
+            const req = {
+                headers: {},
+                method: "GET",
+                body: {
+                    name: "Edited test name",
+                    deadline: "03/27/2022",
+                    amount: 234,
+                    assignee: "John",
+                },
+                query: {
+                  board_id: addedBoardId,
+                  expense_id: addedExpenseId,
+                },
+              } as unknown as Request;
+            const res = {
             status: (code: number) => {
-              assert.equal(code, 400);
-              done();
+                assert.equal(code, 400);
+                done();
             },
             end: () => {},
             setHeader: (arg) => {
-              console.log(arg);
+                console.log(arg);
             },
             getHeader: () => {},
-          } as unknown as Response;
+            } as unknown as Response;
     
-          eventFunction.editEvent(req, res);
+            expenseFunction.editExpense(req, res);
         });
     
         afterEach(async () => {

@@ -114,7 +114,7 @@ export const deleteNote = functions.https.onRequest(async (request, response) =>
     // delete the note (if found) and send back a response
     if ((await snapshot.get()).exists){
       snapshot.delete();
-      response.status(200).send(`Note with ID: ${note_id} is deleted.`);
+      response.status(202).send(`Note with ID: ${note_id} is deleted.`);
     }
     else 
       response.status(400).send("Note Not Found");
@@ -152,7 +152,7 @@ export const editNote = functions.https.onRequest(async (request, response) => {
     // Edit the note (if found) and send back a response
     if ((await snapshot.get()).exists){
       snapshot.set(body);
-      response.send(`Note with ID: ${note_id} is updated.`);
+      response.status(200).send(`Note with ID: ${note_id} is updated.`);
     }else 
       response.status(400).send("Note Not Found");
   });

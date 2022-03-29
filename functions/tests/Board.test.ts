@@ -361,6 +361,7 @@ describe("get board users", () => {
             boardFunctions.addUserToBoard(req, res);
         });
         afterEach(async () => {
+          boardFunctions.testingDeleteBoard(addedBoardId);
           ftest.cleanup();
         });
     });

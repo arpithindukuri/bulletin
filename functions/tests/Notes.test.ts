@@ -116,6 +116,7 @@ describe("get Notes", () => {
         notesFunction.getNotes(req, res);
       });
       afterEach(async () => {
+        boardFunctions.testingDeleteBoard(addedBoardId);
         ftest.cleanup();
       });
   });
@@ -237,14 +238,15 @@ describe("add Notes", () => {
           notesFunction.addNote(req, res);
         });
         afterEach(async () => {
+          boardFunctions.testingDeleteBoard(addedBoardId); 
           ftest.cleanup();
         });
     });
 
   });
 
-  describe("delete Notes", () => {
-    describe("Needs added board setup", () => {
+  describe("delete Note", () => {
+    describe("Needs added board and note setup", () => {
       let addedBoardId = undefined;
       let addedNoteId = undefined;
       beforeEach(async () => {
@@ -263,7 +265,38 @@ describe("add Notes", () => {
             },
             json: (arg: any) => {
               addedBoardId = arg.board.id;
-              resolve();
+              const noteReq = {
+                headers: {},
+                method: "POST",
+                body: {
+                  name: "test note",
+                  content: "this is a test",
+                  date: "03/27/2022",
+                },
+                query: {
+                  id: addedBoardId,
+                },
+              } as unknown as Request;
+  
+              const noteRes = {
+                status: (code: number) => {
+                  // ----------------------------------- For nested function calls return an object having the next fucntion
+                  // for eg: res.status(xx).json(xx) should have the following format --------------------
+                  return {
+                    json: (arg: any) => {
+                      addedNoteId = arg.note.id; 
+                      resolve();
+                    },
+                  };
+                },
+                end: () => {},
+                setHeader: (arg) => {
+                  console.log(arg);
+                },
+                getHeader: () => {},
+              } as unknown as Response;
+  
+              notesFunction.addNote(noteReq, noteRes);
             },
             end: () => {},
             setHeader: (arg) => {
@@ -271,9 +304,159 @@ describe("add Notes", () => {
             },
             getHeader: () => {},
           } as unknown as Response;
-    
+  
           boardFunctions.addBoard(initialReq, initialRes);
-        })
+        });
+      });
+  
+      it("Should Return 202 Note is Deleted", (done: any) => {
+        console.log("inside delete notes, added board id is: ", addedBoardId);
+        console.log("inside delete notes, added node id is: ", addedNoteId);
+        const req = {
+          headers: {},
+          method: "DELETE",
+          body: {},
+          query: {
+            board_id: addedBoardId,
+            note_id: addedNoteId,
+          },
+        } as unknown as Request;
+        const res = {
+          status: (code: number) => {
+            assert.equal(code, 202);
+            done();
+          },
+          end: () => {},
+          setHeader: (arg) => {
+            console.log(arg);
+          },
+          getHeader: () => {},
+        } as unknown as Response;
+  
+        notesFunction.deleteNote(req, res);
+      });
+  
+    
+      it("Should Return 400 Bad Params", (done: any) => {
+        const req = {
+          headers: {},
+          method: "DELETE",
+          body: {},
+          query: {
+            board_id: addedBoardId,
+            user_id: addedNoteId,
+          },
+        } as unknown as Request;
+        const res = {
+          status: (code: number) => {
+            assert.equal(code, 400);
+            done();
+          },
+          end: () => {},
+          setHeader: (arg) => {
+            console.log(arg);
+          },
+          getHeader: () => {},
+        } as unknown as Response;
+  
+        notesFunction.deleteNote(req, res);
+      });
+      it("Should Return 400 Bad Method", (done: any) => {
+        const req = {
+          headers: {},
+          method: "PUT",
+          body: {},
+          query: {
+            board_id: addedBoardId,
+            user_id: addedNoteId,
+          },
+        } as unknown as Request;
+        const res = {
+          status: (code: number) => {
+            assert.equal(code, 400);
+            done();
+          },
+          end: () => {},
+          setHeader: (arg) => {
+            console.log(arg);
+          },
+          getHeader: () => {},
+        } as unknown as Response;
+  
+        notesFunction.deleteNote(req, res);
+      });
+  
+      afterEach(async () => {
+        boardFunctions.testingDeleteBoard(addedBoardId);
+        ftest.cleanup();
+      });
+    });
+  });
+
+
+//   *************************************************************
+describe("edit Note", () => {
+    describe("Needs added board and note setup", () => {
+      let addedBoardId = undefined;
+      let addedNoteId = undefined;
+      beforeEach(async () => {
+        return new Promise<void>((resolve, reject) => {
+          const initialReq = {
+            headers: {},
+            method: "POST",
+            body: {
+              name: "testing",
+              description: "testing123",
+            },
+          } as unknown as Request;
+          const initialRes = {
+            status: (code: number) => {
+              console.log("status called with staus: ", code);
+            },
+            json: (arg: any) => {
+              addedBoardId = arg.board.id;
+              const noteReq = {
+                headers: {},
+                method: "POST",
+                body: {
+                  name: "test note",
+                  content: "this is a test",
+                  date: "03/27/2022",
+                },
+                query: {
+                  id: addedBoardId,
+                },
+              } as unknown as Request;
+  
+              const noteRes = {
+                status: (code: number) => {
+                  // ----------------------------------- For nested function calls return an object having the next fucntion
+                  // for eg: res.status(xx).json(xx) should have the following format --------------------
+                  return {
+                    json: (arg: any) => {
+                      addedNoteId = arg.note.id; 
+                      resolve();
+                    },
+                  };
+                },
+                end: () => {},
+                setHeader: (arg) => {
+                  console.log(arg);
+                },
+                getHeader: () => {},
+              } as unknown as Response;
+  
+              notesFunction.addNote(noteReq, noteRes);
+            },
+            end: () => {},
+            setHeader: (arg) => {
+              console.log(arg);
+            },
+            getHeader: () => {},
+          } as unknown as Response;
+  
+          boardFunctions.addBoard(initialReq, initialRes);
+        });
       });
   
       it("Should Return 200 OK Valid Input", (done: any) => {
@@ -281,8 +464,12 @@ describe("add Notes", () => {
         console.log("inside delete notes, added node id is: ", addedNoteId);
         const req = {
           headers: {},
-          method: "DELETE",
-          body: {},
+          method: "PUT",
+          body: {
+            name: "test EDIT note",
+            content: "this is a test",
+            date: "03/27/2022",
+          },
           query: {
             board_id: addedBoardId,
             note_id: addedNoteId,
@@ -300,11 +487,70 @@ describe("add Notes", () => {
           getHeader: () => {},
         } as unknown as Response;
   
-        notesFunction.deleteNote(req, res);
+        notesFunction.editNote(req, res);
       });
-
-        afterEach(async () => {
-          ftest.cleanup();
-        });
+  
+    
+      it("Should Return 400 Bad Params", (done: any) => {
+        const req = {
+            headers: {},
+            method: "PUT",
+            body: {
+              name: "test EDIT note",
+              content: "this is a test",
+              date: "03/27/2022",
+            },
+            query: {
+              board_id: addedBoardId,
+              user_id: addedNoteId,
+            },
+          } as unknown as Request;
+          const res = {
+            status: (code: number) => {
+              assert.equal(code, 400);
+              done();
+            },
+            end: () => {},
+            setHeader: (arg) => {
+              console.log(arg);
+            },
+            getHeader: () => {},
+          } as unknown as Response;
+    
+          notesFunction.editNote(req, res);
+      });
+      it("Should Return 400 Bad Method", (done: any) => {
+        const req = {
+            headers: {},
+            method: "GET",
+            body: {
+              name: "test EDIT note",
+              content: "this is a test",
+              date: "03/27/2022",
+            },
+            query: {
+              board_id: addedBoardId,
+              note_id: addedNoteId,
+            },
+          } as unknown as Request;
+          const res = {
+            status: (code: number) => {
+              assert.equal(code, 400);
+              done();
+            },
+            end: () => {},
+            setHeader: (arg) => {
+              console.log(arg);
+            },
+            getHeader: () => {},
+          } as unknown as Response;
+    
+          notesFunction.editNote(req, res);
+      });
+  
+      afterEach(async () => {
+        boardFunctions.testingDeleteBoard(addedBoardId);
+        ftest.cleanup();
+      });
     });
   });

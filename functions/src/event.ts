@@ -178,7 +178,7 @@ export const editEvent = functions.https.onRequest(
       //edit the event (if found) and send a response message
       if ((await snapshot.get()).exists) {
         snapshot.set(body);
-        response.status(400).send(`Event with ID: ${event_id} is updated.`);
+        response.status(200).send(`Event with ID: ${event_id} is updated.`);
       } else response.status(400).send("Event Not Found");
     });
   }

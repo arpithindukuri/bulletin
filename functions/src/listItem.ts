@@ -33,7 +33,7 @@ export const getListItems = functions.https.onRequest(
         .get();
 
       // Send back a message that we've successfully written the message
-      if (snapshot) response.json({ listItems: snapshot.data() });
+      if (snapshot) response.status(200).json({ listItems: snapshot.data() });
     });
   }
 );
