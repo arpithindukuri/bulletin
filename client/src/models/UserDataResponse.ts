@@ -8,6 +8,7 @@ interface UserDataResponse {
   overview: string;
   boards: Array<string>;
   idToken?: string;
+  lastLogin?: Date;
 }
 
 export default UserDataResponse;

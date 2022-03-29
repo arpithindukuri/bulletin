@@ -148,7 +148,9 @@ export default function CreateNewBoard() {
         axiosInstance
           .put("./editUser", newUserData)
           .then(() => {
-            dispatch(userLoggedIn(newUserData));
+            dispatch(
+              userLoggedIn({ ...newUserData, lastLogin: userData.lastLogin })
+            );
             setMessageSeverity("success");
             setMessage("Board Added");
             setMessageOpen(true);
@@ -172,7 +174,7 @@ export default function CreateNewBoard() {
             { params: { board_id: newBoard } }
           )
           .then(() => {
-            dispatch(userLoggedIn(newUserData));
+            dispatch(userLoggedIn({...newUserData, lastLogin: userData.lastLogin}));
             setMessageSeverity("success");
             setMessageOpen(true);
             setCreateBoardLoading(false);

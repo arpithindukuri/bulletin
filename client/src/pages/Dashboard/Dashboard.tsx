@@ -46,7 +46,7 @@ const Dashboard = () => {
 
   /**
    * Handles the brief overview field.
-   * @param event 
+   * @param event
    */
   const handleOverviewChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -56,7 +56,7 @@ const Dashboard = () => {
 
   /**
    * Handles the name field.
-   * @param event 
+   * @param event
    */
   const handleNameChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -66,7 +66,7 @@ const Dashboard = () => {
 
   /**
    * Handles the birthday field.
-   * @param selectedDate 
+   * @param selectedDate
    */
   const handleBirthdayChange = (selectedDate: Date) => {
     setBirthday(selectedDate);
@@ -74,7 +74,7 @@ const Dashboard = () => {
 
   /**
    * Handles the email field.
-   * @param event 
+   * @param event
    */
   const handleEmailChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -96,7 +96,9 @@ const Dashboard = () => {
       .put("/editUser", newUserData)
       .then(() => {
         console.log("user data updated");
-        dispatch(userLoggedIn(newUserData));
+        dispatch(
+          userLoggedIn({ ...newUserData, lastLogin: userData?.lastLogin })
+        );
         setMessage("Information updated.");
         setMessageSeverity("success");
         setMessageOpen(true);
@@ -139,7 +141,12 @@ const Dashboard = () => {
               <h1 className="dashboard-user-info">Calgary, Alberta</h1>
             </Grid>
             <Grid item>
-              <h1 className="dashboard-user-info">Last Login: 20/02/2022</h1>
+              <h1 className="dashboard-user-info">
+                Last Login:{" "}
+                {userData?.lastLogin instanceof Date
+                  ? userData?.lastLogin.toISOString().replace(/T.*$/, "")
+                  : userData?.lastLogin.replace(/T.*$/, "")}
+              </h1>
             </Grid>
             <Grid
               item

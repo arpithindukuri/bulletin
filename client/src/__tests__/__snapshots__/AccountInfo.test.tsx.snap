@@ -71,7 +71,8 @@ Array [
           <h1
             className="account-panel-last-password"
           >
-            Last Password Change: 20/01/2022
+            Last Login:
+             
           </h1>
         </div>
       </div>

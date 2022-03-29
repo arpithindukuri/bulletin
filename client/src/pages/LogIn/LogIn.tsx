@@ -86,7 +86,7 @@ const LogIn: React.FC = () => {
           .then((uData) => {
             setLoginLoading(false);
             dispatch(
-              userLoggedIn({ ...uData.data.user, idToken: res.data.idToken })
+              userLoggedIn({ ...uData.data.user, idToken: res.data.idToken, lastLogin: new Date() })
             );
             navigate("/boardsView");
           })

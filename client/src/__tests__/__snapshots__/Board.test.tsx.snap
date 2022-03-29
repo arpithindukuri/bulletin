@@ -112,7 +112,38 @@ exports[`Testing <Board /> Component should render properly 1`] = `
       </div>
       <div
         className="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-6 buttons-container-right css-itg7k1-MuiGrid-root"
-      />
+      >
+        <div
+          className="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column link-container css-1k79vc5-MuiGrid-root"
+        >
+          <button
+            className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            style={
+              Object {
+                "fontSize": "25px",
+              }
+            }
+            tabIndex={0}
+            type="button"
+          >
+            Leave Board
+          </button>
+        </div>
+      </div>
     </div>
     <div
       className="MuiGrid-root MuiGrid-container functions-bottom-container css-1cx5nyh-MuiGrid-root"
@@ -1139,7 +1170,7 @@ exports[`Testing <Board /> Component should render properly 1`] = `
                               </abbr>
                             </button>
                             <button
-                              className="react-calendar__tile react-calendar__tile--now react-calendar__month-view__days__day"
+                              className="react-calendar__tile react-calendar__month-view__days__day"
                               onClick={[Function]}
                               onFocus={null}
                               onMouseOver={null}
@@ -1161,7 +1192,7 @@ exports[`Testing <Board /> Component should render properly 1`] = `
                               </abbr>
                             </button>
                             <button
-                              className="react-calendar__tile react-calendar__month-view__days__day"
+                              className="react-calendar__tile react-calendar__tile--now react-calendar__month-view__days__day"
                               onClick={[Function]}
                               onFocus={null}
                               onMouseOver={null}
