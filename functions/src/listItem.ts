@@ -80,7 +80,7 @@ export const addListItem = functions.https.onRequest(
       snapshot
         .get()
         .then((data) => {
-          if (data.data().listItem.length > 0) {
+          if (data.data().listItem?.length > 0) {
             snapshot
               .update({
                 listItem: admin.firestore.FieldValue.arrayRemove({
