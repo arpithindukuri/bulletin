@@ -30,7 +30,7 @@ export default function BoardsView() {
     axiosInstance
       .get("/getUser", { params: { user_id: userData?.id } })
       .then((uData) => {
-        dispatch(userLoggedIn({ ...uData.data.user }));
+        dispatch(userLoggedIn({ ...uData.data.user, lastLogin: userData.lastLogin }));
         setDataLoaded(true);
       })
       .catch((userError) => {

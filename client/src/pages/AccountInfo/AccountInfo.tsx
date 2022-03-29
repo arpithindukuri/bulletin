@@ -72,7 +72,7 @@ const AccountInfo = () => {
 
   /**
    * Handles the password field.
-   * @param event 
+   * @param event
    */
   const handlePasswordChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -82,7 +82,7 @@ const AccountInfo = () => {
 
   /**
    * Handles the confirm password field.
-   * @param event  
+   * @param event
    */
   const handleConfirmPasswordChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -92,7 +92,7 @@ const AccountInfo = () => {
 
   /**
    * Handles the phone number field.
-   * @param event 
+   * @param event
    */
   const handlePhoneNumberChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -102,7 +102,7 @@ const AccountInfo = () => {
 
   /**
    * Handles the primary email field.
-   * @param event 
+   * @param event
    */
   const handlePrimaryEmailChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -112,7 +112,7 @@ const AccountInfo = () => {
 
   /**
    * Handles the alternative email field.
-   * @param event 
+   * @param event
    */
   const handleAlternativeEmailChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -199,7 +199,9 @@ const AccountInfo = () => {
         .put("/editUser", newUserData)
         .then(() => {
           console.log("user data updated");
-          dispatch(userLoggedIn(newUserData));
+          dispatch(
+            userLoggedIn({ ...newUserData, lastLogin: userData.lastLogin })
+          );
           if (success) {
             setMessage("Information updated.");
             setMessageSeverity("success");
@@ -236,7 +238,8 @@ const AccountInfo = () => {
                 {userData?.name ? userData.name : ""}
               </h1>
               <h1 className="account-panel-last-password">
-                Last Password Change: 20/01/2022
+                Last Login:{" "}
+                {userData.lastLogin?.toISOString().replace(/T.*$/, "")}
               </h1>
             </div>
           </Grid>
