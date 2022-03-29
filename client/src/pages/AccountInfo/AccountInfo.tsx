@@ -239,7 +239,9 @@ const AccountInfo = () => {
               </h1>
               <h1 className="account-panel-last-password">
                 Last Login:{" "}
-                {userData.lastLogin?.toISOString().replace(/T.*$/, "")}
+                {userData.lastLogin instanceof Date
+                  ? userData.lastLogin.toISOString().replace(/T.*$/, "")
+                  : userData.lastLogin.replace(/T.*$/, "")}
               </h1>
             </div>
           </Grid>

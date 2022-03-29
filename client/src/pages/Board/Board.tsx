@@ -1,11 +1,11 @@
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import * as React from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Link from "@mui/material/Link";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./Board.css";
 import ViewNote from "./ViewNote";
 import LoadNote from "./LoadNotes";
@@ -52,6 +52,7 @@ interface ListsProp {
 
 export default function Board() {
   const params = useParams();
+  const navigate = useNavigate();
   const [expenses, setExpenses] = useState<Array<ExpenseProp>>([]);
   const [notes, setNotes] = useState<Array<NotesProp>>([]);
   const [budgets, setBudgets] = useState<Array<BudgetProp>>([]);
@@ -77,6 +78,61 @@ export default function Board() {
       });
   }, []);
 
+  const handleLeaveBoard = () => {
+    axiosInstance
+      .get("/getBoardUsers", { params: { board_id: params.board_id } })
+      .then((res) => {
+        const index = res.data.users.findIndex(
+          (x: any) => x.id === userData.id
+        );
+        if (index == -1) {
+          return;
+        }
+        axiosInstance
+          .delete("/deleteUserFromBoard", {
+            params: {
+              board_id: params.board_id,
+              user_id: res.data.users[index].UserBoardId,
+            },
+          })
+          .then((res) => {
+            console.log("user is deleted: " + res);
+            axiosInstance
+              .get("./getUser", { params: { user_id: userData.id } })
+              .then((res) => {
+                console.log(res);
+                const removedUserData = res.data.user;
+                const newBoards = res.data.user.boards.filter(
+                  (board: any) => board !== params.board_id
+                );
+                const newRemovedUserData = {
+                  ...removedUserData,
+                  boards: newBoards,
+                };
+                axiosInstance
+                  .put("./editUser", newRemovedUserData)
+                  .then(() => {
+                    navigate("/boardsView");
+                    console.log(
+                      "new removed user data is: ",
+                      newRemovedUserData
+                    );
+                    console.log("user is edited");
+                  })
+                  .catch((err) => {
+                    console.log("error editing user data: ", err);
+                  });
+              })
+              .catch((err) => {
+                console.log("error editing user data: ", err);
+              });
+          });
+      })
+      .catch((err) => {
+        console.log("error getting users: ", err);
+      });
+  };
+
   useEffect(() => {
     let success = true;
     axiosInstance
@@ -92,7 +148,7 @@ export default function Board() {
         success = false;
       });
   }, []);
-  
+
   useEffect(() => {
     let success = true;
     axiosInstance
@@ -304,7 +360,22 @@ export default function Board() {
                   Manage Board
                 </Link>
               </Grid>
-            ) : null}
+            ) : (
+              <Grid
+                className="link-container"
+                justifyContent="flex-end"
+                alignItems="flex-end"
+                container
+                direction="column"
+              >
+                <Button
+                  style={{ fontSize: "25px" }}
+                  onClick={handleLeaveBoard}
+                >
+                  Leave Board
+                </Button>
+              </Grid>
+            )}
           </Grid>
         </Grid>
         <Grid
@@ -374,7 +445,11 @@ export default function Board() {
                     >
                       {notes.map((mockNotes, index) => {
                         return (
-                          <Grid item key={mockNotes.id} id={`board-note-${index}`}>
+                          <Grid
+                            item
+                            key={mockNotes.id}
+                            id={`board-note-${index}`}
+                          >
                             <LoadNote
                               message={mockNotes.content}
                               name={mockNotes.name}
