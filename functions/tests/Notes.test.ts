@@ -38,9 +38,9 @@ describe("get Notes", () => {
           },
           getHeader: () => {},
         } as unknown as Response;
-  
+
         boardFunctions.addBoard(initialReq, initialRes);
-      })
+      });
     });
 
     it("Should Return 200 OK Valid Input", (done: any) => {
@@ -68,109 +68,79 @@ describe("get Notes", () => {
       notesFunction.getNotes(req, res);
     });
     it("Should Return Status 400 Bad Params", (done: any) => {
-        console.log("inside get notes, added board id is: ", addedBoardId);
-        const req = {
-          headers: {},
-          method: "GET",
-          body: {},
-          query: {
-            id: addedBoardId,
-          },
-        } as unknown as Request;
-        const res = {
-          status: (code: number) => {
-            assert.equal(code, 400);
-            done();
-          },
-          end: () => {},
-          setHeader: (arg) => {
-            console.log(arg);
-          },
-          getHeader: () => {},
-        } as unknown as Response;
-  
-        notesFunction.getNotes(req, res);
-      });
-      it("Should Return Status 400 Bad Method", (done: any) => {
-        console.log("inside get notes, added board id is: ", addedBoardId);
-        const req = {
-          headers: {},
-          method: "POST",
-          body: {},
-          query: {
-            board_id: addedBoardId,
-          },
-        } as unknown as Request;
-        const res = {
-          status: (code: number) => {
-            assert.equal(code, 400);
-            done();
-          },
-          end: () => {},
-          setHeader: (arg) => {
-            console.log(arg);
-          },
-          getHeader: () => {},
-        } as unknown as Response;
-  
-        notesFunction.getNotes(req, res);
-      });
-      afterEach(async () => {
-        ftest.cleanup();
-      });
+      console.log("inside get notes, added board id is: ", addedBoardId);
+      const req = {
+        headers: {},
+        method: "GET",
+        body: {},
+        query: {
+          id: addedBoardId,
+        },
+      } as unknown as Request;
+      const res = {
+        status: (code: number) => {
+          assert.equal(code, 400);
+          done();
+        },
+        end: () => {},
+        setHeader: (arg) => {
+          console.log(arg);
+        },
+        getHeader: () => {},
+      } as unknown as Response;
+
+      notesFunction.getNotes(req, res);
+    });
+    it("Should Return Status 400 Bad Method", (done: any) => {
+      console.log("inside get notes, added board id is: ", addedBoardId);
+      const req = {
+        headers: {},
+        method: "POST",
+        body: {},
+        query: {
+          board_id: addedBoardId,
+        },
+      } as unknown as Request;
+      const res = {
+        status: (code: number) => {
+          assert.equal(code, 400);
+          done();
+        },
+        end: () => {},
+        setHeader: (arg) => {
+          console.log(arg);
+        },
+        getHeader: () => {},
+      } as unknown as Response;
+
+      notesFunction.getNotes(req, res);
+    });
+    afterEach(async () => {
+      ftest.cleanup();
+    });
   });
 });
 
 describe("add Notes", () => {
-    describe("Needs added board setup", () => {
-      let addedBoardId = undefined;
-      beforeEach(async () => {
-        return new Promise<void>((resolve, reject) => {
-          const initialReq = {
-            headers: {},
-            method: "POST",
-            body: {
-              name: "testing",
-              description: "testing123",
-            },
-          } as unknown as Request;
-          const initialRes = {
-            status: (code: number) => {
-              console.log("status called with staus: ", code);
-            },
-            json: (arg: any) => {
-              addedBoardId = arg.board.id;
-              resolve();
-            },
-            end: () => {},
-            setHeader: (arg) => {
-              console.log(arg);
-            },
-            getHeader: () => {},
-          } as unknown as Response;
-    
-          boardFunctions.addBoard(initialReq, initialRes);
-        })
-      });
-  
-      it("Should Return 200 OK Valid Input", (done: any) => {
-        console.log("inside get notes, added board id is: ", addedBoardId);
-        const req = {
+  describe("Needs added board setup", () => {
+    let addedBoardId = undefined;
+    beforeEach(async () => {
+      return new Promise<void>((resolve, reject) => {
+        const initialReq = {
           headers: {},
           method: "POST",
           body: {
-            name: "test note",
-            content: "this is a test",
-            date: "03/27/2022",
-          },
-          query: {
-            id: addedBoardId,
+            name: "testing",
+            description: "testing123",
           },
         } as unknown as Request;
-        const res = {
+        const initialRes = {
           status: (code: number) => {
-            assert.equal(code, 201);
-            done();
+            console.log("status called with staus: ", code);
+          },
+          json: (arg: any) => {
+            addedBoardId = arg.board.id;
+            resolve();
           },
           end: () => {},
           setHeader: (arg) => {
@@ -178,120 +148,152 @@ describe("add Notes", () => {
           },
           getHeader: () => {},
         } as unknown as Response;
-  
-        notesFunction.addNote(req, res);
+
+        boardFunctions.addBoard(initialReq, initialRes);
       });
-      it("Should Return Status 400 Bad Params", (done: any) => {
-          console.log("inside post notes, added board id is: ", addedBoardId);
-          const req = {
-            headers: {
-                name: "test note",
-                content: "this is a test",
-            },
-            method: "POST",
-            body: {},
-            query: {
-              id: addedBoardId,
-            },
-          } as unknown as Request;
-          const res = {
-            status: (code: number) => {
-              assert.equal(code, 400);
-              done();
-            },
-            end: () => {},
-            setHeader: (arg) => {
-              console.log(arg);
-            },
-            getHeader: () => {},
-          } as unknown as Response;
-    
-          notesFunction.addNote(req, res);
-        });
-        it("Should Return Status 400 Bad Method", (done: any) => {
-          console.log("inside ADD notes, added board id is: ", addedBoardId);
-          const req = {
-            headers: {},
-            method: "PUT",
-            body: {
+    });
+
+    it("Should Return 200 OK Valid Input", (done: any) => {
+      console.log("inside get notes, added board id is: ", addedBoardId);
+      const req = {
+        headers: {},
+        method: "POST",
+        body: {
+          name: "test note",
+          content: "this is a test",
+          date: "03/27/2022",
+        },
+        query: {
+          id: addedBoardId,
+        },
+      } as unknown as Request;
+      const res = {
+        status: (code: number) => {
+          assert.equal(code, 201);
+          done();
+        },
+        end: () => {},
+        setHeader: (arg) => {
+          console.log(arg);
+        },
+        getHeader: () => {},
+      } as unknown as Response;
+
+      notesFunction.addNote(req, res);
+    });
+    it("Should Return Status 400 Bad Params", (done: any) => {
+      console.log("inside post notes, added board id is: ", addedBoardId);
+      const req = {
+        headers: {
+          name: "test note",
+          content: "this is a test",
+        },
+        method: "POST",
+        body: {},
+        query: {
+          id: addedBoardId,
+        },
+      } as unknown as Request;
+      const res = {
+        status: (code: number) => {
+          assert.equal(code, 400);
+          done();
+        },
+        end: () => {},
+        setHeader: (arg) => {
+          console.log(arg);
+        },
+        getHeader: () => {},
+      } as unknown as Response;
+
+      notesFunction.addNote(req, res);
+    });
+    it("Should Return Status 400 Bad Method", (done: any) => {
+      console.log("inside ADD notes, added board id is: ", addedBoardId);
+      const req = {
+        headers: {},
+        method: "PUT",
+        body: {
+          name: "test note",
+          content: "this is a test",
+          date: "03/27/2022",
+        },
+        query: {
+          id: addedBoardId,
+        },
+      } as unknown as Request;
+      const res = {
+        status: (code: number) => {
+          assert.equal(code, 400);
+          done();
+        },
+        end: () => {},
+        setHeader: (arg) => {
+          console.log(arg);
+        },
+        getHeader: () => {},
+      } as unknown as Response;
+
+      notesFunction.addNote(req, res);
+    });
+    afterEach(async () => {
+      ftest.cleanup();
+    });
+  });
+});
+
+describe("delete Notes", () => {
+  describe("Needs added board setup", () => {
+    let addedBoardId = undefined;
+    let addedNoteId = undefined;
+    beforeEach(async () => {
+      return new Promise<void>((resolve, reject) => {
+        const initialReq = {
+          headers: {},
+          method: "POST",
+          body: {
+            name: "testing",
+            description: "testing123",
+          },
+        } as unknown as Request;
+        const initialRes = {
+          status: (code: number) => {
+            console.log("status called with staus: ", code);
+          },
+          json: (arg: any) => {
+            addedBoardId = arg.board.id;
+            const noteReq = {
+              headers: {},
+              method: "POST",
+              body: {
                 name: "test note",
                 content: "this is a test",
                 date: "03/27/2022",
-            },
-            query: {
-              id: addedBoardId,
-            },
-          } as unknown as Request;
-          const res = {
-            status: (code: number) => {
-              assert.equal(code, 400);
-              done();
-            },
-            end: () => {},
-            setHeader: (arg) => {
-              console.log(arg);
-            },
-            getHeader: () => {},
-          } as unknown as Response;
-    
-          notesFunction.addNote(req, res);
-        });
-        afterEach(async () => {
-          ftest.cleanup();
-        });
-    });
+              },
+              query: {
+                id: addedBoardId,
+              },
+            } as unknown as Request;
 
-  });
+            const noteRes = {
+              status: (code: number) => {
+                // ----------------------------------- For nested function calls return an object having the next fucntion
+                // for eg: res.status(xx).json(xx) should have the folloeing format --------------------
+                return {
+                  json: (arg: any) => {
+                    addedNoteId = arg.note.id; 
+                    resolve();
+                  },
+                };
+              },
+              end: () => {},
+              setHeader: (arg) => {
+                console.log(arg);
+              },
+              getHeader: () => {},
+            } as unknown as Response;
 
-  describe("delete Notes", () => {
-    describe("Needs added board setup", () => {
-      let addedBoardId = undefined;
-      let addedNoteId = undefined;
-      beforeEach(async () => {
-        return new Promise<void>((resolve, reject) => {
-          const initialReq = {
-            headers: {},
-            method: "POST",
-            body: {
-              name: "testing",
-              description: "testing123",
-            },
-          } as unknown as Request;
-          const initialRes = {
-            status: (code: number) => {
-              console.log("status called with staus: ", code);
-            },
-            json: (arg: any) => {
-              addedBoardId = arg.board.id;
-              resolve();
-            },
-            end: () => {},
-            setHeader: (arg) => {
-              console.log(arg);
-            },
-            getHeader: () => {},
-          } as unknown as Response;
-    
-          boardFunctions.addBoard(initialReq, initialRes);
-        })
-      });
-  
-      it("Should Return 200 OK Valid Input", (done: any) => {
-        console.log("inside delete notes, added board id is: ", addedBoardId);
-        console.log("inside delete notes, added node id is: ", addedNoteId);
-        const req = {
-          headers: {},
-          method: "DELETE",
-          body: {},
-          query: {
-            board_id: addedBoardId,
-            note_id: addedNoteId,
-          },
-        } as unknown as Request;
-        const res = {
-          status: (code: number) => {
-            assert.equal(code, 200);
-            done();
+            notesFunction.addNote(noteReq, noteRes);
           },
           end: () => {},
           setHeader: (arg) => {
@@ -299,12 +301,40 @@ describe("add Notes", () => {
           },
           getHeader: () => {},
         } as unknown as Response;
-  
-        notesFunction.deleteNote(req, res);
-      });
 
-        afterEach(async () => {
-          ftest.cleanup();
-        });
+        boardFunctions.addBoard(initialReq, initialRes);
+      });
+    });
+
+    it("Should Return 200 OK Valid Input", (done: any) => {
+      console.log("inside delete notes, added board id is: ", addedBoardId);
+      console.log("inside delete notes, added node id is: ", addedNoteId);
+      const req = {
+        headers: {},
+        method: "DELETE",
+        body: {},
+        query: {
+          board_id: addedBoardId,
+          note_id: addedNoteId,
+        },
+      } as unknown as Request;
+      const res = {
+        status: (code: number) => {
+          assert.equal(code, 200);
+          done();
+        },
+        end: () => {},
+        setHeader: (arg) => {
+          console.log(arg);
+        },
+        getHeader: () => {},
+      } as unknown as Response;
+
+      notesFunction.deleteNote(req, res);
+    });
+
+    afterEach(async () => {
+      ftest.cleanup();
     });
   });
+});
