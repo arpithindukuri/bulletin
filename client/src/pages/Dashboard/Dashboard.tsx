@@ -143,9 +143,11 @@ const Dashboard = () => {
             <Grid item>
               <h1 className="dashboard-user-info">
                 Last Login:{" "}
-                {userData?.lastLogin instanceof Date
-                  ? userData?.lastLogin.toISOString().replace(/T.*$/, "")
-                  : userData?.lastLogin.replace(/T.*$/, "")}
+                {userData?.lastLogin
+                  ? userData?.lastLogin instanceof Date
+                    ? userData?.lastLogin.toISOString().replace(/T.*$/, "")
+                    : userData?.lastLogin?.replace(/T.*$/, "")
+                  : null}
               </h1>
             </Grid>
             <Grid
