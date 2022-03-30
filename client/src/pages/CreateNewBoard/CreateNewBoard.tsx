@@ -174,7 +174,7 @@ export default function CreateNewBoard() {
             { params: { board_id: newBoard } }
           )
           .then(() => {
-            dispatch(userLoggedIn({...newUserData, lastLogin: userData.lastLogin}));
+            dispatch(userLoggedIn({...newUserData, lastLogin: userData.lastLogin, idToken: userData.idToken}));
             setMessageSeverity("success");
             setMessageOpen(true);
             setCreateBoardLoading(false);
