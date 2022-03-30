@@ -1,3 +1,5 @@
+import { Timestamp } from "../../../types";
+
 interface UserDataResponse {
   id: string;
   name: string;
@@ -8,6 +10,7 @@ interface UserDataResponse {
   overview: string;
   boards: Array<string>;
   idToken?: string;
+  lastLogin?: Timestamp;
 }
 
 export default UserDataResponse;

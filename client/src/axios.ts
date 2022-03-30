@@ -6,7 +6,10 @@ interface ExtendedHeaderDefaults extends HeadersDefaults {
 }
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5001/bulletin-be82d/us-central1",
+  baseURL:
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:5001/bulletin-be82d/us-central1"
+      : "https://us-central1-bulletin-be82d.cloudfunctions.net",
   timeout: 8000,
   headers: {
     "Content-Type": "application/json",
@@ -14,7 +17,7 @@ const axiosInstance = axios.create({
   },
 });
 
-axiosInstance.interceptors.response.use(
+axiosInstance?.interceptors.response.use(
   (response) => response,
   async function (error) {
     const failedRequest = error.config;

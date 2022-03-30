@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing <ManageBoard /> Component should render Manage-Board page correctly 1`] = `
+Array [
+  <Provider
+    store={
+      Object {
+        "@@observable": [Function],
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      }
+    }
+  >
+    <BrowserRouter>
+      <ManageBoard />
+    </BrowserRouter>
+  </Provider>,
+]
+`;
+
+exports[`Testing <ManageBoard /> Component should render Member Permissions correctly 1`] = `
+Array [
+  <Provider
+    store={
+      Object {
+        "@@observable": [Function],
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      }
+    }
+  >
+    <BrowserRouter>
+      <MemberPermissions
+        editOn={true}
+        name="Test User"
+        viewOn={true}
+      />
+    </BrowserRouter>
+  </Provider>,
+]
+`;

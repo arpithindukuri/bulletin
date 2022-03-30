@@ -11,7 +11,7 @@ import { Note } from "../../../../types";
 import { format } from "date-fns";
 
 interface CreateNoteErrors {
-  name: string;
+  author: string;
   content: string;
 }
 
@@ -29,7 +29,7 @@ const Notes: React.FC = () => {
     content: "content",
   });
   const [errors, setErrors] = useState<CreateNoteErrors>({
-    name: "",
+    author: "",
     content: "",
   });
   const [message, setMessage] = useState("");
@@ -73,12 +73,12 @@ const Notes: React.FC = () => {
   }, [params.board_id]);
 
   const validateData = () => {
-    errors.name = "";
+    errors.author = "";
     errors.content = "";
 
     let errorsExits = false;
     if (!values.author) {
-      errors.name = "Please enter a valid note Name.";
+      errors.author = "Please enter a valid note Name.";
       errorsExits = true;
     }
 
@@ -207,12 +207,17 @@ const Notes: React.FC = () => {
               <Typography variant="h6">New Note</Typography>
               <TextField
                 variant="standard"
-                defaultValue={values.author}
+                placeholder={"Note Name..."}
                 onChange={handleChange("author")}
-                helperText={`${errors.name}`}
-                error={errors.name != ""}
+                helperText={`${errors.author}`}
+                error={errors.author != ""}
+                id="add-note-name-field"
+                value={values.author}
               />
-              <Button onClick={() => setPopupState(false)}>
+              <Button
+                onClick={() => setPopupState(false)}
+                id="close-note-modal-button"
+              >
                 <Typography variant="h5">X</Typography>
               </Button>
             </div>
@@ -224,7 +229,7 @@ const Notes: React.FC = () => {
               onChange={handleChange("content")}
               focused
               align-items="left"
-              id="description-text"
+              id="add-note-description-field"
               rows="8"
               helperText={`${errors.content}`}
               multiline
@@ -233,7 +238,11 @@ const Notes: React.FC = () => {
             />
 
             <div className="saveDiv">
-              <Button className="saveButton" onClick={handleSaveNote}>
+              <Button
+                className="saveButton"
+                onClick={handleSaveNote}
+                id="save-note-button"
+              >
                 Save Note
               </Button>
             </div>
@@ -288,6 +297,7 @@ const Notes: React.FC = () => {
               variant="text"
               fullWidth={true}
               onClick={() => setPopupState(true)}
+              id="add-note-button"
             >
               <Typography>+ Add New Note</Typography>
             </Button>

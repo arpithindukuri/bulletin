@@ -81,7 +81,7 @@ export const helloWorld = functions.https.onRequest((request, response) => {
   corsHandler(request, response, () => {
     // your function body here - use the provided req and res from cors
     // response.set("Access-Control-Allow-Origin", "https://bulletin-be82d.web.app");
-    response.json({ response: "Hello from Firebase!" });
+    response.status(200).json({ response: "Hello from Firebase!" });
   });
 });
 

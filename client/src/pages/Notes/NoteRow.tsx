@@ -41,18 +41,23 @@ export default function NoteRow({
             <div className="noteHeader">
               <Typography variant="h6">Note Name</Typography>
               <TextField
+                id="edit-note-modal-name-field"
                 variant="standard"
-                defaultValue={author}
                 onChange={handleChange("author")}
+                value={newValues.author}
               ></TextField>
-              <Button onClick={() => setPopupEditState(false)}>
+              <Button
+                onClick={() => setPopupEditState(false)}
+                id="close-note-edit-modal-button"
+              >
                 <Typography variant="h5">X</Typography>
               </Button>
             </div>
             <div className="noteContent">
               <textarea
-                defaultValue={content}
+                id="edit-note-modal-content-field"
                 onChange={handleChange("content")}
+                value={newValues.content}
               ></textarea>
             </div>
             <div className="saveDiv">
@@ -84,7 +89,11 @@ export default function NoteRow({
       >
         <Box>{author}</Box>
         <Box>
-          <Button variant="outlined" onClick={() => setPopupOpenState(true)}>
+          <Button
+            id="view-note-dialog-button"
+            variant="outlined"
+            onClick={() => setPopupOpenState(true)}
+          >
             Open
           </Button>
         </Box>
@@ -94,7 +103,13 @@ export default function NoteRow({
       </Box>
 
       <Box className="notesTableRow" width="5%">
-        <Button onClick={() => id && onDelete(id)}>X</Button>
+        <Button
+          onClick={() => {
+            id !== null && onDelete(id);
+          }}
+        >
+          X
+        </Button>
       </Box>
       <Box className="notesTableRow" width="5%">
         <Button

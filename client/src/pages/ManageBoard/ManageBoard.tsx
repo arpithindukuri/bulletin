@@ -11,15 +11,8 @@ import { Alert, AlertColor } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useTypedSelector } from "../../hooks/ReduxHooks";
 import { selectUserData } from "../../actions/UserActions/UserSelector";
-import { Board, Member } from "../../../../types";
+import { Board, Member, User } from "../../../../types";
 
-//Mock Info passed into Member Status
-const mockMemberInfo = [
-  { id: 1, name: "Liane Doe", email: "liane.doe@gmail.com", role: "Admin" },
-  { id: 2, name: "Dad Doe", email: "dad.doe@gmail.com", role: "Admin" },
-  { id: 3, name: "Logan Doe", email: "logan.doe@gmail.com", role: "Member" },
-  { id: 4, name: "Aly Doe", email: "aly.doe@gmail.com", role: "Member" },
-];
 interface CreateBoardErrors {
   name: string;
   description: string;
@@ -58,6 +51,7 @@ export default function ManageBoard() {
     tags: [],
   });
   const [members, setMembers] = useState<Array<Member>>([]);
+  const [users, setUsers] = useState<Array<User>>([]);
   const [errors, setErrors] = useState<CreateBoardErrors>({
     name: "",
     description: "",
@@ -94,6 +88,23 @@ export default function ManageBoard() {
         success = false;
       });
   }, [editBoard]);
+
+  useEffect(() => {
+    setUsers([]);
+    members.forEach((member) => {
+      axiosInstance
+        .get("/readUser", { params: { userID: member.userID } })
+        .then((res) => {
+          console.log(res);
+          if (res.data.status === "success") {
+            setUsers((prev) => [...prev, res.data.content]);
+          }
+        })
+        .catch((err) => {
+          console.log("error getting users: ", err);
+        });
+    });
+  }, [members]);
 
   const handleChange =
     (prop: keyof Board) => (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -164,11 +175,7 @@ export default function ManageBoard() {
   };
 
   const deleteMember = (userBoardid: string, id: string, isLeave: boolean) => {
-    const admins = members.filter((member) => {
-      if (member.role === "admin") {
-        return member;
-      }
-    });
+    const admins = members.filter((member) => member.role === "admin");
     console.log("admins is: ", admins);
     if (admins.length == 1 && admins[0].userID === id) {
       setMessage(
@@ -178,9 +185,10 @@ export default function ManageBoard() {
       setMessageOpen(true);
       return;
     }
+    console.log(id);
     axiosInstance
-      .delete("/deleteUserFromBoard", {
-        params: { boardID: params.board_id, userID: userBoardid },
+      .delete("/deleteMember", {
+        params: { boardID: params.board_id, memberID: id },
       })
       .then((res) => {
         console.log("user is deleted: " + res);
@@ -231,12 +239,12 @@ export default function ManageBoard() {
   const sendInvitation = () => {
     axiosInstance
       .get("/readUserByEmail", { params: { email: invitationEmail } })
-      .then((res) => {
-        const check = members.filter(
-          (member) => res.data.content.email === invitationEmail
-        );
-        // if (check.length > 0) {
-        if (res.data.content.email) {
+      .then(async (res) => {
+        if (
+          res.data.status === "success" &&
+          members.find((mem) => mem.userID === res.data.content.id)
+        ) {
+          // if (res.data.content.email) {
           setMessage("User already has access to the board");
           setMessageOpen(true);
           setMessageSeverity("warning");
@@ -264,20 +272,21 @@ export default function ManageBoard() {
         };
 
         axiosInstance
-          .put("./createMember", newMember, {
+          .post("/createMember", newMember, {
             params: { boardID: params.board_id },
           })
-          .then(() => {
+          .then((createMemberRes) => {
+            console.log(createMemberRes);
             console.log("user added to board");
-            setEditBoard(!editBoard);
+            setEditBoard(false);
+            setInvitationEmail("");
+            setMessage("User has been added to Board");
+            setMessageOpen(true);
+            setMessageSeverity("success");
           })
           .catch((err) => {
             console.log("error adding user to board: ", err);
           });
-        setInvitationEmail("");
-        setMessage("User has been added to Board");
-        setMessageOpen(true);
-        setMessageSeverity("success");
       })
       .catch((err) => {
         console.log("User Not Found", err);
@@ -326,7 +335,7 @@ export default function ManageBoard() {
               focused
               id="name-text"
               inputProps={{
-                maxlength: NAME_LIMIT,
+                maxLength: NAME_LIMIT,
               }}
               helperText={`${board.name.length}/${NAME_LIMIT}  ${errors.name}`}
               error={errors.name !== ""}
@@ -348,7 +357,7 @@ export default function ManageBoard() {
               align-items="left"
               id="description-text"
               inputProps={{
-                maxlength: DESCRIPTION_LIMIT,
+                maxLength: DESCRIPTION_LIMIT,
               }}
               rows="3"
               helperText={`${board.description.length}/${DESCRIPTION_LIMIT}  ${errors.description}`}
@@ -357,7 +366,11 @@ export default function ManageBoard() {
               error={errors.description !== ""}
             />
             <div className="saveDiv">
-              <Button className="saveButton" onClick={handleSaveBoard}>
+              <Button
+                className="saveButton"
+                onClick={handleSaveBoard}
+                id="saveButton"
+              >
                 Save Board
               </Button>
             </div>
@@ -406,6 +419,7 @@ export default function ManageBoard() {
               disableRipple={true}
               disableTouchRipple={true}
               className="renameButton"
+              id="renameButton"
               onClick={() => setPopupState(true)}
             >
               <Typography
@@ -436,6 +450,7 @@ export default function ManageBoard() {
             value={invitationEmail}
             onChange={handleInvitationEmailChange}
             sx={{ width: "90%" }}
+            id="invitation-email-text"
           />
         </Box>
 
@@ -445,6 +460,7 @@ export default function ManageBoard() {
             color="secondary"
             sx={{ borderRadius: "50px", border: "1px solid #68390D" }}
             onClick={sendInvitation}
+            id="sendInviteButton"
           >
             <Typography color="primary" variant="h6">
               Send Invite
@@ -456,7 +472,7 @@ export default function ManageBoard() {
       <hr style={{ color: "rgb(104, 57, 13, 0.2)", borderWidth: "0.5px" }}></hr>
 
       {/* Member Information */}
-      <Box className="memberInfoBox">
+      <Box className="memberInfoBox" id="memberInfoBox">
         <Typography color="primary" variant="h6" textAlign={"left"}>
           Members
         </Typography>
@@ -499,28 +515,18 @@ export default function ManageBoard() {
 
             <Box width="5%"></Box>
           </Box>
-
-          {members.map((member) => {
-            axiosInstance
-              .get("/readUser", { params: { userID: member.userID } })
-              .then((res) => {
-                console.log(res);
-                if (res.data.status === "success") {
-                  return (
-                    <MemberStatus
-                      onDelete={deleteMember}
-                      userBoardid={params.board_id || ""}
-                      id={member.userID}
-                      name={res.data.content.name}
-                      email={res.data.content.email}
-                      role={member.role}
-                    ></MemberStatus>
-                  );
-                }
-              })
-              .catch((err) => {
-                console.log("error getting expenses: ", err);
-              });
+          {members.map((member, index) => {
+            if (users[index])
+              return (
+                <MemberStatus
+                  onDelete={deleteMember}
+                  userBoardid={params.board_id || ""}
+                  id={member.id || ""}
+                  name={users[index].name}
+                  email={users[index].email}
+                  role={member.role}
+                />
+              );
           })}
         </Box>
       </Box>

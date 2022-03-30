@@ -36,6 +36,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Homepage />}></Route>
                   <Route path="/login" element={<LogIn />}></Route>
+                  <Route path="/signup/:user_email" element={<SignUp />}></Route>
                   <Route path="/signup" element={<SignUp />}></Route>
                   <Route path="/home" element={<Homepage />}></Route>
                   <Route path="/account-info" element={<AccountInfo />}></Route>

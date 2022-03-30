@@ -17,7 +17,11 @@ import axiosInstance from "../../axios";
 import { useTypedDispatch } from "../../hooks/ReduxHooks";
 import { userLoggedIn } from "../../actions/UserActions/UserActionCreator";
 import { Alert, AlertColor } from "@mui/material";
+import { format } from "date-fns";
 
+/**
+ * Uses the pre-determined theme to customize this page.
+ */
 const useStyles = makeStyles((theme) => ({
   textField: {
     marginTop: -10,
@@ -33,36 +37,55 @@ const Dashboard = () => {
   const userData = useTypedSelector(selectUserData);
   const dispatch = useTypedDispatch();
   const classes = useStyles();
-  const [overview, setOverview] = useState(userData.overview);
-  const [name, setName] = useState(userData.name);
-  const [birthday, setBirthday] = useState<null | Date>(userData.birthDay);
-  const [email, setEmail] = useState(userData.email);
+  const [overview, setOverview] = useState(userData?.overview);
+  const [name, setName] = useState(userData?.name);
+  const [birthday, setBirthday] = useState<null | Date>(userData?.birthDay);
+  const [email, setEmail] = useState(userData?.email);
   const [message, setMessage] = useState("");
   const [messageOpen, setMessageOpen] = useState(false);
   const [messageSeverity, setMessageSeverity] = useState<AlertColor>("success");
 
+  /**
+   * Handles the brief overview field.
+   * @param event
+   */
   const handleOverviewChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setOverview(event.target.value);
   };
 
+  /**
+   * Handles the name field.
+   * @param event
+   */
   const handleNameChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setName(event.target.value);
   };
 
+  /**
+   * Handles the birthday field.
+   * @param selectedDate
+   */
   const handleBirthdayChange = (selectedDate: Date) => {
     setBirthday(selectedDate);
   };
 
+  /**
+   * Handles the email field.
+   * @param event
+   */
   const handleEmailChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setEmail(event.target.value);
   };
 
+  /**
+   * Handles the save values entereed in the fields.
+   */
   const handleSave = () => {
     const newUserData = {
       ...userData,
@@ -116,13 +139,19 @@ const Dashboard = () => {
               <img src={profile} className="dashboard-profile-pic" />
             </Grid>
             <Grid item>
-              <h1 className="dashboard-user-info">{userData.name}</h1>
+              <h1 className="dashboard-user-info">{userData?.name}</h1>
             </Grid>
             <Grid item>
               <h1 className="dashboard-user-info">Calgary, Alberta</h1>
             </Grid>
             <Grid item>
-              <h1 className="dashboard-user-info">Last Login: 20/02/2022</h1>
+              <h1 className="dashboard-user-info">
+                Last Login:{" "}
+                {userData.lastLogin && format(userData.lastLogin, "dd/MM/yyyy")}
+                {/* {userData?.lastLogin instanceof Date
+                  ? userData?.lastLogin.toISOString().replace(/T.*$/, "")
+                  : userData?.lastLogin.replace(/T.*$/, "")} */}
+              </h1>
             </Grid>
             <Grid
               item
@@ -136,6 +165,7 @@ const Dashboard = () => {
               <Grid className="dashboard-grid-item" xl={10} xs={10} item>
                 <p>Brief Overview</p>
                 <TextField
+                  id="dashboard-overview-field"
                   style={{ width: "100%" }}
                   className={classes.textField}
                   InputLabelProps={{ shrink: false }}
@@ -162,6 +192,7 @@ const Dashboard = () => {
                 <Grid item style={{ width: "100%" }}>
                   <p>Name</p>
                   <TextField
+                    id="dashboard-name-field"
                     className={classes.textField}
                     InputLabelProps={{ shrink: false }}
                     value={name}

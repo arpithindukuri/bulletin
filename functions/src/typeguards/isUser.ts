@@ -43,6 +43,7 @@ export function isUser(arg: any): arg is User {
     obj.reminders.every((val) => isPersonalReminder(val)) &&
     Array.isArray(obj.notes) &&
     obj.notes.every((val) => isPersonalNote(val)) &&
-    (obj.idToken === undefined || typeof obj.idToken == "string")
+    (obj.idToken === undefined || typeof obj.idToken == "string") &&
+    (obj.lastLogin === undefined || typeof obj.lastLogin == "number")
   );
 }

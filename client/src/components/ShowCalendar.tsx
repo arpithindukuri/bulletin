@@ -79,7 +79,11 @@ const ShowCalendar = ({ events, setEvents }: ShowCalendarProps) => {
           selectable={true}
           editable={false}
           events={events.map((e) => ({
-            ...e,
+            // ...e,
+            title: e.name,
+            date: e.startTime,
+            // start: format(e.startTime, "yyyy-MM-dd"),
+            // end: format(e.endTime, "yyyy-MM-dd"),
             id: e.id === null ? undefined : e.id,
           }))}
           locales={allLocales}

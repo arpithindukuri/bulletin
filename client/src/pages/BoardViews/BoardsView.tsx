@@ -39,6 +39,7 @@ export default function BoardsView() {
             console.log(res);
             dispatch(
               userLoggedIn({
+                ...userData,
                 ...uData.data.content,
                 boards: (res.data.content.boards as Board[]).map(
                   (board) => board.id

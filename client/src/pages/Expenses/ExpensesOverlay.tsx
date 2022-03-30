@@ -1,13 +1,6 @@
-import {
-  TextField,
-  Typography,
-  Select,
-  Button,
-  Modal,
-  Box,
-} from "@mui/material";
+import { TextField, Typography, Button, Modal, Box } from "@mui/material";
 import React, { useState } from "react";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { Budget, Expense } from "../../../../types";
 import axiosInstance from "../../axios";
 
@@ -51,13 +44,13 @@ export default function ExpensesOverlay({
 }: Props) {
   const [popupName, setPopupName] = useState(defaultName ? defaultName : "");
   const [popupBalance, setPopupBalance] = useState(
-    defaultAmount ? defaultAmount.toString() : ""
+    defaultAmount ? (defaultAmount / 100).toString() : ""
   );
   const [popupAssignee, setPopupAssignee] = useState(
     defaultAssignee ? defaultAssignee : ""
   );
   const [popupDate, setPopupDate] = useState(
-    defaultDate ? format(defaultDate, "dd/MM/YYYY") : ""
+    defaultDate ? format(defaultDate, "yyyy-MM-dd") : ""
   );
 
   const getExpenses = () => {
@@ -98,10 +91,10 @@ export default function ExpensesOverlay({
     }
 
     if (!popupDate) {
-      errors.date = "Please enter a date";
+      errors.date = "Please enter a date.";
       errorsExits = true;
     } else if (!isValidDate(popupDate)) {
-      errors.date = "Please enter a valid date";
+      errors.date = "Please enter a valid date.";
       errorsExits = true;
     }
 
@@ -113,7 +106,7 @@ export default function ExpensesOverlay({
     if (!popupBalance) {
       errors.amount = "Please enter an amount.";
       errorsExits = true;
-    } else if (isNaN(parseFloat(popupBalance))) {
+    } else if (isNaN(parseInt(popupBalance) / 100)) {
       errors.amount = "Please enter a valid number.";
       errorsExits = true;
     }
@@ -167,10 +160,12 @@ export default function ExpensesOverlay({
 
     const values: Expense = {
       name: popupName,
-      dueDate: parseInt(popupDate),
-      amount: parseFloat(popupBalance),
+      dueDate: parseInt(
+        format(parse(popupDate, "yyyy-MM-dd", new Date()), "T")
+      ),
       assignedUserID: popupAssignee,
-      balance: -parseFloat(popupBalance),
+      amount: parseFloat(popupBalance) * 100,
+      balance: parseFloat(popupBalance) * 100,
       id: null,
     };
 
@@ -193,9 +188,11 @@ export default function ExpensesOverlay({
 
     const values: Expense = {
       name: popupName,
-      dueDate: parseInt(popupDate),
-      amount: parseFloat(popupBalance),
-      balance: -parseFloat(popupBalance),
+      dueDate: parseInt(
+        format(parse(popupDate, "yyyy-MM-dd", new Date()), "T")
+      ),
+      amount: parseFloat(popupBalance) * 100,
+      balance: parseFloat(popupBalance) * 100,
       assignedUserID: popupAssignee,
       id: expenseId || "",
     };
@@ -220,9 +217,11 @@ export default function ExpensesOverlay({
 
     const values: Budget = {
       name: popupName,
-      endDate: parseInt(popupDate),
-      amount: parseFloat(popupBalance),
-      balance: -parseFloat(popupBalance),
+      endDate: parseInt(
+        format(parse(popupDate, "yyyy-MM-dd", new Date()), "T")
+      ),
+      amount: parseFloat(popupBalance) * 100,
+      balance: parseFloat(popupBalance) * 100,
       assignedUserID: popupAssignee,
       id: null,
     };
@@ -244,12 +243,14 @@ export default function ExpensesOverlay({
       return;
     }
 
-    const values: Expense = {
+    const values: Budget = {
       id: expenseId || "",
       name: popupName,
-      dueDate: parseInt(popupDate),
-      balance: -parseFloat(popupBalance),
-      amount: parseFloat(popupBalance),
+      endDate: parseInt(
+        format(parse(popupDate, "yyyy-MM-dd", new Date()), "T")
+      ),
+      amount: parseFloat(popupBalance) * 100,
+      balance: parseFloat(popupBalance) * 100,
       assignedUserID: popupAssignee,
     };
 
@@ -278,7 +279,10 @@ export default function ExpensesOverlay({
         <div className="overlayHeader">
           <Typography variant="h3">{header}</Typography>
 
-          <Button onClick={() => setPopupState(false)}>
+          <Button
+            id="expense-modal-close-button"
+            onClick={() => setPopupState(false)}
+          >
             <Typography variant="h5">X</Typography>
           </Button>
         </div>
@@ -287,6 +291,7 @@ export default function ExpensesOverlay({
           <div className="overlayFieldRow">
             <Typography variant="h6">{type} Name</Typography>
             <TextField
+              id="expenses-overlay-name-field"
               variant="standard"
               label={popupName ? "" : `Add ${type} Name`}
               value={popupName}
@@ -299,6 +304,7 @@ export default function ExpensesOverlay({
           <div className="overlayFieldRow">
             <Typography variant="h6">{dateType} Date</Typography>
             <TextField
+              id="expenses-overlay-date-field"
               variant="standard"
               label={popupDate ? "" : "Add Date (YYYY-MM-DD)"}
               value={popupDate}
@@ -310,6 +316,7 @@ export default function ExpensesOverlay({
           <div className="overlayFieldRow">
             <Typography variant="h6">Assigned To</Typography>
             <TextField
+              id="expenses-overlay-assigned-field"
               variant="standard"
               label={popupAssignee ? "" : "Assign To"}
               value={popupAssignee}
@@ -321,6 +328,7 @@ export default function ExpensesOverlay({
           <div className="overlayFieldRow">
             <Typography variant="h6">Balance($)</Typography>
             <TextField
+              id="expenses-overlay-balance-field"
               variant="standard"
               label={popupBalance ? "" : "Add Balance ($)"}
               value={popupBalance}
@@ -331,6 +339,7 @@ export default function ExpensesOverlay({
           </div>
           <div className="saveDiv">
             <Button
+              id="expense-overlay-save-button"
               className="saveButton"
               onClick={
                 type == "Expense"

@@ -172,10 +172,9 @@ export default function List() {
         handleClose();
         const newValues = {
           ...values,
-          id: res.data.id,
+          id: res.data.content.id,
         } as ListType;
-        lists.push(newValues);
-        setLists([...lists]);
+        setLists([...lists, newValues]);
       })
       .catch((err) => {
         console.log("error adding List: ", err);
@@ -271,6 +270,7 @@ export default function List() {
             }}
             variant="contained"
             onClick={handleOpen}
+            id="add-list-button"
           >
             + Add another list
           </Button>
@@ -305,7 +305,11 @@ export default function List() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style} style={{ height: "200px" }}>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography
+            component={"span"}
+            id="modal-modal-description"
+            sx={{ mt: 2 }}
+          >
             <Button
               style={{
                 color: "#AA896B",
@@ -329,7 +333,7 @@ export default function List() {
             >
               <div>
                 <BrownTextField
-                  id="standard-basic"
+                  id="list-name"
                   label="List Name"
                   variant="standard"
                   InputLabelProps={{
@@ -353,6 +357,7 @@ export default function List() {
                     top: "50px",
                   }}
                   variant="text"
+                  id="saveListButton"
                   disableElevation
                   onClick={handleAddList}
                 >
@@ -409,7 +414,11 @@ export default function List() {
                     aria-describedby="modal-modal-description"
                   >
                     <Box sx={style}>
-                      <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      <Typography
+                        component={"span"}
+                        id="modal-modal-description"
+                        sx={{ mt: 2 }}
+                      >
                         <Button
                           style={{
                             color: "#AA896B",

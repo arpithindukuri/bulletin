@@ -9,6 +9,7 @@ import { userLoggedIn } from "../../actions/UserActions/UserActionCreator";
 import { useNavigate } from "react-router-dom";
 import SpinnerButton from "../../components/SpinnerButton";
 import "./LogIn.scss";
+import { format } from "date-fns";
 
 interface LogInErrors {
   email: string;
@@ -85,10 +86,16 @@ const LogIn: React.FC = () => {
           .get("/readUser", { params: { userID: res.data.localId } })
           .then((uData) => {
             setLoginLoading(false);
+            const loginTime = new Date();
+            const lastLogin = parseInt(format(loginTime, "T"));
             dispatch(
-              userLoggedIn({ ...uData.data.content, idToken: res.data.idToken })
+              userLoggedIn({
+                ...uData.data.content,
+                idToken: res.data.idToken,
+                lastLogin,
+              })
             );
-            navigate("/home");
+            navigate("/boardsView");
           })
           .catch((userError) => {
             console.log("error while getting user info: ", userError);

@@ -1,11 +1,11 @@
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import * as React from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Link from "@mui/material/Link";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./Board.css";
 import ViewNote from "./ViewNote";
 import LoadNote from "./LoadNotes";
@@ -25,6 +25,7 @@ import {
 
 export default function Board() {
   const params = useParams();
+  const navigate = useNavigate();
   const [expenses, setExpenses] = useState<Array<Expense>>([]);
   const [notes, setNotes] = useState<Array<Note>>([]);
   const [budgets, setBudgets] = useState<Array<Budget>>([]);
@@ -73,6 +74,61 @@ export default function Board() {
       });
   }, []);
 
+  const handleLeaveBoard = () => {
+    axiosInstance
+      .get("/getBoardUsers", { params: { board_id: params.board_id } })
+      .then((res) => {
+        const index = res.data.users.findIndex(
+          (x: any) => x.id === userData?.id
+        );
+        if (index == -1) {
+          return;
+        }
+        axiosInstance
+          .delete("/deleteUserFromBoard", {
+            params: {
+              board_id: params.board_id,
+              user_id: res.data.users[index].UserBoardId,
+            },
+          })
+          .then((res) => {
+            console.log("user is deleted: " + res);
+            axiosInstance
+              .get("./getUser", { params: { user_id: userData.id } })
+              .then((res) => {
+                console.log(res);
+                const removedUserData = res.data.user;
+                const newBoards = res.data.user.boards.filter(
+                  (board: any) => board !== params.board_id
+                );
+                const newRemovedUserData = {
+                  ...removedUserData,
+                  boards: newBoards,
+                };
+                axiosInstance
+                  .put("./editUser", newRemovedUserData)
+                  .then(() => {
+                    navigate("/boardsView");
+                    console.log(
+                      "new removed user data is: ",
+                      newRemovedUserData
+                    );
+                    console.log("user is edited");
+                  })
+                  .catch((err) => {
+                    console.log("error editing user data: ", err);
+                  });
+              })
+              .catch((err) => {
+                console.log("error editing user data: ", err);
+              });
+          });
+      })
+      .catch((err) => {
+        console.log("error getting users: ", err);
+      });
+  };
+
   useEffect(() => {
     let success = true;
     axiosInstance
@@ -97,7 +153,7 @@ export default function Board() {
         console.log(res);
         console.log(userData.id);
         if (res.data.status === "success") {
-          (res.data.content as Member[]).filter((member) => {
+          (res.data.content as Member[]).forEach((member) => {
             if (member.role === "admin" && member.id === userData.id) {
               setIsAdmin(true);
             }
@@ -193,6 +249,7 @@ export default function Board() {
       }}
     >
       <Grid
+        container
         className="board-container"
         direction="column"
         alignContent="center"
@@ -212,6 +269,7 @@ export default function Board() {
             justifyContent="flex-start"
             alignItems="center"
             container
+            item
             xs={6}
             direction="row"
           >
@@ -225,11 +283,14 @@ export default function Board() {
                 height: "80px",
                 fontSize: "60px",
                 marginTop: "10px",
+                marginRight: "15px",
               }}
             >
               {board.name.split(" ")[0][0]}
             </Avatar>
             <Grid
+              item
+              style={{ margin: "40px 0px" }}
               className="info-container"
               xs={7}
               justifyContent="flex-start"
@@ -274,6 +335,7 @@ export default function Board() {
             justifyContent="flex-end"
             alignItems="flex-end"
             xs={6}
+            item
             container
             direction="row"
           >
@@ -295,7 +357,19 @@ export default function Board() {
                   Manage Board
                 </Link>
               </Grid>
-            ) : null}
+            ) : (
+              <Grid
+                className="link-container"
+                justifyContent="flex-end"
+                alignItems="flex-end"
+                container
+                direction="column"
+              >
+                <Button style={{ fontSize: "25px" }} onClick={handleLeaveBoard}>
+                  Leave Board
+                </Button>
+              </Grid>
+            )}
           </Grid>
         </Grid>
         <Grid
@@ -308,7 +382,7 @@ export default function Board() {
         >
           <Box
             className="bulletinBoardBox"
-            sx={{ width: "100%", height: "100%" }}
+            sx={{ width: "100%", height: "100%", padding: "10px 0px" }}
           >
             <Grid
               className="boardContainer"
@@ -325,6 +399,7 @@ export default function Board() {
                 alignItems="center"
                 container
                 xs={6}
+                item
                 direction="column"
               >
                 <Grid
@@ -340,6 +415,7 @@ export default function Board() {
                     xs={7}
                     pr={1}
                     direction="column"
+                    item
                   >
                     <Grid className="NoteHeader" container direction="column">
                       <Typography
@@ -350,6 +426,7 @@ export default function Board() {
                           display: "inline-block",
                           whiteSpace: "pre-line",
                         }}
+                        id="board-notes-title"
                       >
                         Notes
                       </Typography>
@@ -360,10 +437,13 @@ export default function Board() {
                       spacing={{ xs: 2, md: 1 }}
                       columns={{ xs: 4, sm: 8, md: 12 }}
                     >
-                      {notes.map((mockNotes) => {
+                      {notes.map((mockNotes, index) => {
                         return (
-                          // <Grid item xs={6} sm={6} mr={1} mt={1} >
-                          <Grid item>
+                          <Grid
+                            item
+                            key={mockNotes.id}
+                            id={`board-note-${index}`}
+                          >
                             <LoadNote
                               message={mockNotes.content}
                               name={mockNotes.author}
@@ -380,6 +460,7 @@ export default function Board() {
                     justifyContent="center"
                     alignItems="center"
                     xs={5}
+                    item
                     pr={3}
                     direction="column"
                   >
@@ -392,6 +473,7 @@ export default function Board() {
                           fontWeight: "bold",
                           color: " #631800",
                         }}
+                        id="board-list-title"
                       >
                         List
                       </Typography>
@@ -504,6 +586,7 @@ export default function Board() {
                 alignItems="center"
                 container
                 xs={6}
+                item
                 direction="column"
               >
                 <Grid
@@ -514,7 +597,7 @@ export default function Board() {
                   alignItems="center"
                   direction="column"
                 >
-                  <Box p={1} className="CalendarBox">
+                  <Box p={1} className="CalendarBox" id="board-react-calendar">
                     <Calendar locale={"en-US"} className="react-calendar" />
                   </Box>
                 </Grid>

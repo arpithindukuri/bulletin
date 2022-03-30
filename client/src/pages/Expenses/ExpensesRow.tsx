@@ -11,6 +11,7 @@ import {
 import ExpensesOverlay from "./ExpensesOverlay";
 import axiosInstance from "../../axios";
 import { Budget, Expense } from "../../../../types";
+import { format } from "date-fns";
 
 interface Props {
   name: string;
@@ -113,20 +114,21 @@ export default function ExpensesRow({
         {name}
       </Box>
       <Box className="expensesTableRow tableCellsFormatting" width="15%">
-        {date}
+        {format(date, "yyyy-MM-dd")}
       </Box>
 
       <Box className="expensesTableRow tableCellsFormatting" width="35%">
         {assigned}
       </Box>
       <Box className="expensesTableRow tableCellsFormatting" width="20%">
-        ${balance.toFixed(2)}
+        ${(balance / 100).toFixed(2)}
       </Box>
       <Box className="expensesTableRow" width="5%">
         <Button onClick={handleDelete}>X</Button>
       </Box>
       <Box className="expensesTableRow" width="5%">
         <Button
+          id="edit-expense-dialog-button"
           sx={{ textDecoration: "underline" }}
           onClick={() => editPopup()}
         >

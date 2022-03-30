@@ -165,4 +165,5 @@ export interface User {
   phoneNumber: string;
   reminders: PersonalReminder[];
   idToken?: string;
+  lastLogin?: number;
 }

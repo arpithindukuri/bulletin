@@ -1,6 +1,7 @@
 import React from "react";
 import SignUp from "../pages/SignUp/SignUp";
 import { configure, mount, ReactWrapper } from "enzyme";
+import renderer from "react-test-renderer";
 import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
 import { store } from "../store";
 import { Provider } from "react-redux";
@@ -9,6 +10,19 @@ import { BrowserRouter } from "react-router-dom";
 configure({ adapter: new Adapter() });
 
 describe("Testing <SignUp /> Component", () => {
+  it("should render properly", () => {
+    const tree = renderer
+      .create(
+        <Provider store={store}>
+          <BrowserRouter>
+            <SignUp />
+          </BrowserRouter>
+        </Provider>
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
   it("should change name field value", () => {
     const wrapper: ReactWrapper = mount(
       <Provider store={store}>

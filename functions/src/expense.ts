@@ -71,7 +71,6 @@ export const readExpense = functions.https.onRequest(
     });
   }
 );
-
 /**
  * Gets all expenses from firestore that matches the userID in the query,
  * and returns it as a json object in the response's body

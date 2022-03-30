@@ -1,0 +1,225 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing <Expenses /> Component should render properly 1`] = `
+<div
+  style={
+    Object {
+      "marginLeft": "5%",
+    }
+  }
+>
+  <a
+    href="/board/g7HGuvfnGe3nhQgAF8qY"
+  >
+    <h6
+      className="MuiTypography-root MuiTypography-subtitle1 MuiTypography-alignLeft css-10x4mua-MuiTypography-root"
+    >
+      Back to 
+       Board - Main
+    </h6>
+  </a>
+  <h3
+    className="MuiTypography-root MuiTypography-h3 expensesTitle css-gepadz-MuiTypography-root"
+  >
+    Expenses
+  </h3>
+  <div
+    className="MuiBox-root css-0"
+  >
+    <h6
+      className="MuiTypography-root MuiTypography-h6 expensesSubtitles css-tjvwag-MuiTypography-root"
+    >
+      Bills & Expenses
+    </h6>
+    <div
+      className="expensesTable MuiBox-root css-0"
+    >
+      <div
+        className="expensesTableRow MuiBox-root css-0"
+      >
+        <div
+          className="MuiBox-root css-ufscxh"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+          >
+            Expenses Name
+          </p>
+        </div>
+        <div
+          className="MuiBox-root css-w56oqh"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+          >
+            Due Date
+          </p>
+        </div>
+        <div
+          className="MuiBox-root css-2rhtyh"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+          >
+            Assigned To
+          </p>
+        </div>
+        <div
+          className="MuiBox-root css-ufscxh"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+          >
+            Balance
+          </p>
+        </div>
+        <div
+          className="MuiBox-root css-ndbrsi"
+        />
+        <div
+          className="MuiBox-root css-ndbrsi"
+        />
+      </div>
+      <div
+        className="expensesTableRow tableCellsFormatting addNewBox MuiBox-root css-0"
+      >
+        <button
+          className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-fullWidth MuiButtonBase-root  css-10vjzfb-MuiButtonBase-root-MuiButton-root"
+          disabled={false}
+          id="add-expense-button"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          >
+            + Add New Expense
+          </p>
+        </button>
+      </div>
+      <div
+        className="expensesTableRow calculateTotal MuiBox-root css-0"
+      >
+        <h5
+          className="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
+        >
+          Total: $
+          0.00
+        </h5>
+      </div>
+    </div>
+  </div>
+  <div
+    className="MuiBox-root css-0"
+  >
+    <h6
+      className="MuiTypography-root MuiTypography-h6 expensesSubtitles css-tjvwag-MuiTypography-root"
+    >
+      Budgets
+    </h6>
+    <div
+      className="expensesTable MuiBox-root css-0"
+    >
+      <div
+        className="expensesTableRow MuiBox-root css-0"
+      >
+        <div
+          className="MuiBox-root css-ufscxh"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+          >
+            Budget Name
+          </p>
+        </div>
+        <div
+          className="MuiBox-root css-w56oqh"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+          >
+            End Date
+          </p>
+        </div>
+        <div
+          className="MuiBox-root css-2rhtyh"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+          >
+            Assigned To
+          </p>
+        </div>
+        <div
+          className="MuiBox-root css-ufscxh"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+          >
+            Balance
+          </p>
+        </div>
+        <div
+          className="MuiBox-root css-ndbrsi"
+        />
+        <div
+          className="MuiBox-root css-ndbrsi"
+        />
+      </div>
+      <div
+        className="expensesTableRow tableCellsFormatting addNewBox MuiBox-root css-0"
+      >
+        <button
+          className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-fullWidth MuiButtonBase-root  css-10vjzfb-MuiButtonBase-root-MuiButton-root"
+          disabled={false}
+          id="add-budget-button"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          >
+            + Add New Budget
+          </p>
+        </button>
+      </div>
+      <div
+        className="expensesTableRow calculateTotal MuiBox-root css-0"
+      >
+        <h5
+          className="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
+        >
+          Total: $
+          0.00
+        </h5>
+      </div>
+    </div>
+  </div>
+</div>
+`;

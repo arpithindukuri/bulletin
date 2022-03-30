@@ -150,6 +150,7 @@ const Header = () => {
               edge="start"
               aria-label="menu"
               onClick={handleMenu}
+              id="header-collapsed-menu-button"
             >
               <MenuIcon />
             </IconButton>

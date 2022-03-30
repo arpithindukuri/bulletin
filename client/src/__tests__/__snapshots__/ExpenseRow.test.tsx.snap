@@ -1,0 +1,161 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing <ExpenseRow /> Component should render BudgetRow properly 1`] = `
+Array [
+  <div
+    className="expensesTableRow tableCellsFormatting MuiBox-root css-ufscxh"
+  >
+    Test Expense
+  </div>,
+  <div
+    className="expensesTableRow tableCellsFormatting MuiBox-root css-w56oqh"
+  >
+    2022-03-28
+  </div>,
+  <div
+    className="expensesTableRow tableCellsFormatting MuiBox-root css-2rhtyh"
+  >
+    Test User
+  </div>,
+  <div
+    className="expensesTableRow tableCellsFormatting MuiBox-root css-ufscxh"
+  >
+    $
+    200.00
+  </div>,
+  <div
+    className="expensesTableRow MuiBox-root css-ndbrsi"
+  >
+    <button
+      className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      X
+      <span
+        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>,
+  <div
+    className="expensesTableRow MuiBox-root css-ndbrsi"
+  >
+    <button
+      className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-taz78y-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      id="edit-expense-dialog-button"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      edit
+      <span
+        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>,
+]
+`;
+
+exports[`Testing <ExpenseRow /> Component should render ExpenseRow properly 1`] = `
+Array [
+  <div
+    className="expensesTableRow tableCellsFormatting MuiBox-root css-ufscxh"
+  >
+    Test Expense
+  </div>,
+  <div
+    className="expensesTableRow tableCellsFormatting MuiBox-root css-w56oqh"
+  >
+    2022-03-28
+  </div>,
+  <div
+    className="expensesTableRow tableCellsFormatting MuiBox-root css-2rhtyh"
+  >
+    Test User
+  </div>,
+  <div
+    className="expensesTableRow tableCellsFormatting MuiBox-root css-ufscxh"
+  >
+    $
+    200.00
+  </div>,
+  <div
+    className="expensesTableRow MuiBox-root css-ndbrsi"
+  >
+    <button
+      className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      X
+    </button>
+  </div>,
+  <div
+    className="expensesTableRow MuiBox-root css-ndbrsi"
+  >
+    <button
+      className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-taz78y-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      id="edit-expense-dialog-button"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      edit
+    </button>
+  </div>,
+]
+`;

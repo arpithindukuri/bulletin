@@ -18,7 +18,12 @@ import axiosInstance from "../../axios";
 import { userLoggedIn } from "../../actions/UserActions/UserActionCreator";
 import { Alert, AlertColor } from "@mui/material";
 import { User } from "../../../../types";
+import { format } from "date-fns";
 
+/**
+ * Contains all the fields used in the Account Information page.
+ * Will be used to detect errors.
+ */
 interface AccountEditErrors {
   password: string;
   confrimPassword: string;
@@ -27,6 +32,9 @@ interface AccountEditErrors {
   alternativeEmail: string;
 }
 
+/**
+ * Uses the pre-determined theme to customize this page.
+ */
 const useStyles = makeStyles((theme) => ({
   textField: {
     marginTop: -10,
@@ -44,10 +52,14 @@ const AccountInfo = () => {
   const classes = useStyles();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState(userData.phoneNumber);
-  const [primaryEmail, setPrimaryEmail] = useState(userData.email);
+  const [phoneNumber, setPhoneNumber] = useState(
+    userData?.phoneNumber ? userData.phoneNumber : ""
+  );
+  const [primaryEmail, setPrimaryEmail] = useState(
+    userData?.email ? userData.email : ""
+  );
   const [alternativeEmail, setAlternativeEmail] = useState(
-    userData.alternativeEmail
+    userData?.alternativeEmail ? userData.alternativeEmail : ""
   );
   const [message, setMessage] = useState("");
   const [messageOpen, setMessageOpen] = useState(false);
@@ -60,36 +72,59 @@ const AccountInfo = () => {
     alternativeEmail: "",
   });
 
+  /**
+   * Handles the password field.
+   * @param event
+   */
   const handlePasswordChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setPassword(event.target.value);
   };
 
+  /**
+   * Handles the confirm password field.
+   * @param event
+   */
   const handleConfirmPasswordChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setConfirmPassword(event.target.value);
   };
 
+  /**
+   * Handles the phone number field.
+   * @param event
+   */
   const handlePhoneNumberChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setPhoneNumber(event.target.value);
   };
 
+  /**
+   * Handles the primary email field.
+   * @param event
+   */
   const handlePrimaryEmailChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setPrimaryEmail(event.target.value);
   };
 
+  /**
+   * Handles the alternative email field.
+   * @param event
+   */
   const handleAlternativeEmailChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setAlternativeEmail(event.target.value);
   };
 
+  /**
+   * Allows the validation of the values in the fields.
+   */
   const validateData = () => {
     errors.password = "";
     errors.confrimPassword = "";
@@ -113,6 +148,9 @@ const AccountInfo = () => {
     return !errorsExits;
   };
 
+  /**
+   * Handles the save values entereed in the fields.
+   */
   const handleSave = () => {
     if (!validateData()) {
       return;
@@ -207,9 +245,15 @@ const AccountInfo = () => {
           >
             <div className="account-panel">
               <img src={profile} className="profile-pic"></img>
-              <h1 className="account-panel-name">{userData.name}</h1>
+              <h1 className="account-panel-name">
+                {userData?.name ? userData.name : ""}
+              </h1>
               <h1 className="account-panel-last-password">
-                Last Password Change: 20/01/2022
+                Last Login:{" "}
+                {userData.lastLogin && format(userData.lastLogin, "dd/MM/yyyy")}
+                {/* {userData?.lastLogin instanceof Date
+                  ? userData?.lastLogin.toISOString().replace(/T.*$/, "")
+                  : userData?.lastLogin.replace(/T.*$/, "")} */}
               </h1>
             </div>
           </Grid>
@@ -229,6 +273,7 @@ const AccountInfo = () => {
             <Grid className="account-edit-grid-item" item>
               <p>Change Your Password</p>
               <TextField
+                id="account-info-password-field"
                 className={classes.textField}
                 InputLabelProps={{ shrink: false }}
                 value={password}
@@ -243,6 +288,7 @@ const AccountInfo = () => {
             <Grid className="account-edit-grid-item" item>
               <p>Confirm New Password</p>
               <TextField
+                id="account-info-confirm-password-field"
                 className={classes.textField}
                 InputLabelProps={{ shrink: false }}
                 value={confirmPassword}
@@ -259,6 +305,7 @@ const AccountInfo = () => {
             <Grid className="account-edit-grid-item" item>
               <p>Add Phone Number</p>
               <TextField
+                id="account-info-phone-field"
                 className={classes.textField}
                 InputLabelProps={{ shrink: false }}
                 value={phoneNumber}
@@ -288,6 +335,7 @@ const AccountInfo = () => {
             <Grid className="account-edit-grid-item" item>
               <p>Alternative Email Address</p>
               <TextField
+                id="account-info-alternative-email-field"
                 className={classes.textField}
                 InputLabelProps={{ shrink: false }}
                 value={alternativeEmail}

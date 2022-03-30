@@ -75,7 +75,7 @@ export default function Expenses() {
       });
   }, [params.board_id]);
 
-  useEffect(() => {
+  const getBoard = () => {
     axiosInstance
       .get("/readBoard", { params: { boardID: params.board_id } })
       .then((res) => {
@@ -85,6 +85,10 @@ export default function Expenses() {
       .catch((err) => {
         console.log("error getting user boards: ", err);
       });
+  };
+
+  useEffect(() => {
+    getBoard();
   }, [params.board_id]);
 
   return (
@@ -168,13 +172,14 @@ export default function Expenses() {
                 variant="text"
                 fullWidth={true}
                 onClick={() => newExpensePopup()}
+                id="add-expense-button"
               >
                 <Typography>+ Add New Expense</Typography>
               </Button>
             </Box>
             <Box className="expensesTableRow calculateTotal">
               <Typography variant="h5">
-                Total: ${expensesTotal.toFixed(2)}
+                Total: ${(expensesTotal / 100).toFixed(2)}
               </Typography>
             </Box>
           </Box>
@@ -231,13 +236,14 @@ export default function Expenses() {
                 variant="text"
                 fullWidth={true}
                 onClick={() => newBudgetPopup()}
+                id="add-budget-button"
               >
                 <Typography>+ Add New Budget</Typography>
               </Button>
             </Box>
             <Box className="expensesTableRow calculateTotal">
               <Typography variant="h5">
-                Total: ${budgetTotal.toFixed(2)}
+                Total: ${(budgetTotal / 100).toFixed(2)}
               </Typography>
             </Box>
           </Box>

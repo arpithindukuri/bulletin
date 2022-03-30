@@ -1,5 +1,5 @@
-import {USER_LOGGED_IN, USER_SIGNED_OUT} from './UserTypes';
-import UserDataResponse from '../../models/UserDataResponse';
+import { USER_LOGGED_IN, USER_SIGNED_OUT } from "./UserTypes";
+import UserDataResponse from "../../models/UserDataResponse";
 
 export const userLoggedIn = (data: UserDataResponse) => ({
   type: USER_LOGGED_IN,

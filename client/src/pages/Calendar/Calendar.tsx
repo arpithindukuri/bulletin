@@ -97,7 +97,7 @@ export default function Calendar() {
 
   const formatDate = (dateStr: string, timeStr: string): number => {
     const dateArray = dateStr.split(",");
-    const timeArray = timeStr.split(",");
+    const timeArray = timeStr.split(":");
     const date = new Date(
       parseInt(dateArray[2].trim()),
       parseInt(dateArray[0].trim()) - 1,
@@ -205,7 +205,7 @@ export default function Calendar() {
       .get("/readEvents", { params: { boardID: params.board_id } })
       .then((res) => {
         console.log("get events response is: ", res);
-        setAllEvents([...res.data.events]);
+        setAllEvents([...res.data.content]);
       })
       .catch((err) => {
         console.log("get events error is: ", err);
@@ -236,6 +236,7 @@ export default function Calendar() {
             <StyledMenu />
           </div>
           <Button
+            id="calendar-add-event-button"
             style={{
               backgroundColor: "#AA896B",
               fontSize: "14px",
@@ -250,13 +251,18 @@ export default function Calendar() {
       </div>
       <div>
         <Modal
+          id="calendar-add-event-modal"
           open={open}
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <Typography
+              component={"span"}
+              id="modal-modal-description"
+              sx={{ mt: 2 }}
+            >
               <Button
                 style={{
                   color: "#AA896B",
@@ -280,7 +286,7 @@ export default function Calendar() {
               >
                 <div>
                   <TextField
-                    id="standard-basic"
+                    id="calendar-add-event-modal-event-name"
                     label="Event Name"
                     variant="standard"
                     InputLabelProps={{
@@ -296,7 +302,7 @@ export default function Calendar() {
                 </div>
                 <div>
                   <TextField
-                    id="standard-basic"
+                    id="calendar-add-event-modal-event-date"
                     label="Date (Month, Day, Year)"
                     variant="standard"
                     InputLabelProps={{
@@ -312,7 +318,7 @@ export default function Calendar() {
                 </div>
                 <div>
                   <TextField
-                    id="standard-basic"
+                    id="calendar-add-event-modal-event-start-time"
                     label="Start Time(24 Hour Format)"
                     variant="standard"
                     InputLabelProps={{
@@ -368,7 +374,7 @@ export default function Calendar() {
                       label="Tags"
                       onChange={handleChange}
                     >
-                      <MenuItem value={"none"}>Appointments</MenuItem>
+                      <MenuItem value={"none"}>None</MenuItem>
                       <MenuItem value={"appointments"}>Appointments</MenuItem>
                       <MenuItem value={"birthdays"}>Birthdays</MenuItem>
                       <MenuItem value={"work"}>Work</MenuItem>
@@ -380,6 +386,7 @@ export default function Calendar() {
                 </div>
                 <div>
                   <Button
+                    id="calendar-add-event-modal-save-button"
                     style={{
                       color: "#FFFFFF",
                       backgroundColor: "#AA896B",

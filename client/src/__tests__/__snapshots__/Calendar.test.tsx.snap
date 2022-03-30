@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`testing <Calendar /> component should render ShowCalendar properly 1`] = `
+Array [
+  <ShowCalendar
+    events={
+      Array [
+        Object {
+          "end": "2022-03-28T02:00:00",
+          "id": "NWbV0lZqOAo7q8CzwUye",
+          "start": "2022-03-28T01:00:00",
+          "title": "My Birthday",
+        },
+      ]
+    }
+    setEvents={[Function]}
+  />,
+]
+`;
+
+exports[`testing <Calendar /> component should render calendar properly 1`] = `
+Array [
+  <Provider
+    store={
+      Object {
+        "@@observable": [Function],
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      }
+    }
+  >
+    <BrowserRouter>
+      <Calendar />
+    </BrowserRouter>
+  </Provider>,
+]
+`;

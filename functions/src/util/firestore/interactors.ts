@@ -133,11 +133,11 @@ export async function updateCol(
 ) {
   const colRef = await getColRef(colPath, errorResponse);
 
-  if (!colRef)
-    sendServerFailure(
-      errorResponse,
-      `$the collection at ${colPath} could not be edited to ${data}`
-    );
+  // if (!colRef)
+  //   sendServerFailure(
+  //     errorResponse,
+  //     `$the collection at ${colPath} could not be edited to ${data}`
+  //   );
 
   const docList = await colRef.listDocuments();
 
@@ -194,11 +194,11 @@ export async function updateDoc(
 ) {
   const docRef = await getDocRef(docPath, errorResponse);
 
-  if (!docRef)
-    sendServerFailure(
-      errorResponse,
-      `$the document at ${docRef.path} could not be edited to ${data}`
-    );
+  // if (!docRef)
+  //   sendServerFailure(
+  //     errorResponse,
+  //     `$the document at ${docRef.path} could not be edited to ${data}`
+  //   );
 
   var fields: FirebaseFirestore.DocumentData = {};
 
@@ -234,11 +234,11 @@ export async function updateDoc(
 export async function deleteCol(colPath: string, errorResponse: Response) {
   const colRef = await getColRef(colPath, errorResponse);
 
-  if (!colRef)
-    sendServerFailure(
-      errorResponse,
-      `$the collection at ${colPath} could not be deleted`
-    );
+  // if (!colRef)
+  //   sendServerFailure(
+  //     errorResponse,
+  //     `$the collection at ${colPath} could not be deleted`
+  //   );
 
   const docList = await colRef.listDocuments();
 
@@ -257,11 +257,11 @@ export async function deleteCol(colPath: string, errorResponse: Response) {
 export async function deleteDoc(docPath: string, errorResponse: Response) {
   const docRef = await getDocRef(docPath, errorResponse);
 
-  if (!docRef)
-    sendServerFailure(
-      errorResponse,
-      `$the document at ${docRef.path} could not be deleted`
-    );
+  // if (!docRef)
+  //   sendServerFailure(
+  //     errorResponse,
+  //     `$the document at ${docRef.path} could not be deleted`
+  //   );
 
   const subColRefs = await docRef.listCollections();
 

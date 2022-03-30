@@ -1,10 +1,10 @@
 import axios from "axios";
 import axiosInstance from "../../axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Button, TextField } from "@material-ui/core";
 import Logo from "../../assets/logo.svg";
 import { signUpEndPoint } from "../../authEndPoints";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SpinnerButton from "../../components/SpinnerButton";
 import "./SignUp.scss";
 import { User } from "../../../../types";
@@ -18,6 +18,7 @@ interface SignUpErrors {
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
+  const params = useParams();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -99,7 +100,7 @@ const SignUp: React.FC = () => {
           id: res.data.localId,
           name: name,
           email: email,
-          dateOfBirth: "dd/mm/yyyy",
+          dateOfBirth: "14/07/1999",
           alternativeEmail: "",
           phoneNumber: "403-700-7000",
           overview: "new user",
@@ -155,6 +156,12 @@ const SignUp: React.FC = () => {
   ) => {
     setConfrimPassword(event.target.value);
   };
+
+  useEffect(() => {
+    if (params.user_email) {
+      setEmail(params.user_email);
+    }
+  }, [params.user_email]);
 
   return (
     <div className="signup-container">
