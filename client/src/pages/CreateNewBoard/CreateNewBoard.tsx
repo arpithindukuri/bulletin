@@ -174,9 +174,17 @@ export default function CreateNewBoard() {
             { params: { board_id: newBoard } }
           )
           .then(() => {
-            dispatch(userLoggedIn({...newUserData, lastLogin: userData.lastLogin, idToken: userData.idToken}));
+            dispatch(
+              userLoggedIn({
+                ...newUserData,
+                lastLogin: userData.lastLogin,
+                idToken: userData.idToken,
+              })
+            );
             setMessageSeverity("success");
             setMessageOpen(true);
+            const emails = values.emails.replace(/\s/g, "").split(",");
+            emails.forEach((email) => sendInvitation(email, newBoard));
             setCreateBoardLoading(false);
             navigate("/boardsView");
           })
@@ -196,6 +204,53 @@ export default function CreateNewBoard() {
         setCreateBoardLoading(false);
       });
   };
+
+  const sendInvitation = (invitationEmail: string, boardId: string) => {
+    axiosInstance
+      .get("/getUserByEmail", { params: { email: invitationEmail } })
+      .then((res) => {
+        console.log(res);
+        const invitedUserData = res.data.user.at(0);
+        const Boards = [...invitedUserData.boards];
+        Boards.push(boardId);
+        const newInvitedUserData = { ...invitedUserData, boards: [...Boards] };
+        axiosInstance
+          .put("./editUser", newInvitedUserData)
+          .then(() => {
+            console.log("user is edited");
+          })
+          .catch((err) => {
+            console.log("error editing user data: ", err);
+          });
+        axiosInstance
+          .put(
+            "./addUserToBoard",
+            {
+              name: invitedUserData.name,
+              email: invitedUserData.email,
+              id: invitedUserData.id,
+              role: "Member",
+            },
+            { params: { board_id: boardId } }
+          )
+          .then(() => {
+            console.log("user added to board");
+          })
+          .catch((err) => {
+            console.log("error adding user to board: ", err);
+          });
+        setMessage("User has been added to Board");
+        setMessageSeverity("success");
+        setMessageOpen(true);
+      })
+      .catch((err) => {
+        console.log("User Not Found", err);
+        setMessage("User Not Found");
+        setMessageOpen(true);
+        setMessageSeverity("error");
+      });
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       {/* Back to boards link */}
